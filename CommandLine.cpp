@@ -20,12 +20,7 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
 {
     // Parse command line
     wxCmdLineParser cmdParser(g_cmdLineDesc, argc, argv);
-    int res;
-    {
-	wxLogNull log;
-	// Pass false to suppress auto Usage() message
-	res = cmdParser.Parse(false);
-    }
+    const int res = cmdParser.Parse(false);
 
     // Check if the user asked for command-line help 
     if (res == -1 || res > 0 || cmdParser.Found(_("h")))
