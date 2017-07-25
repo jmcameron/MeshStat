@@ -1,3 +1,10 @@
+#include <string>
+#include <vector>
+#include <iterator>
+
+#include <boost/algorithm/string/split.hpp>                                      
+#include <boost/algorithm/string.hpp> 
+
 #include <wx/utils.h>
 #include <wx/filefn.h>
 
@@ -10,7 +17,11 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
     { wxCMD_LINE_SWITCH, "h", "help",    _("displays help on the command line parameters") },
     { wxCMD_LINE_SWITCH, "v", "version", _("print version") },
 
-    { wxCMD_LINE_PARAM,  NULL, NULL, _("config file"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
+    { wxCMD_LINE_OPTION, "n", "nodes", _("node(s) to monitor, comma separated; no spaces (overrides config file)"), 
+      wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL},
+
+    { wxCMD_LINE_PARAM,  NULL, NULL, _("config file"), 
+      wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 
     { wxCMD_LINE_NONE }
 };
@@ -23,14 +34,16 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
     const int res = cmdParser.Parse(false);
 
     // Check if the user asked for command-line help 
-    if (res == -1 || res > 0 || cmdParser.Found(_("h")))
+    if (res == -1 || res > 0 || cmdParser.Found("h"))
     {
+	std::cout << std::endl;
 	cmdParser.Usage();
+	std::cout << std::endl;
 	return false;
     }
 
     // Check if the user asked for the version
-    if (cmdParser.Found(_("v")))
+    if (cmdParser.Found("v"))
     {
 #ifndef __WXMSW__
 	wxLog::SetActiveTarget(new wxLogStderr);
@@ -110,6 +123,24 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
 		return false;
 	    }
 	}
+    }
+
+    // See if the user specified nodes on the command line
+    wxString cmd_line_nodes;
+    if (cmdParser.Found("n", &cmd_line_nodes))
+    {
+	typedef std::vector<std::string> StringVec;
+	StringVec nodes;
+	std::string nodes_raw = cmd_line_nodes.ToStdString();
+	boost::algorithm::split(nodes,nodes_raw,boost::is_any_of(","),boost::token_compress_on);
+
+	for (StringVec::const_iterator nd=nodes.begin(); nd!=nodes.end(); ++nd)
+	{
+	    // ??? copy to run list of nodes
+	    std::cout << "  --> " << *nd << std::endl;
+	}
+
+	return false;
     }
 
     return true;
