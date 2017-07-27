@@ -60,8 +60,7 @@ AS       := as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix)  $(IntermediateDirectory)/Config.cpp$(ObjectSuffix) 
-
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix) $(IntermediateDirectory)/Config.cpp$(ObjectSuffix) $(IntermediateDirectory)/ini.c$(ObjectSuffix) 
 
 
 Objects=$(Objects0) 
@@ -138,6 +137,15 @@ $(IntermediateDirectory)/Config.cpp$(DependSuffix): Config.cpp
 
 $(IntermediateDirectory)/Config.cpp$(PreprocessSuffix): Config.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Config.cpp$(PreprocessSuffix) "Config.cpp"
+
+$(IntermediateDirectory)/ini.c$(ObjectSuffix): inih/ini.c $(IntermediateDirectory)/ini.c$(DependSuffix)
+	$(CXX) $(IncludePCH) -I inih $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/inih/ini.c" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/ini.c$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/ini.c$(DependSuffix): inih/ini.c
+	@$(CXX) $(CXXFLAGS) -I inih $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/ini.c$(ObjectSuffix) -MF$(IntermediateDirectory)/ini.c$(DependSuffix) -MM "inih/ini.c"
+
+$(IntermediateDirectory)/ini.c$(PreprocessSuffix): inih/ini.c
+	$(CXX) $(CXXFLAGS) $(IncludePCH) -I inih $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/ini.c$(PreprocessSuffix) "inih/ini.c"
+
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

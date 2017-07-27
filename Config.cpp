@@ -184,5 +184,28 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 	return false;
     }
 
+    if (cmdParser.Found("q")) {
+	dump();
+	return false;
+	}
+
     return true;
 }
+
+
+void ConfigInfo::dump() const
+{
+    std::string filename = config_filename.GetFullPath().ToStdString();
+    std::cout << "Config file: " << filename << std::endl;
+    std::cout << "  Frequency = " << frequency << std::endl;
+    
+    if (nodes.size() > 0) 
+    {
+	std::cout << "  Nodes:" << std::endl;
+	for (NodeList::const_iterator nd=nodes.begin(); nd!=nodes.end(); ++nd)
+	{
+	    std::cout << "   " << *nd << std::endl;
+	}
+    }
+}
+

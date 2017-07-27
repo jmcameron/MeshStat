@@ -17,6 +17,8 @@ public:
 public:
     bool parseCommandLine(int& argc, wxChar **argv);
 
+    void dump() const;
+
 public:
     double frequency;
     wxFileName config_filename;
