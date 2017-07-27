@@ -9,7 +9,7 @@
 #include <wx/filefn.h>
 
 #include "MainFrame.h"
-#include "CommandLine.h"
+#include "Config.h"
 
 
 static const wxCmdLineEntryDesc g_cmdLineDesc[] =
