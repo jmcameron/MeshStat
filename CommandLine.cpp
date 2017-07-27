@@ -23,6 +23,9 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
     { wxCMD_LINE_PARAM,  NULL, NULL, _("config file"), 
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 
+    { wxCMD_LINE_SWITCH, "q", "", _("private") },
+    
+
     { wxCMD_LINE_NONE }
 };
 
@@ -38,7 +41,7 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
     {
 	std::cout << std::endl;
 	cmdParser.Usage();
-	std::cout << std::endl;
+	std::cerr << std::endl;
 	return false;
     }
 
@@ -50,9 +53,9 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
 #endif
 	wxString msg;
 	wxString date(wxString::FromAscii(__DATE__));
-	msg.Printf(_("MeshStat, (c) Jonathan M. Cameron KF6RTA, 2017 Version %s, %s"), 
+	msg.Printf(_("\nMeshStat, (c) Jonathan M. Cameron KF6RTA, 2017 Version %s, %s\n"), 
 		   MESH_STAT_VERSION, (const wxChar*) date);
-	wxLogMessage(msg);
+	std::cout << msg << std::endl;
 	return false;
     }
 
@@ -73,9 +76,9 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
 	    }
 	else {
 	    wxString errmsg;
-	    errmsg.Printf(_("Unable to find config file '%s' from the command line!"),
+	    errmsg.Printf(_("\nERROR: Unable to find config file '%s' specified on the command line!\n"),
 			  fName.GetFullPath().c_str());
-	    wxLogMessage(errmsg);
+	    std::cerr << errmsg << std::endl;
 	    return false;
 	    }
     }
@@ -108,9 +111,9 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
 		else
 		{
 		    wxString errmsg;
-		    errmsg.Printf(_("Unable to find config file '%s' from environment variable MESHSTAT_CONFIG_FILE!"),
+		    errmsg.Printf(_("\nERROR: Unable to find config file '%s' from environment variable MESHSTAT_CONFIG_FILE!\n"),
 				  fName.GetFullPath().c_str());
-		    wxLogMessage(errmsg);
+		    std::cerr << errmsg << std::endl;
 		    return false;
 		}
 	    }
@@ -118,8 +121,8 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
 	    {
 		// Otherwise whine and stop
 		wxString errmsg;
-		errmsg.Printf(_("Unable to find config file! (default: MeshStat.ini)"));
-		wxLogMessage(errmsg);
+		errmsg.Printf(_("\nERROR: Unable to find config file! (default: MeshStat.ini)\n"));
+		std::cerr << errmsg << std::endl;
 		return false;
 	    }
 	}
