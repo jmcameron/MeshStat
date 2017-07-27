@@ -26,7 +26,7 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
     { wxCMD_LINE_PARAM,  NULL, NULL, _("config file"), 
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 
-    { wxCMD_LINE_SWITCH, "q", "", _("private") },
+    { wxCMD_LINE_SWITCH, "d", "dump", _("dump config (and quit)") },
     
     { wxCMD_LINE_NONE }
 };
@@ -41,8 +41,8 @@ static int handler(void* configObj, const char *section_raw,
     const std::string name(name_raw);
     const std::string value(value_raw);
     
-    if ((section == "Settings") && (name == "frequency")) {
-	config->frequency = atof(value.c_str());
+    if ((section == "Settings") && (name == "period")) {
+	config->period = atof(value.c_str());
 	}
 
     else if ((section == "Nodes")) {
@@ -184,10 +184,12 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 	return false;
     }
 
-    if (cmdParser.Found("q")) {
+    // Dump (if requested)
+    if (cmdParser.Found("d")) 
+    {
 	dump();
 	return false;
-	}
+    }
 
     return true;
 }
@@ -197,7 +199,7 @@ void ConfigInfo::dump() const
 {
     std::string filename = config_filename.GetFullPath().ToStdString();
     std::cout << "Config file: " << filename << std::endl;
-    std::cout << "  Frequency = " << frequency << std::endl;
+    std::cout << "  Period = " << period << std::endl;
     
     if (nodes.size() > 0) 
     {

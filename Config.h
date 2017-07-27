@@ -20,7 +20,7 @@ public:
     void dump() const;
 
 public:
-    double frequency;
+    double period;
     wxFileName config_filename;
     NodeList nodes;
 };
