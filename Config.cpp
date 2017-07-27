@@ -9,6 +9,8 @@
 #include <wx/utils.h>
 #include <wx/filefn.h>
 
+#include "inih/ini.h"
+
 #include "MainFrame.h"
 #include "Config.h"
 
@@ -26,9 +28,36 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
 
     { wxCMD_LINE_SWITCH, "q", "", _("private") },
     
-
     { wxCMD_LINE_NONE }
 };
+
+
+static int handler(void* configObj, const char *section_raw, 
+		   const char *name_raw, const char *value_raw)
+{
+    ConfigInfo *config = reinterpret_cast<ConfigInfo *>(configObj);
+
+    const std::string section(section_raw);
+    const std::string name(name_raw);
+    const std::string value(value_raw);
+    
+    if ((section == "Settings") && (name == "frequency")) {
+	config->frequency = atof(value.c_str());
+	}
+
+    else if ((section == "Nodes")) {
+        config->nodes.push_back(value);
+	}
+
+    else {
+	std::cerr << "ERROR in config file: Unknown section/name: " 
+		  << section << "/" << name << std::endl;
+        return 0;
+	}
+
+    return 1;
+}
+
 
 
 bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
@@ -127,6 +156,14 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 		return false;
 	    }
 	}
+    }
+
+    // Load the parameter information from the config file
+    std::string filename = config_filename.GetFullPath().ToStdString();
+    if (ini_parse(filename.c_str(), handler, this) < 0) {
+	std::cerr << "ERROR: Cannot load config file '" 
+		  << filename << "'! " << std::endl;
+        return false;
     }
 
     // See if the user specified nodes on the command line

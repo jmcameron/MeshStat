@@ -18,6 +18,7 @@ public:
     bool parseCommandLine(int& argc, wxChar **argv);
 
 public:
+    double frequency;
     wxFileName config_filename;
     NodeList nodes;
 };
