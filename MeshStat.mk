@@ -60,7 +60,7 @@ AS       := as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix)  $(IntermediateDirectory)/CommandLine.cpp$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix)  $(IntermediateDirectory)/Config.cpp$(ObjectSuffix) 
 
 
 
@@ -131,13 +131,13 @@ $(IntermediateDirectory)/NodeUtils.cpp$(DependSuffix): NodeUtils.cpp
 $(IntermediateDirectory)/NodeUtils.cpp$(PreprocessSuffix): NodeUtils.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NodeUtils.cpp$(PreprocessSuffix) "NodeUtils.cpp"
 
-$(IntermediateDirectory)/CommandLine.cpp$(ObjectSuffix): CommandLine.cpp $(IntermediateDirectory)/CommandLine.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/CommandLine.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/CommandLine.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/CommandLine.cpp$(DependSuffix): CommandLine.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/CommandLine.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/CommandLine.cpp$(DependSuffix) -MM "CommandLine.cpp"
+$(IntermediateDirectory)/Config.cpp$(ObjectSuffix): Config.cpp $(IntermediateDirectory)/Config.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/Config.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/Config.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/Config.cpp$(DependSuffix): Config.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/Config.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/Config.cpp$(DependSuffix) -MM "Config.cpp"
 
-$(IntermediateDirectory)/CommandLine.cpp$(PreprocessSuffix): CommandLine.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/CommandLine.cpp$(PreprocessSuffix) "CommandLine.cpp"
+$(IntermediateDirectory)/Config.cpp$(PreprocessSuffix): Config.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Config.cpp$(PreprocessSuffix) "Config.cpp"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
