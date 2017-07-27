@@ -4,7 +4,7 @@
 #include <wx/image.h>
 
 #include "MainFrame.h"
-#include "CommandLine.h"
+#include "Config.h"
 
 extern MeshStatRunInfo run_info;
 
