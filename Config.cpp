@@ -5,6 +5,7 @@
 #include <boost/algorithm/string/split.hpp>                                      
 #include <boost/algorithm/string.hpp> 
 
+#include <wx/wx.h>
 #include <wx/utils.h>
 #include <wx/filefn.h>
 
@@ -30,7 +31,7 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
 };
 
 
-bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
+bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 {
     // Parse command line
     wxCmdLineParser cmdParser(g_cmdLineDesc, argc, argv);
@@ -72,7 +73,7 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
 	fName.Normalize(wxPATH_NORM_LONG|wxPATH_NORM_DOTS|
 			wxPATH_NORM_TILDE|wxPATH_NORM_ABSOLUTE);
 	if (fName.FileExists()) {
-	    info.filename = fName;
+	    config_filename = fName;
 	    }
 	else {
 	    wxString errmsg;
@@ -92,7 +93,7 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
 	    wxFileName fName(cfg_file);
 	    fName.Normalize(wxPATH_NORM_LONG|wxPATH_NORM_DOTS|
 			    wxPATH_NORM_TILDE|wxPATH_NORM_ABSOLUTE);
-	    info.filename = fName.GetFullPath();
+	    config_filename = fName.GetFullPath();
 	}
 	else 
 	{
@@ -106,7 +107,7 @@ bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info)
 				wxPATH_NORM_TILDE|wxPATH_NORM_ABSOLUTE);
 		if (fName.FileExists()) 
 		{
-		    info.filename = fName.GetFullPath();
+		    config_filename = fName.GetFullPath();
 		}
 		else
 		{

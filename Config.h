@@ -1,16 +1,26 @@
 // MeshStat command line options handling
 
-#ifndef MESH_STAT_COMMAND_LINE_H
-#define MESH_STAT_COMMAND_LINE_H
+#ifndef MESH_STAT_CONFIG_H
+#define MESH_STAT_CONFIG_H
 
-#include "wx/wx.h"
+#include <string>
+#include <vector>
+
 #include "wx/cmdline.h"
 
-typedef struct {
-    wxFileName filename;
-} MeshStatRunInfo;
+typedef std::vector<std::string> NodeList;
 
-bool parseCommandLine(int& argc, wxChar **argv, MeshStatRunInfo &info);
+class ConfigInfo {
+public:
+    ConfigInfo() {};
+
+public:
+    bool parseCommandLine(int& argc, wxChar **argv);
+
+public:
+    wxFileName config_filename;
+    NodeList nodes;
+};
 
 
-#endif /* end of MESH_STAT_COMMAND_LINE_H */
+#endif /* end of MESH_STAT_CONFIG_H */

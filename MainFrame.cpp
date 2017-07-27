@@ -11,7 +11,8 @@
 #include "NodeUtils.h"
 #include "Config.h"
 
-MeshStatRunInfo run_info;
+
+ConfigInfo config;
 
 
 MainFrame::MainFrame(wxWindow* parent)
@@ -80,7 +81,7 @@ std::string lines("{\"channel\":\"174\",\"lat\":\"34.200464\",\"board_id\":\"0xe
     }
 
     wxString msg;
-    msg.Printf("Loading: '%s'", run_info.filename.GetFullName().c_str());
+    msg.Printf("Loading: '%s'", config.config_filename.GetFullName().c_str());
     GetMainText()->AppendText(msg);
 }
 

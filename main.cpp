@@ -6,7 +6,8 @@
 #include "MainFrame.h"
 #include "Config.h"
 
-extern MeshStatRunInfo run_info;
+
+extern ConfigInfo config;
 
 
 // Define the MainApp
@@ -18,7 +19,7 @@ public:
 
     virtual bool OnInit() 
     {
-	if (!parseCommandLine(argc, argv, run_info))
+	if (!config.parseCommandLine(argc, argv))
 	    return false;
 
         // Add the common image handlers
