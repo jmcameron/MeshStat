@@ -69,6 +69,7 @@ Objects=$(Objects0)
 ## Main Build Targets 
 ##
 .PHONY: all clean PreBuild PrePreBuild PostBuild MakeIntermediateDirs
+
 all: $(OutputFile)
 
 $(OutputFile): $(IntermediateDirectory)/.d $(Objects) 
@@ -149,6 +150,11 @@ $(IntermediateDirectory)/ini.c$(PreprocessSuffix): inih/ini.c
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)
+
+
+tests: $(OutputFile)
+	(cd test; dtest)
+
 
 ##
 ## Clean
