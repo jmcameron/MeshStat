@@ -10,7 +10,6 @@
 #include <string>
 
 #include <unistd.h>
-#include <sys/time.h>
 
 #include "NodeUtils.h"
 #include "Config.h"
@@ -46,44 +45,21 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 }
 
 
-long int msec()
-{
-    struct timeval tp;
-    gettimeofday(&tp, NULL);
-    return tp.tv_sec * 1000 + tp.tv_usec / 1000;    
-}
-
-double secs(const long int start_ms)
-{
-    return static_cast<double>(msec() - start_ms)/1000.0;
-}
-
 void MainFrame::OnTest1(wxCommandEvent& event)
 {
     wxString htmldata;
 
-    const long int start_ms = msec();
+    wxStopWatch timer;  // Start the timer
 
-    std::cerr << "About to open URL " << secs(start_ms) << std::endl;
     wxURL url(wxT("http://mesh.w6jpl.ampr.org:8080/cgi-bin/sysinfo.json"));
-    std::cerr << "Opened URL " << secs(start_ms) << std::endl;
  
     if(url.GetError()==wxURL_NOERR)
     {
-	std::cerr << "Getting input  " << secs(start_ms) << std::endl;
-	
  	wxInputStream *in = url.GetInputStream();
-
-	std::cerr << "Getting input: OPENED " << secs(start_ms) << std::endl;
-	std::cerr << "   DATA: " << in->CanRead() << std::endl;
-  
  	if(in && in->IsOk())
  	{
-	    std::cerr << "Getting input2 " << secs(start_ms) << std::endl;
  	    wxStringOutputStream html_stream(&htmldata);
-	    std::cerr << "Getting input3 " << secs(start_ms) << std::endl;
  	    in->Read(html_stream);
-	    std::cerr << "Getting input4 " << secs(start_ms) << std::endl;
  	}
  	delete in;
     }
@@ -91,8 +67,9 @@ void MainFrame::OnTest1(wxCommandEvent& event)
     {
  	htmldata = "";
     }
+    timer.Pause();
 
-    std::cerr << "FINISHED " << secs(start_ms) << std::endl;
+    std::cerr << "FINISHED: " << timer.Time() << " ms" << std::endl;
 
 //     std::string lines = std::string(htmldata.mb_str());
 
@@ -100,6 +77,7 @@ std::string lines("{\"channel\":\"174\",\"lat\":\"34.200464\",\"board_id\":\"0xe
 
     NodeDataMap data;
 
+    timer.Resume();
     getNodeDataJSON(data, lines);
 
     for (NodeDataMap::const_iterator dit = data.begin(); dit != data.end(); ++dit)
@@ -109,9 +87,10 @@ std::string lines("{\"channel\":\"174\",\"lat\":\"34.200464\",\"board_id\":\"0xe
 	const std::string prt = name + std::string(": ") + val + std::string("\n");
 	GetMainText()->AppendText(prt);
     }
+    timer.Pause();
 
     wxString msg;
-    msg.Printf("Loading: '%s'", config.config_filename.GetFullName().c_str());
+    msg.Printf("Loading: '%s'  (%ld ms)", config.config_filename.GetFullName().c_str(), timer.Time());
     GetMainText()->AppendText(msg);
 }
 
