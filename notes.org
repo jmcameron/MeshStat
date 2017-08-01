@@ -1,3 +1,47 @@
 MeshStat
 ========
 
+* Objects
+** MainFrame
+*** Knows
+*** Does
+
+** meshStatGridSizer : wxGridSizer
+*** Knows
+*** Does
+
+** Formater
+*** Knows
+    - Available formats?
+*** Does
+    - Convers Node info into update string
+
+** Node
+*** Knows
+    - Node info
+    - Completion time of last update
+    - Duration of last update
+    - Selected Format
+*** Does
+    - Handles refresh events
+    - Parses response and saves update node info
+    - Updates completion time of last update
+    - Updated duration of last update
+    - Constructs update text (based on selected format)
+    - Computes "lateness"
+    - Schedules next update (based on lag config param)
+
+
+** NodeTextCtrl
+*** Knows
+    - font
+*** Does
+    - Resizes window based on output
+    - Displays node update text
+    - Colors background based on "Lateness"
+
+
+
+
+* ...
+#+STARTUP: content
