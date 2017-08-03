@@ -5,10 +5,12 @@
 
 #include <string>
 
+class NodeDisplay;
+
 
 class Node {
 public:
-    Node() {};
+    Node(const std::string url_, NodeDisplay *new_display);
 
 protected:
     std::string url;
@@ -24,6 +26,10 @@ protected:
     std::string firmware_version;
     std::string ssid;
 
+    NodeDisplay *display;
+
+private:
+    Node() {};  // Disabled
 };
 
 
