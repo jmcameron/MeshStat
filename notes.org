@@ -10,11 +10,11 @@ MeshStat
 *** Knows
 *** Does
 
-** Formater
+** Formater (part of Node?)
 *** Knows
     - Available formats?
 *** Does
-    - Convers Node info into update string
+    - Converts Node info into update string
 
 ** Node
 *** Knows
@@ -22,6 +22,7 @@ MeshStat
     - Completion time of last update
     - Duration of last update
     - Selected Format
+    - Handle to its display window
 *** Does
     - Handles refresh events
     - Parses response and saves update node info
@@ -29,18 +30,28 @@ MeshStat
     - Updated duration of last update
     - Constructs update text (based on selected format)
     - Computes "lateness"
+    - Updates its display window
     - Schedules next update (based on lag config param)
 
 
-** NodeTextCtrl
+** NodeDisplay (abstract class)
+*** Possible variants:
+    - Raw streaming text
+    - wxTextCtrl version
+*** Knows
+*** Does
+    - Displays node update text (modified with "lateness")
+
+** NodeDisplayWindow (derived from NodeDisplay, wxTextCtrl)
 *** Knows
     - font
+    - max num lines, cols?
+    - Variable or fixed size
 *** Does
-    - Resizes window based on output
+    - Set font
+    - Resizes window based on output or fixed size?
     - Displays node update text
     - Colors background based on "Lateness"
-
-
 
 
 * ...
