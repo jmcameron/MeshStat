@@ -45,6 +45,9 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     m_menu_Help = new wxMenu();
     m_menuBar->Append(m_menu_Help, _("Help"));
     
+    m_menuItem_Credits = new wxMenuItem(m_menu_Help, wxID_CREDITS, _("Credits"), wxT(""), wxITEM_NORMAL);
+    m_menu_Help->Append(m_menuItem_Credits);
+    
     m_menuItem_About = new wxMenuItem(m_menu_Help, wxID_ABOUT, _("About..."), wxT(""), wxITEM_NORMAL);
     m_menu_Help->Append(m_menuItem_About);
     
@@ -68,10 +71,12 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
         wxPersistenceManager::Get().Restore(this);
     }
 #endif
+
     // Connect events
     this->Connect(m_menuItem_Exit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnExit), NULL, this);
     this->Connect(m_menuItem_Test1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTest1), NULL, this);
     this->Connect(m_menuItem_About->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
+    this->Connect(m_menuItem_Credits->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnCredits), NULL, this);
     
 }
 
@@ -80,5 +85,6 @@ MainFrameBaseClass::~MainFrameBaseClass()
     this->Disconnect(m_menuItem_Exit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnExit), NULL, this);
     this->Disconnect(m_menuItem_Test1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTest1), NULL, this);
     this->Disconnect(m_menuItem_About->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
-    
+    this->Disconnect(m_menuItem_Credits->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnCredits), NULL, this);
+   
 }

@@ -30,6 +30,7 @@ public:
     enum {
         wxID_MainText = 10001,
         wxID_TEST1 = 10002,
+	wxID_CREDITS = 10003,
     };
 protected:
     wxTextCtrl* m_MainText;
@@ -39,6 +40,7 @@ protected:
     wxMenu* m_menu_Test;
     wxMenuItem* m_menuItem_Test1;
     wxMenu* m_menu_Help;
+    wxMenuItem* m_menuItem_Credits;
     wxMenuItem* m_menuItem_About;
     wxToolBar* m_mainToolbar;
 
@@ -46,6 +48,7 @@ protected:
     virtual void OnExit(wxCommandEvent& event) { event.Skip(); }
     virtual void OnTest1(wxCommandEvent& event) { event.Skip(); }
     virtual void OnAbout(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnCredits(wxCommandEvent& event) { event.Skip(); }
 
 public:
     wxTextCtrl* GetMainText() { return m_MainText; }

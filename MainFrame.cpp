@@ -64,6 +64,19 @@ void MainFrame::OnExit(wxCommandEvent& event)
     Close();
 }
 
+void MainFrame::OnCredits(wxCommandEvent& event)
+{
+    wxUnusedVar(event);
+    wxString msg = 
+	wxT("CREDITS") wxT("\n\n")
+	wxT("  INIH Library by Ben Hoyt") wxT("\n")
+	wxT("  https://github.com/benhoyt/inih.git") wxT("\n");
+    wxMessageDialog dialog(this, msg, _("Credits"), wxICON_NONE);
+
+    // dialog.SetBackgroundColour(wxColour(* wxWHITE)); 
+    dialog.ShowModal();
+}
+
 void MainFrame::OnAbout(wxCommandEvent& event)
 {
     wxUnusedVar(event);
