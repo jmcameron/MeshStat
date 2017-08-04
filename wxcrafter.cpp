@@ -26,44 +26,7 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     }
     
     SetBackgroundColour(wxColour(* wxWHITE)); 
-
-    // Create top-level grid sizer
-    wxGridSizer *grid_sizer = new wxGridSizer(3, 1, 2, 2);
-    SetSizer(grid_sizer);
-
-    // , wxTE_MULTILINE|wxTE_READONLY
-
-    // wxSize cell_size = ConvertDialogToPixels(wxSize(60,4));
-    // wxSize cell_size = ConvertDialogToPixels(wxSize(1,1));
-    wxSize font_size = GetFont().GetPixelSize();
-    wxSize cell_size(60*font_size.x, 4*font_size.y);
-
-    // std::cerr << "CELL " << cell_size.x << "," << cell_size.y << std::endl;
-
-    wxTextCtrl *cell1 = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY);
-    // grid_sizer->Add(cell1, wxSizerFlags().Align(wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL).Border(wxALL, 4));
-    grid_sizer->Add(cell1, 1, wxALL|wxEXPAND|wxRESERVE_SPACE_EVEN_IF_HIDDEN, 3);
-
-    wxTextCtrl *cell2 = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY);
-    // grid_sizer->Add(cell2, wxSizerFlags().Align(wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL).Border(wxALL, 4));
-    grid_sizer->Add(cell2, 1, wxALL|wxEXPAND|wxRESERVE_SPACE_EVEN_IF_HIDDEN, 3);
-
-    m_MainText = new wxTextCtrl(this, wxID_MainText, wxT(""), wxDefaultPosition, wxSize(-1,-1), wxTE_MULTILINE|wxTE_READONLY);
-
-    grid_sizer->Add(m_MainText, 1, wxALL|wxEXPAND|wxRESERVE_SPACE_EVEN_IF_HIDDEN, 3);
-
-    grid_sizer->Fit(this);
-
-    // cell1->SetBackgroundColour(wxColour(* wxLIGHT_GREY)); 
-    cell1->SetForegroundColour(wxColour(* wxBLUE)); 
-
-//     wxBoxSizer* boxSizer1 = new wxBoxSizer(wxVERTICAL);
-//     this->SetSizer(boxSizer1);
-//     
-//     m_MainText = new wxTextCtrl(this, wxID_MainText, wxT(""), wxDefaultPosition, wxSize(-1,-1), wxTE_MULTILINE|wxVSCROLL);
-//     
-//     boxSizer1->Add(m_MainText, 1, wxALL|wxEXPAND|wxRESERVE_SPACE_EVEN_IF_HIDDEN, 5);
-    
+   
     m_menuBar = new wxMenuBar(0);
     this->SetMenuBar(m_menuBar);
     

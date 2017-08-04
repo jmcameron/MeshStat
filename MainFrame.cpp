@@ -21,6 +21,37 @@ ConfigInfo config;
 MainFrame::MainFrame(wxWindow* parent)
     : MainFrameBaseClass(parent)
 {
+
+    // Create top-level grid sizer
+    wxGridSizer *grid_sizer = new wxGridSizer(3, 1, 2, 2);
+    SetSizer(grid_sizer);
+
+    const wxSize font_size = GetFont().GetPixelSize();
+    const wxSize cell_size(60*font_size.x, 4*font_size.y);
+
+    wxTextCtrl *cell1 = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY);
+    grid_sizer->Add(cell1, 1, wxALL|wxEXPAND|wxRESERVE_SPACE_EVEN_IF_HIDDEN, 3);
+
+    wxTextCtrl *cell2 = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY);
+    grid_sizer->Add(cell2, 1, wxALL|wxEXPAND|wxRESERVE_SPACE_EVEN_IF_HIDDEN, 3);
+
+    m_MainText = new wxTextCtrl(this, wxID_MainText, wxT(""), wxDefaultPosition, wxSize(-1,-1), wxTE_MULTILINE|wxTE_READONLY);
+
+    grid_sizer->Add(m_MainText, 1, wxALL|wxEXPAND|wxRESERVE_SPACE_EVEN_IF_HIDDEN, 3);
+
+    grid_sizer->Fit(this);
+
+    // cell1->SetBackgroundColour(wxColour(* wxLIGHT_GREY)); 
+    // cell1->SetForegroundColour(wxColour(* wxBLUE)); 
+
+    cell1->SetDefaultStyle(wxTextAttr(*wxRED));
+    cell1->AppendText("Red text\n");
+    cell1->SetDefaultStyle(wxTextAttr(wxNullColour, *wxLIGHT_GREY));
+    cell1->AppendText("Red on grey text\n");
+    cell1->SetDefaultStyle(wxTextAttr(*wxBLUE));
+    cell1->AppendText("Blue on grey text\n");
+
+    cell2->AppendText("Cell 2");
 }
 
 MainFrame::~MainFrame()

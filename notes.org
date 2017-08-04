@@ -42,7 +42,7 @@ MeshStat
 *** Does
     - Displays node update text (modified with "lateness")
 
-** NodeDisplayWindow (derived from NodeDisplay, wxTextCtrl)
+** NodeDisplayPane (derived from NodeDisplay, wxTextCtrl)
 *** Knows
     - font
     - max num lines, cols?
