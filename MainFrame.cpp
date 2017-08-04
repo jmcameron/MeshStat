@@ -14,6 +14,8 @@
 #include "NodeUtils.h"
 #include "Config.h"
 
+#include "NodeDisplayPane.h"
+
 
 ConfigInfo config;
 
@@ -29,10 +31,12 @@ MainFrame::MainFrame(wxWindow* parent)
     const wxSize font_size = GetFont().GetPixelSize();
     const wxSize cell_size(60*font_size.x, 4*font_size.y);
 
-    wxTextCtrl *cell1 = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY);
+    wxTextCtrl *cell1 = new NodeDisplayPane(this, cell_size);
+    // ??? wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY);
     grid_sizer->Add(cell1, 1, wxALL|wxEXPAND|wxRESERVE_SPACE_EVEN_IF_HIDDEN, 3);
 
-    wxTextCtrl *cell2 = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY);
+    wxTextCtrl *cell2 = new NodeDisplayPane(this, cell_size);
+    // ??? wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY);
     grid_sizer->Add(cell2, 1, wxALL|wxEXPAND|wxRESERVE_SPACE_EVEN_IF_HIDDEN, 3);
 
     m_MainText = new wxTextCtrl(this, wxID_MainText, wxT(""), wxDefaultPosition, wxSize(-1,-1), wxTE_MULTILINE|wxTE_READONLY);

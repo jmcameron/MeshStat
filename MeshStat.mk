@@ -60,7 +60,7 @@ AS       := as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/Node.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix) $(IntermediateDirectory)/Config.cpp$(ObjectSuffix) $(IntermediateDirectory)/ini.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/Node.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix) $(IntermediateDirectory)/Config.cpp$(ObjectSuffix) $(IntermediateDirectory)/ini.c$(ObjectSuffix) 
 
 
 Objects=$(Objects0) 
@@ -130,6 +130,14 @@ $(IntermediateDirectory)/Node.cpp$(DependSuffix): Node.cpp
 
 $(IntermediateDirectory)/Node.cpp$(PreprocessSuffix): Node.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Node.cpp$(PreprocessSuffix) "Node.cpp"
+
+$(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix): NodeDisplayPane.cpp $(IntermediateDirectory)/NodeDisplayPane.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/NodeDisplayPane.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/NodeDisplayPane.cpp$(DependSuffix): NodeDisplayPane.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/NodeDisplayPane.cpp$(DependSuffix) -MM "NodeDisplayPane.cpp"
+
+$(IntermediateDirectory)/NodeDisplayPane.cpp$(PreprocessSuffix): NodeDisplayPane.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NodeDisplayPane.cpp$(PreprocessSuffix) "NodeDisplayPane.cpp"
 
 $(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix): NodeDisplay.cpp $(IntermediateDirectory)/NodeDisplay.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/NodeDisplay.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix) $(IncludePath)
