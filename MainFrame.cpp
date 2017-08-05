@@ -28,6 +28,7 @@ MainFrame::MainFrame(wxWindow* parent)
     wxGridSizer *grid_sizer = new wxGridSizer(3, 1, 2, 2);
     SetSizer(grid_sizer);
 
+    // ??? Eventually figure out the cell_size from the format
     const wxSize font_size = GetFont().GetPixelSize();
     const wxSize cell_size(60*font_size.x, 4*font_size.y);
 
@@ -38,18 +39,18 @@ MainFrame::MainFrame(wxWindow* parent)
 	const std::string node_name = *nd;
 	std::cerr << "Adding node " << node_name << std::endl;
 	NodeDisplayPane *pane = new NodeDisplayPane(this, cell_size);
-	grid_sizer->Add(pane, 1, wxALL|wxFIXED_MINSIZE, 3); // |wxEXPAND
+	grid_sizer->Add(pane, 1, wxALL|wxFIXED_MINSIZE, 3);
 	nodes.push_back(pane);
 	pane->AppendText(node_name);
     }
 
-    // Add an extra pane
+    // Add an extra test pane for Test1 menu item (??? Delete later)
     m_MainText = new wxTextCtrl(this, wxID_MainText, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY);
     grid_sizer->Add(m_MainText, 1, wxALL|wxEXPAND, 3);
 
     grid_sizer->Fit(this);
 
-    // Freeze the size of the window
+    // Freeze the size of the main window
     SetMinSize(GetSize());
     SetMaxSize(GetSize());
 
