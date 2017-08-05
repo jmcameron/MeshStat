@@ -1,9 +1,13 @@
 #include "Node.h"
 
 
-Node::Node(const std::string url_, 
-	   NodeDisplay *new_display)
-    : url(url_),
-      display(new_display)
+Node::Node(const std::string url_)
+    : url(url_)
 {
+}
+
+
+void Node::setNodeDisplay(NodeDisplay *new_display)
+{
+    display = new_display;
 }

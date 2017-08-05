@@ -8,7 +8,7 @@
 
 #include "wx/cmdline.h"
 
-typedef std::vector<std::string> NodeList;
+typedef std::vector<std::string> NodeNameList;
 
 class ConfigInfo {
 public:
@@ -22,7 +22,7 @@ public:
 public:
     double period;
     wxFileName config_filename;
-    NodeList nodes;
+    NodeNameList nodes;
 };
 
 

@@ -10,7 +10,9 @@ class NodeDisplay;
 
 class Node {
 public:
-    Node(const std::string url_, NodeDisplay *new_display);
+    Node(const std::string url_);
+
+    void setNodeDisplay(NodeDisplay *new_display);
 
 protected:
     std::string url;

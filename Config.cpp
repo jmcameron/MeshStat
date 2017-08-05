@@ -204,7 +204,7 @@ void ConfigInfo::dump() const
     if (nodes.size() > 0) 
     {
 	std::cout << "  Nodes:" << std::endl;
-	for (NodeList::const_iterator nd=nodes.begin(); nd!=nodes.end(); ++nd)
+	for (NodeNameList::const_iterator nd=nodes.begin(); nd!=nodes.end(); ++nd)
 	{
 	    std::cout << "   " << *nd << std::endl;
 	}

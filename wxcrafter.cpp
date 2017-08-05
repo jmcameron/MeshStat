@@ -15,7 +15,12 @@ extern void wxC9ED9InitBitmapResources();
 static bool bBitmapLoaded = false;
 
 
-MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, 
+				       wxWindowID id, 
+				       const wxString& title, 
+				       const wxPoint& pos, 
+				       const wxSize& size, 
+				       long style)
     : wxFrame(parent, id, title, pos, size, style)
 {
     if ( !bBitmapLoaded ) {

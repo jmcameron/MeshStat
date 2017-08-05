@@ -2,6 +2,8 @@
 #define MAINFRAME_H
 #include "wxcrafter.h"
 
+#include "NodeDisplay.h"
+
 const std::string MESH_STAT_VERSION = "0.1.0";
 
 typedef enum {
@@ -23,5 +25,8 @@ public:
 
 protected:
     virtual void OnTest1(wxCommandEvent& event);
+
+private:
+    NodeDisplayVector nodes;
 };
 #endif // MAINFRAME_H
