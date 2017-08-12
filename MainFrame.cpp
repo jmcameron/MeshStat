@@ -27,7 +27,7 @@ MainFrame::MainFrame(wxWindow* parent)
     const unsigned int num_nodes = config.nodes.size();
 
     // Create top-level grid sizer
-    wxGridSizer *grid_sizer = new wxGridSizer(num_nodes+1, 1, 2, 2);
+    wxGridSizer *grid_sizer = new wxGridSizer(num_nodes+1, config.num_columns, 2, 2);
     SetSizer(grid_sizer);
 
     // ??? Eventually figure out the cell_size from the format

@@ -11,12 +11,14 @@ class wxColour;
 
 class ColorInterpolate {
 public:
-    ColorInterpolate(unsigned char r1_,
-		     unsigned char g1_,
-		     unsigned char b1_,
-		     unsigned char r2_,
-		     unsigned char g2_,
-		     unsigned char b2_);
+    ColorInterpolate() {};
+
+    void setColors(unsigned char r1_,
+		   unsigned char g1_,
+		   unsigned char b1_,
+		   unsigned char r2_,
+		   unsigned char g2_,
+		   unsigned char b2_);
 
 protected:
     wxColour* color(const double x) const;

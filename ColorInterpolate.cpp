@@ -4,15 +4,21 @@
 
 
 
-ColorInterpolate::ColorInterpolate(unsigned char r1_,
-				   unsigned char g1_,
-				   unsigned char b1_,
-				   unsigned char r2_,
-				   unsigned char g2_,
-				   unsigned char b2_)
-    : r1(r1_), g1(g1_), b1(b1_),
-      r2(r2_), g2(g2_), b2(b2_)
+void ColorInterpolate::setColors(unsigned char r1_,
+				 unsigned char g1_,
+				 unsigned char b1_,
+				 unsigned char r2_,
+				 unsigned char g2_,
+				 unsigned char b2_)
 {
+    r1 = r1_;
+    g1 = g1_;
+    b1 = b1_;
+
+    r2 = r2_;
+    g2 = g2_;
+    b2 = b2_;
+
     r_range = static_cast<double>(r2 - r1);
     g_range = static_cast<double>(g2 - g1);
     b_range = static_cast<double>(b2 - b1);

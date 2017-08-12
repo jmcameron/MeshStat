@@ -12,7 +12,7 @@ typedef std::vector<std::string> NodeNameList;
 
 class ConfigInfo {
 public:
-    ConfigInfo() {};
+    ConfigInfo();
 
 public:
     bool parseCommandLine(int& argc, wxChar **argv);
@@ -20,7 +20,10 @@ public:
     void dump() const;
 
 public:
+    // Config fields
+    unsigned int num_columns;
     double period;
+
     wxFileName config_filename;
     NodeNameList nodes;
 };

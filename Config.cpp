@@ -41,7 +41,11 @@ static int handler(void* configObj, const char *section_raw,
     const std::string name(name_raw);
     const std::string value(value_raw);
     
-    if ((section == "Settings") && (name == "period")) {
+    if ((section == "Settings") && (name == "num_columns")) {
+	config->num_columns = atoi(value.c_str());
+	}
+
+    else if ((section == "Settings") && (name == "period")) {
 	config->period = atof(value.c_str());
 	}
 
@@ -60,6 +64,12 @@ static int handler(void* configObj, const char *section_raw,
     return 1;
 }
 
+
+ConfigInfo::ConfigInfo()
+{
+    num_columns = 1;
+    // ??? period = ?
+}
 
 
 bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
@@ -201,6 +211,7 @@ void ConfigInfo::dump() const
 {
     std::string filename = config_filename.GetFullPath().ToStdString();
     std::cout << "Config file: " << filename << std::endl;
+    std::cout << "  Num Columns = " << num_columns << std::endl;
     std::cout << "  Period = " << period << std::endl;
     
     if (nodes.size() > 0) 
