@@ -60,7 +60,7 @@ AS       := as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/Node.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix) $(IntermediateDirectory)/Config.cpp$(ObjectSuffix) $(IntermediateDirectory)/ini.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/Node.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix) $(IntermediateDirectory)/Config.cpp$(ObjectSuffix) $(IntermediateDirectory)/ColorInterpolate.cpp$(ObjectSuffix) $(IntermediateDirectory)/ini.c$(ObjectSuffix) 
 
 
 Objects=$(Objects0) 
@@ -91,6 +91,7 @@ PreBuild:
 ##
 ## Objects
 ##
+
 $(IntermediateDirectory)/main.cpp$(ObjectSuffix): main.cpp $(IntermediateDirectory)/main.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/main.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
@@ -98,6 +99,8 @@ $(IntermediateDirectory)/main.cpp$(DependSuffix): main.cpp
 
 $(IntermediateDirectory)/main.cpp$(PreprocessSuffix): main.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/main.cpp$(PreprocessSuffix) "main.cpp"
+
+# ----------------------------------------------------------------------
 
 $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix): MainFrame.cpp $(IntermediateDirectory)/MainFrame.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/MainFrame.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IncludePath)
@@ -107,6 +110,8 @@ $(IntermediateDirectory)/MainFrame.cpp$(DependSuffix): MainFrame.cpp
 $(IntermediateDirectory)/MainFrame.cpp$(PreprocessSuffix): MainFrame.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/MainFrame.cpp$(PreprocessSuffix) "MainFrame.cpp"
 
+# ----------------------------------------------------------------------
+
 $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix): wxcrafter.cpp $(IntermediateDirectory)/wxcrafter.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/wxcrafter.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/wxcrafter.cpp$(DependSuffix): wxcrafter.cpp
@@ -114,6 +119,8 @@ $(IntermediateDirectory)/wxcrafter.cpp$(DependSuffix): wxcrafter.cpp
 
 $(IntermediateDirectory)/wxcrafter.cpp$(PreprocessSuffix): wxcrafter.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/wxcrafter.cpp$(PreprocessSuffix) "wxcrafter.cpp"
+
+# ----------------------------------------------------------------------
 
 $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix): wxcrafter_bitmaps.cpp $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/wxcrafter_bitmaps.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IncludePath)
@@ -123,6 +130,8 @@ $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(DependSuffix): wxcrafter_bitmaps
 $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(PreprocessSuffix): wxcrafter_bitmaps.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(PreprocessSuffix) "wxcrafter_bitmaps.cpp"
 
+# ----------------------------------------------------------------------
+
 $(IntermediateDirectory)/Node.cpp$(ObjectSuffix): Node.cpp $(IntermediateDirectory)/Node.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/Node.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/Node.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/Node.cpp$(DependSuffix): Node.cpp
@@ -131,13 +140,7 @@ $(IntermediateDirectory)/Node.cpp$(DependSuffix): Node.cpp
 $(IntermediateDirectory)/Node.cpp$(PreprocessSuffix): Node.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Node.cpp$(PreprocessSuffix) "Node.cpp"
 
-$(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix): NodeDisplayPane.cpp $(IntermediateDirectory)/NodeDisplayPane.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/NodeDisplayPane.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/NodeDisplayPane.cpp$(DependSuffix): NodeDisplayPane.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/NodeDisplayPane.cpp$(DependSuffix) -MM "NodeDisplayPane.cpp"
-
-$(IntermediateDirectory)/NodeDisplayPane.cpp$(PreprocessSuffix): NodeDisplayPane.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NodeDisplayPane.cpp$(PreprocessSuffix) "NodeDisplayPane.cpp"
+# ----------------------------------------------------------------------
 
 $(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix): NodeDisplay.cpp $(IntermediateDirectory)/NodeDisplay.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/NodeDisplay.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix) $(IncludePath)
@@ -147,6 +150,18 @@ $(IntermediateDirectory)/NodeDisplay.cpp$(DependSuffix): NodeDisplay.cpp
 $(IntermediateDirectory)/NodeDisplay.cpp$(PreprocessSuffix): NodeDisplay.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NodeDisplay.cpp$(PreprocessSuffix) "NodeDisplay.cpp"
 
+# ----------------------------------------------------------------------
+
+$(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix): NodeDisplayPane.cpp $(IntermediateDirectory)/NodeDisplayPane.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/NodeDisplayPane.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/NodeDisplayPane.cpp$(DependSuffix): NodeDisplayPane.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/NodeDisplayPane.cpp$(DependSuffix) -MM "NodeDisplayPane.cpp"
+
+$(IntermediateDirectory)/NodeDisplayPane.cpp$(PreprocessSuffix): NodeDisplayPane.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NodeDisplayPane.cpp$(PreprocessSuffix) "NodeDisplayPane.cpp"
+
+# ----------------------------------------------------------------------
+
 $(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix): NodeUtils.cpp $(IntermediateDirectory)/NodeUtils.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/NodeUtils.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/NodeUtils.cpp$(DependSuffix): NodeUtils.cpp
@@ -155,6 +170,8 @@ $(IntermediateDirectory)/NodeUtils.cpp$(DependSuffix): NodeUtils.cpp
 $(IntermediateDirectory)/NodeUtils.cpp$(PreprocessSuffix): NodeUtils.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NodeUtils.cpp$(PreprocessSuffix) "NodeUtils.cpp"
 
+# ----------------------------------------------------------------------
+
 $(IntermediateDirectory)/Config.cpp$(ObjectSuffix): Config.cpp $(IntermediateDirectory)/Config.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/Config.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/Config.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/Config.cpp$(DependSuffix): Config.cpp
@@ -162,6 +179,18 @@ $(IntermediateDirectory)/Config.cpp$(DependSuffix): Config.cpp
 
 $(IntermediateDirectory)/Config.cpp$(PreprocessSuffix): Config.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Config.cpp$(PreprocessSuffix) "Config.cpp"
+
+# ----------------------------------------------------------------------
+
+$(IntermediateDirectory)/ColorInterpolate.cpp$(ObjectSuffix): ColorInterpolate.cpp $(IntermediateDirectory)/ColorInterpolate.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/ColorInterpolate.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/ColorInterpolate.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/ColorInterpolate.cpp$(DependSuffix): ColorInterpolate.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/ColorInterpolate.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/ColorInterpolate.cpp$(DependSuffix) -MM "ColorInterpolate.cpp"
+
+$(IntermediateDirectory)/ColorInterpolate.cpp$(PreprocessSuffix): ColorInterpolate.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/ColorInterpolate.cpp$(PreprocessSuffix) "ColorInterpolate.cpp"
+
+# ----------------------------------------------------------------------
 
 $(IntermediateDirectory)/ini.c$(ObjectSuffix): inih/ini.c $(IntermediateDirectory)/ini.c$(DependSuffix)
 	$(CXX) $(IncludePCH) -I inih $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/inih/ini.c" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/ini.c$(ObjectSuffix) $(IncludePath)
