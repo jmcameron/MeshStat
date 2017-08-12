@@ -34,23 +34,19 @@ MainFrame::MainFrame(wxWindow* parent)
     const wxSize font_size = GetFont().GetPixelSize();
     const wxSize cell_size(60*font_size.x, 4*font_size.y);
 
-
     // Create all the panes for the nodes
     for (NodeNameList::const_iterator nd = config.nodes.begin(); 
 	 nd != config.nodes.end(); ++nd)
     {
 	const std::string node_name = *nd;
-	std::cerr << "Adding node " << node_name << std::endl;
 	nodes[node_name] = new Node(node_name);
     }
     
-
     // Create all the panes for the nodes
     for (NodeNameList::const_iterator nd = config.nodes.begin(); 
 	 nd != config.nodes.end(); ++nd)
     {
 	const std::string node_name = *nd;
-	std::cerr << "Adding node display for " << node_name << std::endl;
 	NodeDisplayPane *pane = new NodeDisplayPane(this, cell_size);
 	grid_sizer->Add(pane, 1, wxALL|wxFIXED_MINSIZE, 3);
 	node_displays[node_name] = pane;
@@ -101,8 +97,6 @@ void MainFrame::OnCredits(wxCommandEvent& event)
 	wxT("   - Boost libraries\n")
 	wxT("     http://www.boost.org/users/license.html") wxT("\n\n");
 
-
-
     wxMessageDialog dialog(this, msg, _("Credits"), wxICON_NONE);
 
     // dialog.SetBackgroundColour(wxColour(* wxWHITE)); 
@@ -123,13 +117,7 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 
 void MainFrame::OnTest1(wxCommandEvent& event)
 {
-    // Initialize displays
-    for (NodeNameList::const_iterator nd = config.nodes.begin(); 
-	 nd != config.nodes.end(); ++nd)
-    {
-	const std::string node_name = *nd;
-	nodes[node_name]->updateDisplay();
-    }
+    refresh();
 
     wxString htmldata;
 
@@ -204,4 +192,19 @@ void MainFrame::OnTest1(wxCommandEvent& event)
     GetMainText()->AppendText(msg);
 }
 
+void MainFrame::OnRefresh(wxCommandEvent& event)
+{
+    wxUnusedVar(event);
+    refresh();
+}
 
+void MainFrame::refresh()
+{
+    // Make each node display refresh itself
+    for (NodeNameList::const_iterator nd = config.nodes.begin(); 
+	 nd != config.nodes.end(); ++nd)
+    {
+	const std::string node_name = *nd;
+	nodes[node_name]->updateDisplay();
+    }
+}

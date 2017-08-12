@@ -23,9 +23,12 @@ public:
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     void OnCredits(wxCommandEvent& event);
+    void OnRefresh(wxCommandEvent& event);
 
 protected:
     virtual void OnTest1(wxCommandEvent& event);
+
+    virtual void refresh();
 
 private:
     NodeMap nodes;

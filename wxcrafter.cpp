@@ -47,6 +47,9 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     m_menuItem_Test1 = new wxMenuItem(m_menu_Test, wxID_TEST1, _("Test1"), wxT(""), wxITEM_NORMAL);
     m_menu_Test->Append(m_menuItem_Test1);
     
+    m_menuItem_Refresh = new wxMenuItem(m_menu_Test, wxID_REFRESH, _("Refresh"), wxT(""), wxITEM_NORMAL);
+    m_menu_Test->Append(m_menuItem_Refresh);
+    
     m_menu_Help = new wxMenu();
     m_menuBar->Append(m_menu_Help, _("Help"));
     
@@ -82,7 +85,7 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     this->Connect(m_menuItem_Test1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTest1), NULL, this);
     this->Connect(m_menuItem_About->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     this->Connect(m_menuItem_Credits->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnCredits), NULL, this);
-    
+    this->Connect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
 }
 
 MainFrameBaseClass::~MainFrameBaseClass()
@@ -91,5 +94,5 @@ MainFrameBaseClass::~MainFrameBaseClass()
     this->Disconnect(m_menuItem_Test1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTest1), NULL, this);
     this->Disconnect(m_menuItem_About->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     this->Disconnect(m_menuItem_Credits->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnCredits), NULL, this);
-   
+    this->Disconnect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
 }

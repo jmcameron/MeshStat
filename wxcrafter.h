@@ -31,6 +31,7 @@ public:
         wxID_MainText = 10001,
         wxID_TEST1 = 10002,
 	wxID_CREDITS = 10003,
+	wxID_REFRESH = 10004,
     };
 protected:
     wxTextCtrl* m_MainText;
@@ -39,6 +40,7 @@ protected:
     wxMenuItem* m_menuItem_Exit;
     wxMenu* m_menu_Test;
     wxMenuItem* m_menuItem_Test1;
+    wxMenuItem* m_menuItem_Refresh;
     wxMenu* m_menu_Help;
     wxMenuItem* m_menuItem_Credits;
     wxMenuItem* m_menuItem_About;
@@ -49,6 +51,7 @@ protected:
     virtual void OnTest1(wxCommandEvent& event) { event.Skip(); }
     virtual void OnAbout(wxCommandEvent& event) { event.Skip(); }
     virtual void OnCredits(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnRefresh(wxCommandEvent& event) { event.Skip(); }
 
 public:
     wxTextCtrl* GetMainText() { return m_MainText; }

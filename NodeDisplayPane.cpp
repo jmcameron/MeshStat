@@ -11,7 +11,8 @@ NodeDisplayPane::NodeDisplayPane(wxWindow *parent, const wxSize &cell_size)
 void NodeDisplayPane::updateDisplay(const Node &node)
 {
     // Clear the pane
-    Refresh(true);
+    Clear();
+    ClearBackground();
 
     AppendText(node.name);
 }
