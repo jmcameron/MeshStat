@@ -3,6 +3,7 @@
 #ifndef MESH_STAT_NODE_H
 #define MESH_STAT_NODE_H
 
+#include <map>
 #include <string>
 
 class NodeDisplay;
@@ -14,7 +15,6 @@ public:
 
     void setNodeDisplay(NodeDisplay *new_display);
 
-protected:
     std::string url;
     std::string name;
     double latitude;
@@ -28,11 +28,19 @@ protected:
     std::string firmware_version;
     std::string ssid;
 
+protected:
+
+    int num_fails;
+    int last_read_time;  // milliseconds
+
     NodeDisplay *display;
 
 private:
     Node() {};  // Disabled
 };
+
+
+typedef std::map<std::string, Node*> NodeMap;
 
 
 #endif /* end of MESH_STAT_NODE_H */

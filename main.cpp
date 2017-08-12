@@ -28,6 +28,10 @@ public:
 
         MainFrame *mainFrame = new MainFrame(NULL);
         SetTopWindow(mainFrame);
+
+	wxIcon mesh_stat_icon("mesh_stat_icon.ico");
+	mainFrame->SetIcon(mesh_stat_icon);
+
         return GetTopWindow()->Show();
     }
 };

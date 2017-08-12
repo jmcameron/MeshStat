@@ -2,6 +2,7 @@
 #define MAINFRAME_H
 #include "wxcrafter.h"
 
+#include "Node.h"
 #include "NodeDisplay.h"
 
 const std::string MESH_STAT_VERSION = "0.1.0";
@@ -27,6 +28,10 @@ protected:
     virtual void OnTest1(wxCommandEvent& event);
 
 private:
-    NodeDisplayVector nodes;
+    NodeMap nodes;
+
+    NodeDisplayMap node_displays;
+
+    
 };
 #endif // MAINFRAME_H
