@@ -24,8 +24,10 @@ ConfigInfo config;
 MainFrame::MainFrame(wxWindow* parent)
     : MainFrameBaseClass(parent)
 {
+    const unsigned int num_nodes = config.nodes.size();
+
     // Create top-level grid sizer
-    wxGridSizer *grid_sizer = new wxGridSizer(3, 1, 2, 2);
+    wxGridSizer *grid_sizer = new wxGridSizer(num_nodes+1, 1, 2, 2);
     SetSizer(grid_sizer);
 
     // ??? Eventually figure out the cell_size from the format
@@ -53,8 +55,6 @@ MainFrame::MainFrame(wxWindow* parent)
 	grid_sizer->Add(pane, 1, wxALL|wxFIXED_MINSIZE, 3);
 	node_displays[node_name] = pane;
 	nodes[node_name]->setNodeDisplay(pane);
-
-	pane->AppendText(node_name);
     }
 
     // Add an extra test pane for Test1 menu item (??? Delete later)
@@ -123,6 +123,14 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 
 void MainFrame::OnTest1(wxCommandEvent& event)
 {
+    // Initialize displays
+    for (NodeNameList::const_iterator nd = config.nodes.begin(); 
+	 nd != config.nodes.end(); ++nd)
+    {
+	const std::string node_name = *nd;
+	nodes[node_name]->updateDisplay();
+    }
+
     wxString htmldata;
 
     wxStopWatch timer;  // Start the timer

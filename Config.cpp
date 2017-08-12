@@ -46,7 +46,9 @@ static int handler(void* configObj, const char *section_raw,
 	}
 
     else if ((section == "Nodes")) {
-        config->nodes.push_back(value);
+	if (name == "node") {
+	    config->nodes.push_back(value);
+	    }
 	}
 
     else {

@@ -15,6 +15,8 @@ public:
 
     void setNodeDisplay(NodeDisplay *new_display);
 
+    void updateDisplay();
+
     std::string url;
     std::string name;
     double latitude;
@@ -28,10 +30,10 @@ public:
     std::string firmware_version;
     std::string ssid;
 
-protected:
-
     int num_fails;
     int last_read_time;  // milliseconds
+
+protected:
 
     NodeDisplay *display;
 

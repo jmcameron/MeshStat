@@ -6,8 +6,11 @@
 #include <map>
 #include <string>
 
+class Node;
 
 class NodeDisplay {
+public:
+    void virtual updateDisplay(const Node &node) = 0;
 
 };
 
