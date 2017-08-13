@@ -46,6 +46,14 @@ static int handler(void* configObj, const char *section_raw,
 	config->num_columns = atoi(value.c_str());
 	}
 
+    else if ((section == "Settings") && (name == "max_num_fails")) {
+	config->max_num_fails = atof(value.c_str());
+	}
+
+    else if ((section == "Settings") && (name == "max_response_time")) {
+	config->max_response_time = atof(value.c_str());
+	}
+
     else if ((section == "Settings") && (name == "period")) {
 	config->period = atof(value.c_str());
 	}
@@ -69,6 +77,8 @@ static int handler(void* configObj, const char *section_raw,
 ConfigInfo::ConfigInfo()
 {
     num_columns = 1;
+    max_num_fails = default_max_num_fails;
+    max_response_time = default_max_response_time;
     period = default_period;
 }
 
@@ -214,7 +224,9 @@ void ConfigInfo::dump() const
     std::cout << "Config file: " << filename << std::endl;
     std::cout << "  Num Columns = " << num_columns << std::endl;
     std::cout << "  Period = " << period << std::endl;
-    
+    std::cout << "  Max Num Fails = " << max_num_fails << std::endl;
+    std::cout << "  Max Response Time = " << max_response_time << std::endl;
+
     if (nodes.size() > 0) 
     {
 	std::cout << "  Nodes:" << std::endl;

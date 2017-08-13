@@ -2,7 +2,10 @@
 
 #include <wx/tooltip.h>
 
-#include "Defaults.h"
+#include "Config.h"
+
+extern ConfigInfo config;
+
 #include "Node.h"
 #include "NodeDisplayPane.h"
 #include "ColorInterpolate.h"
@@ -32,18 +35,18 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 	}
     else if (node.num_fails > 0) {
 	double factor = 0.0;
-	if (static_cast<unsigned int>(node.num_fails) >= max_num_fails)
+	if (static_cast<unsigned int>(node.num_fails) >= config.max_num_fails)
 	    factor = 1.0;
 	else
-	    factor = static_cast<double>(node.num_fails)/static_cast<double>(max_num_fails);
+	    factor = static_cast<double>(node.num_fails)/static_cast<double>(config.max_num_fails);
 	bg_color = fail_color.color(factor);
 	}
     else {
 	double factor = 0.0;
-	if (node.last_response_time >= max_response_time)
+	if (node.last_response_time >= config.max_response_time)
 	    factor = 1.0;
 	else
-	    factor = static_cast<double>(node.last_response_time)/static_cast<double>(max_num_fails);
+	    factor = static_cast<double>(node.last_response_time)/static_cast<double>(config.max_num_fails);
 	bg_color = response_color.color(factor);
 	}
 
@@ -53,13 +56,16 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     ClearBackground();
 
     wxTextAttr ta;
+
+    // Print the node name in bold
     ta.SetFontWeight(wxFONTWEIGHT_BOLD);
     SetDefaultStyle(ta); 
-    AppendText(node.name);
+    AppendText(node.name + "\n");
 
+    
     ta.SetFontWeight(wxFONTWEIGHT_NORMAL);
     SetDefaultStyle(ta); 
-    AppendText(wxT("\nThis is a test"));
+    AppendText(wxT("This is a test"));
 
     std::string tool_tip = std::string("Node stats for ") + node.name;
     SetToolTip(tool_tip.c_str());

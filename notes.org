@@ -1,58 +1,9 @@
 MeshStat
 ========
 
-* Objects
-** MainFrame
-*** Knows
-*** Does
-
-** meshStatGridSizer : wxGridSizer
-*** Knows
-*** Does
-
-** Formater (part of Node?)
-*** Knows
-    - Available formats?
-*** Does
-    - Converts Node info into update string
-
-** Node
-*** Knows
-    - Node info
-    - Completion time of last update
-    - Duration of last update
-    - Selected Format
-    - Handle to its display window
-*** Does
-    - Handles refresh events
-    - Parses response and saves update node info
-    - Updates completion time of last update
-    - Updated duration of last update
-    - Constructs update text (based on selected format)
-    - Computes "lateness"
-    - Updates its display window
-    - Schedules next update (based on lag config param)
-
-
-** NodeDisplay (abstract class)
-*** Possible variants:
-    - Raw streaming text
-    - wxTextCtrl version
-*** Knows
-*** Does
-    - Displays node update text (modified with "lateness")
-
-** NodeDisplayPane (derived from NodeDisplay, wxTextCtrl)
-*** Knows
-    - font
-    - max num lines, cols?
-    - Variable or fixed size
-*** Does
-    - Set font
-    - Resizes window based on output or fixed size?
-    - Displays node update text
-    - Colors background based on "Lateness"
-
+* TO DO [0/2]
+  - [ ] Fix window sizing
+  - [ ] Make the time scaling for fails work on elapsed time, not num periods
 
 * ...
 #+STARTUP: content

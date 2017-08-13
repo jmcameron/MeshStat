@@ -103,80 +103,8 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 
 void MainFrame::OnTest1(wxCommandEvent& event)
 {
+    wxUnusedVar(event);
     probeAllNodes();
-
-//     wxString htmldata;
-// 
-//     wxStopWatch timer;  // Start the timer
-// 
-//     // const std::string test_host("mesh.w6jpl.ampr.org");
-//     const std::string test_host("184.177.20.233");
-//     // const std::string test_host("bogus.hostname.bad");
-//     const std::string test_url = std::string("http://") + test_host + ":8080/cgi-bin/sysinfo.json";
-// 
-//     std::cerr << "OPEN URL: " << test_url << " at " << timer.Time() << " ms" << std::endl;
-//     wxURL url(test_url.c_str());
-//     // wxURL url(wxT("http://mesh.w6jpl.ampr.org:8080/cgi-bin/sysinfo.json"));
-//     std::cerr << "URL OK: " << url.IsOk() << std::endl;
-// 
-//     if(url.GetError()==wxURL_NOERR)
-//     {
-// 	std::cerr << "GET INPUT STREAM: " << timer.Time() << " ms" << std::endl;
-//  	wxInputStream *in = url.GetInputStream();
-//  	if(in && in->IsOk())
-//  	{
-// 	    std::cerr << "CAN READ: " << in->CanRead() << std::endl;
-// 
-//  	    wxStringOutputStream html_stream(&htmldata);
-// 	    std::cerr << "READ INPUT STREAM: " << timer.Time() << " ms" << std::endl;
-//  	    in->Read(html_stream);
-// 	    std::cerr << "READ INPUT STREAM DONE: " << timer.Time() << " ms" << std::endl;
-//  	}
-//  	delete in;
-//     }
-//     else 
-//     {
-// 	std::cerr << "ERROR OPENING URL: " << test_url << " at "<< timer.Time() << " ms" << std::endl;
-//  	htmldata = "";
-//     }
-//     timer.Pause();
-// 
-//     std::cerr << "FINISHED: " << timer.Time() << " ms" << std::endl;
-//     std::cerr << "DATA READ: " << htmldata.size() << std::endl;
-// 
-//     if (htmldata.size() > 0)
-//     {
-// 	std::string lines = std::string(htmldata.mb_str());
-// 
-// 	// std::string lines("{\"channel\":\"174\",\"lat\":\"34.200464\",\"board_id\":\"0xe1b5\",\"api_version\":\"1.0\",\"model\":\"Ubiquiti Rocket M\",\"chanbw\":\"20\",\"tunnel_installed\":\"true\",\"ssid\":\"AREDN-20-v3\",\"node\":\"W6JPL-M5R-180R6\",\"lon\":\"-118.174341\",\"firmware_version\":\"3.16.1.1\",\"firmware_mfg\":\"AREDN\",\"grid_square\":\"\",\"active_tunnel_count\":\"0\",\"interfaces\":[{\"name\":\"eth0\",\"ip\":\"10.65.182.97\",\"mac\":\"24:A4:3C:A5:1B:66\"},{\"name\":\"eth0.1\",\"ip\":\"44.16.15.50\",\"mac\":\"24:A4:3C:A5:1B:66\"},{\"name\":\"eth0.2\",\"ip\":\"10.165.27.102\",\"mac\":\"24:A4:3C:A5:1B:66\"},{\"name\":\"wlan0\",\"ip\":\"10.164.27.102\",\"mac\":\"24:A4:3C:A4:1B:66\"},{\"name\":\"wlan0-1\",\"ip\":\"none\",\"mac\":\"24-A4-3C-A4-1B-66-00-44-00-00-00-00-00-00-00-00\"}]}");
-// 
-// 	NodeDataMap data;
-// 
-// 	timer.Resume();
-// 
-// 	std::cerr << "START PARSING: " << timer.Time() << " ms" << std::endl;
-// 	getNodeDataJSON(data, lines);
-// 	std::cerr << "END PARSING: " << timer.Time() << " ms" << std::endl;
-// 
-// 	for (NodeDataMap::const_iterator dit = data.begin(); dit != data.end(); ++dit)
-// 	{
-// 	    const std::string name(dit->first);
-// 	    const std::string val(dit->second);
-// 	    const std::string prt = name + std::string(": ") + val + std::string("\n");
-// 	    GetMainText()->AppendText(prt);
-// 	}
-// 	timer.Pause();
-// 
-//     }
-//     else
-//     {
-// 	std::string msg = std::string("ERROR: Unable to read data from ") + test_url + "\n";
-// 	GetMainText()->AppendText(msg);
-//     }
-// 
-//     wxString msg;
-//     msg.Printf("Loading: '%s'  (%ld ms)", config.config_filename.GetFullName().c_str(), timer.Time());
-//     GetMainText()->AppendText(msg);
 }
 
 void MainFrame::OnRefresh(wxCommandEvent& event)
@@ -187,7 +115,7 @@ void MainFrame::OnRefresh(wxCommandEvent& event)
 
 void MainFrame::refresh()
 {
-    // Make each node display refresh itself
+    // Make each node display refresh itself (without probing)
     for (NodeNameList::const_iterator nd = config.nodes.begin(); 
 	 nd != config.nodes.end(); ++nd)
     {
@@ -202,9 +130,10 @@ void MainFrame::OnProbeAll(wxTimerEvent& event)
     probeAllNodes();
 }
 
+
 void MainFrame::probeAllNodes()
 {
-    // Make each node display refresh itself
+    // Probe each node and redisplay
     for (NodeNameList::const_iterator nd = config.nodes.begin(); 
 	 nd != config.nodes.end(); ++nd)
     {

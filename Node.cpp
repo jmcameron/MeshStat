@@ -35,21 +35,6 @@ Node::Node(const std::string url_)
 	name = url.substr(0, url.size() - 11);
     else
 	name = url;
-
-    if (name == "kf6rta")
-    {
-	num_fails = 1;
-    }
-    if (name == "mesh.w6jpl.ampr.org")
-    {
-	num_fails = 0;
-	last_response_time = 500;
-    }
-
-    if (name == "bad.bad.site")
-    {
-	num_fails = 34;
-    }
 }
 
 
