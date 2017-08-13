@@ -11,7 +11,6 @@
 
 #include "inih/ini.h"
 
-#include "Defaults.h"
 #include "MainFrame.h"
 #include "Config.h"
 
