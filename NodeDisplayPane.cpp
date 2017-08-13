@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <algorithm>  // max()
 
 #include <wx/tooltip.h>
@@ -53,6 +54,7 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     // Clear the pane
     Clear();
     SetBackgroundColour(*bg_color);
+    delete bg_color;
     ClearBackground();
 
     wxTextAttr ta;
@@ -62,13 +64,31 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     SetDefaultStyle(ta); 
     AppendText(node.name + "\n");
 
-    
     ta.SetFontWeight(wxFONTWEIGHT_NORMAL);
     SetDefaultStyle(ta); 
-    AppendText(wxT("This is a test"));
 
-    std::string tool_tip = std::string("Node stats for ") + node.name;
-    SetToolTip(tool_tip.c_str());
+    if (node.num_fails < 1)
+    {
+	char line[200];
+	sprintf(line, "Channel: %3d  BW: %2.0f, SSID: %s\n", 
+		node.channel, node.chanbw, node.ssid.c_str());
+    	AppendText(line);
 
-    delete bg_color;
+	sprintf(line, "Model: %s,  Firmware: %s\n", node.model.c_str(), node.firmware_version.c_str());
+	AppendText(line);
+
+	sprintf(line, "Last Response Time: %6.2f sec", 
+		static_cast<double>(node.last_response_time) / 1000.0);
+	AppendText(line);
+
+	// std::string tool_tip = std::string("Node stats for ") + node.name;
+	// SetToolTip(tool_tip.c_str());
+    }
+    else 
+    {
+	char line[200];
+	sprintf(line, "Num failures: %d", node.num_fails);
+    	AppendText(line);
+    }
+
 }

@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 
-#include <wx/cmdline.h>
 #include <wx/filename.h>
 
 

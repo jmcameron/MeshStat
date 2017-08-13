@@ -143,29 +143,32 @@ void Node::readDataFromJSON(const std::string &json)
 
 	    if (subtree.empty())
 	    {
-		if (key == "channel") {
+		if (key == "node") {
+		    name = it->second.get_value<std::string>();
+		    }
+		else if (key == "channel") {
 		    channel = it->second.get_value<int>();
 		    }
 		else if (key == "chanbw") {
 		    chanbw = it->second.get_value<double>();
 		    }
-		else if (key == "latitude") {
+		else if (key == "lat") {
 		    latitude = it->second.get_value<double>();
 		    }
-		else if (key == "longitude") {
+		else if (key == "lon") {
 		    longitude = it->second.get_value<double>();
 		    }
 		else if (key == "model") {
 		    model = it->second.get_value<std::string>();
 		    }
 		else if (key == "firmware_mfg") {
-		    model = it->second.get_value<std::string>();
+		    firmware_mfg = it->second.get_value<std::string>();
 		    }
 		else if (key == "firmware_version") {
-		    model = it->second.get_value<std::string>();
+		    firmware_version = it->second.get_value<std::string>();
 		    }
 		else if (key == "ssid") {
-		    model = it->second.get_value<std::string>();
+		    ssid = it->second.get_value<std::string>();
 		    }
 	    }
 	    else 

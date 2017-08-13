@@ -1,9 +1,14 @@
 MeshStat
 ========
 
-* TO DO [0/2]
+* TO DO [0/7]
+  - [ ] Added regular expression checking for node URLs
+  - [ ] If node is numeric, get the node name from the probe
+  - [ ] Option to disable periodic probing
   - [ ] Fix window sizing
   - [ ] Make the time scaling for fails work on elapsed time, not num periods
+  - [ ] Function to write sample (documented) config file
+  - [ ] Generalize formatting via config file?
 
 * ...
 #+STARTUP: content

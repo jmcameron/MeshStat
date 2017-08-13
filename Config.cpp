@@ -8,6 +8,7 @@
 #include <wx/wx.h>
 #include <wx/utils.h>
 #include <wx/filefn.h>
+#include <wx/cmdline.h>
 
 #include "inih/ini.h"
 
@@ -21,12 +22,12 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
     { wxCMD_LINE_SWITCH, "v", "version", _("print version") },
 
     { wxCMD_LINE_OPTION, "n", "nodes", _("node(s) to monitor, comma separated; no spaces (overrides config file)"), 
-      wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL},
-
-    { wxCMD_LINE_PARAM,  NULL, NULL, _("config file"), 
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 
     { wxCMD_LINE_SWITCH, "d", "dump", _("dump config (and quit)") },
+
+    { wxCMD_LINE_PARAM,  NULL, NULL, _("config file"), 
+      wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
     
     { wxCMD_LINE_NONE }
 };
