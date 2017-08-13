@@ -34,7 +34,7 @@ public:
 	wxID_REFRESH = 10004,
     };
 protected:
-    wxTextCtrl* m_MainText;
+    // ??? wxTextCtrl* m_MainText;
     wxMenuBar* m_menuBar;
     wxMenu* m_menu_File;
     wxMenuItem* m_menuItem_Exit;
@@ -54,7 +54,7 @@ protected:
     virtual void OnRefresh(wxCommandEvent& event) { event.Skip(); }
 
 public:
-    wxTextCtrl* GetMainText() { return m_MainText; }
+    // ??? wxTextCtrl* GetMainText() { return m_MainText; }
     wxMenuBar* GetMenuBar() { return m_menuBar; }
     wxToolBar* GetMainToolbar() { return m_mainToolbar; }
     MainFrameBaseClass(wxWindow* parent, 

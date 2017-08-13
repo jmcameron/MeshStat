@@ -17,6 +17,18 @@ const unsigned char slow_color_r = 204;
 const unsigned char slow_color_g = 255;
 const unsigned char slow_color_b = 204;
 
+const unsigned char start_r = 230;
+const unsigned char start_g = 230;
+const unsigned char start_b = 230;
+
+const unsigned char min_fails_color_r = 255;
+const unsigned char min_fails_color_g = 204;
+const unsigned char min_fails_color_b = 204;
+
+const unsigned char max_fails_color_r = 255;
+const unsigned char max_fails_color_g = 0;
+const unsigned char max_fails_color_b = 0;
+
 
 class ColorInterpolate;
 
@@ -30,6 +42,10 @@ public:
 
 protected:
     ColorInterpolate response_color;
+
+    ColorInterpolate fail_color;
+
+    wxColor start_color;
 
 };
 

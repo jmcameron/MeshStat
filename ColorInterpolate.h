@@ -20,7 +20,6 @@ public:
 		   unsigned char g2_,
 		   unsigned char b2_);
 
-protected:
     wxColour* color(const double x) const;
 
     unsigned char r1;

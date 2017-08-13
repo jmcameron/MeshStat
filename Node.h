@@ -15,7 +15,11 @@ public:
 
     void setNodeDisplay(NodeDisplay *new_display);
 
+    void readDataFromJSON(const std::string &json);
+
     void updateDisplay();
+
+    void probe();
 
     std::string url;
     std::string name;
@@ -31,7 +35,9 @@ public:
     std::string ssid;
 
     int num_fails;
-    int last_read_time;  // milliseconds
+    unsigned int last_response_time;  // milliseconds
+
+    
 
 protected:
 

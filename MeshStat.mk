@@ -60,7 +60,7 @@ AS       := as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/Node.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix) $(IntermediateDirectory)/Config.cpp$(ObjectSuffix) $(IntermediateDirectory)/ColorInterpolate.cpp$(ObjectSuffix) $(IntermediateDirectory)/ini.c$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/Node.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) $(IntermediateDirectory)/Config.cpp$(ObjectSuffix) $(IntermediateDirectory)/ColorInterpolate.cpp$(ObjectSuffix) $(IntermediateDirectory)/ini.c$(ObjectSuffix) 
 
 
 Objects=$(Objects0) 
@@ -159,16 +159,6 @@ $(IntermediateDirectory)/NodeDisplayPane.cpp$(DependSuffix): NodeDisplayPane.cpp
 
 $(IntermediateDirectory)/NodeDisplayPane.cpp$(PreprocessSuffix): NodeDisplayPane.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NodeDisplayPane.cpp$(PreprocessSuffix) "NodeDisplayPane.cpp"
-
-# ----------------------------------------------------------------------
-
-$(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix): NodeUtils.cpp $(IntermediateDirectory)/NodeUtils.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/jmcameron/src/MeshStat/MeshStat/NodeUtils.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/NodeUtils.cpp$(DependSuffix): NodeUtils.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/NodeUtils.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/NodeUtils.cpp$(DependSuffix) -MM "NodeUtils.cpp"
-
-$(IntermediateDirectory)/NodeUtils.cpp$(PreprocessSuffix): NodeUtils.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/NodeUtils.cpp$(PreprocessSuffix) "NodeUtils.cpp"
 
 # ----------------------------------------------------------------------
 
