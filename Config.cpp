@@ -95,7 +95,7 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
     {
 	std::cout << std::endl;
 	cmdParser.Usage();
-	std::cerr << std::endl;
+	std::cout << std::endl;
 	return false;
     }
 
@@ -184,9 +184,14 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 
     // Load the parameter information from the config file
     std::string filename = config_filename.GetFullPath().ToStdString();
-    if (ini_parse(filename.c_str(), handler, this) < 0) {
-	std::cerr << "ERROR: Cannot load config file '" 
-		  << filename << "'! " << std::endl;
+    int result = ini_parse(filename.c_str(), handler, this);
+    if (result != 0) {
+	if (result > 0) 
+	    std::cerr << "ERROR: Cannot load config file '" 
+		      << filename << "'; error on line " << result << "!" << std::endl;
+	else
+	    std::cerr << "ERROR: Cannot load config file '" 
+		      << filename << "'! " << std::endl;
         return false;
     }
 
