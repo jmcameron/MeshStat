@@ -9,6 +9,7 @@
 #include <wx/utils.h>
 #include <wx/filefn.h>
 #include <wx/cmdline.h>
+#include <wx/regex.h>
 
 #include "inih/ini.h"
 
@@ -47,11 +48,11 @@ static int handler(void* configObj, const char *section_raw,
 	}
 
     else if ((section == "Settings") && (name == "max_num_fails")) {
-	config->max_num_fails = atof(value.c_str());
+	config->max_num_fails = atoi(value.c_str());
 	}
 
     else if ((section == "Settings") && (name == "max_response_time")) {
-	config->max_response_time = atof(value.c_str());
+	config->max_response_time = atoi(value.c_str());
 	}
 
     else if ((section == "Settings") && (name == "period")) {
