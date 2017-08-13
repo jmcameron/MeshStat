@@ -1,5 +1,7 @@
 #include <algorithm>  // max()
 
+#include <wx/tooltip.h>
+
 #include "Defaults.h"
 #include "Node.h"
 #include "NodeDisplayPane.h"
@@ -58,6 +60,9 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     ta.SetFontWeight(wxFONTWEIGHT_NORMAL);
     SetDefaultStyle(ta); 
     AppendText(wxT("\nThis is a test"));
+
+    std::string tool_tip = std::string("Node stats for ") + node.name;
+    SetToolTip(tool_tip.c_str());
 
     delete bg_color;
 }

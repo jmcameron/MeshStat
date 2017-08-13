@@ -3,7 +3,6 @@
 #include <wx/wx.h>
 #include <wx/sizer.h>
 #include <wx/aboutdlg.h>
-#include <wx/tooltip.h>
 
 #include <vector>
 #include <string>
@@ -50,10 +49,6 @@ MainFrame::MainFrame(wxWindow* parent)
 	nodes[node_name]->setNodeDisplay(pane);
     }
 
-    // Add an extra test pane for Test1 menu item (??? Delete later)
-    // ??? m_MainText = new wxTextCtrl(this, wxID_MainText, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY);
-    // ??? grid_sizer->Add(m_MainText, 1, wxALL|wxEXPAND, 3);
-
     grid_sizer->Fit(this);
 
     // Freeze the size of the main window
@@ -70,7 +65,8 @@ MainFrame::MainFrame(wxWindow* parent)
     // ??? m_MainText->SetDefaultStyle(wxTextAttr(*wxBLUE));
     // ??? m_MainText->AppendText("Blue on grey text\n");
     // ??? 
-    // ??? m_MainText->SetToolTip(wxT("Node Stats:"));
+
+    probeAll();
 
     // Start the periodic timer for the specified period
     m_timer->Start(static_cast<int>(config.period * 1000.0));
