@@ -8,6 +8,7 @@
 #define TEST3_MYTEST3_WXCRAFTER_BASE_CLASSES_H
 
 #include <wx/settings.h>
+#include <wx/timer.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/xrc/xh_bmp.h>
 #include <wx/frame.h>
@@ -29,10 +30,12 @@ class MainFrameBaseClass : public wxFrame
 public:
     enum {
         wxID_MainText = 10001,
-        wxID_TEST1 = 10002,
+        wxID_TEST1   = 10002,
 	wxID_CREDITS = 10003,
 	wxID_REFRESH = 10004,
+	wxID_TIMER   = 10005,
     };
+
 protected:
     // ??? wxTextCtrl* m_MainText;
     wxMenuBar* m_menuBar;
@@ -45,6 +48,7 @@ protected:
     wxMenuItem* m_menuItem_Credits;
     wxMenuItem* m_menuItem_About;
     wxToolBar* m_mainToolbar;
+    wxTimer *m_timer;
 
 protected:
     virtual void OnExit(wxCommandEvent& event) { event.Skip(); }
@@ -52,6 +56,7 @@ protected:
     virtual void OnAbout(wxCommandEvent& event) { event.Skip(); }
     virtual void OnCredits(wxCommandEvent& event) { event.Skip(); }
     virtual void OnRefresh(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnProbeAll(wxTimerEvent& event) { event.Skip(); }
 
 public:
     // ??? wxTextCtrl* GetMainText() { return m_MainText; }
@@ -65,5 +70,6 @@ public:
 		       long style = wxCAPTION|wxRESIZE_BORDER|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxSYSTEM_MENU|wxCLOSE_BOX);
     virtual ~MainFrameBaseClass();
 };
+
 
 #endif

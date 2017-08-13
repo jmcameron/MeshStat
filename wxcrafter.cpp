@@ -61,7 +61,9 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     
     m_mainToolbar = this->CreateToolBar(wxTB_FLAT, wxID_ANY);
     m_mainToolbar->SetToolBitmapSize(wxSize(16,16));
-    
+
+    m_timer = new wxTimer(this, wxID_TIMER);
+
     SetName(wxT("MainFrameBaseClass"));
     SetSize(500,300);
     if (GetSizer()) {
@@ -86,6 +88,8 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     this->Connect(m_menuItem_About->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     this->Connect(m_menuItem_Credits->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnCredits), NULL, this);
     this->Connect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
+    
+    this->Connect(m_timer->GetId(), wxEVT_TIMER, wxTimerEventHandler( MainFrameBaseClass::OnProbeAll ), NULL, this );
 }
 
 MainFrameBaseClass::~MainFrameBaseClass()
@@ -95,4 +99,6 @@ MainFrameBaseClass::~MainFrameBaseClass()
     this->Disconnect(m_menuItem_About->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     this->Disconnect(m_menuItem_Credits->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnCredits), NULL, this);
     this->Disconnect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
+
+    this->Disconnect(wxID_TIMER, wxEVT_TIMER, wxTimerEventHandler( MainFrameBaseClass::OnProbeAll ), NULL, this );
 }

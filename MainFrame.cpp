@@ -10,7 +10,6 @@
 
 #include <unistd.h>
 
-#include "NodeUtils.h"
 #include "Config.h"
 
 #include "NodeDisplayPane.h"
@@ -64,14 +63,17 @@ MainFrame::MainFrame(wxWindow* parent)
     // cell1->SetBackgroundColour(wxColour(* wxLIGHT_GREY)); 
     // cell1->SetForegroundColour(wxColour(* wxBLUE)); 
 
-// ???     m_MainText->SetDefaultStyle(wxTextAttr(*wxRED));
-// ???     m_MainText->AppendText("Red text\n");
-// ???     m_MainText->SetDefaultStyle(wxTextAttr(wxNullColour, *wxLIGHT_GREY));
-// ???     m_MainText->AppendText("Red on grey text\n");
-// ???     m_MainText->SetDefaultStyle(wxTextAttr(*wxBLUE));
-// ???     m_MainText->AppendText("Blue on grey text\n");
-// ??? 
-// ???     m_MainText->SetToolTip(wxT("Node Stats:"));
+    // ??? m_MainText->SetDefaultStyle(wxTextAttr(*wxRED));
+    // ??? m_MainText->AppendText("Red text\n");
+    // ??? m_MainText->SetDefaultStyle(wxTextAttr(wxNullColour, *wxLIGHT_GREY));
+    // ??? m_MainText->AppendText("Red on grey text\n");
+    // ??? m_MainText->SetDefaultStyle(wxTextAttr(*wxBLUE));
+    // ??? m_MainText->AppendText("Blue on grey text\n");
+    // ??? 
+    // ??? m_MainText->SetToolTip(wxT("Node Stats:"));
+
+    // Start the periodic timer for the specified period
+    m_timer->Start(static_cast<int>(config.period * 1000.0));
 }
 
 MainFrame::~MainFrame()
@@ -115,15 +117,7 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 
 void MainFrame::OnTest1(wxCommandEvent& event)
 {
-    // Make each node display refresh itself
-    for (NodeNameList::const_iterator nd = config.nodes.begin(); 
-	 nd != config.nodes.end(); ++nd)
-    {
-	const std::string node_name = *nd;
-	nodes[node_name]->probe();
-	nodes[node_name]->updateDisplay();
-    }
-        
+    probeAll();
 
 //     wxString htmldata;
 // 
@@ -212,6 +206,24 @@ void MainFrame::refresh()
 	 nd != config.nodes.end(); ++nd)
     {
 	const std::string node_name = *nd;
+	nodes[node_name]->updateDisplay();
+    }
+}
+
+
+void MainFrame::OnProbeAll(wxTimerEvent& event)
+{
+    probeAll();
+}
+
+void MainFrame::probeAll()
+{
+    // Make each node display refresh itself
+    for (NodeNameList::const_iterator nd = config.nodes.begin(); 
+	 nd != config.nodes.end(); ++nd)
+    {
+	const std::string node_name = *nd;
+	nodes[node_name]->probe();
 	nodes[node_name]->updateDisplay();
     }
 }

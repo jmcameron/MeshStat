@@ -11,6 +11,7 @@
 
 #include "inih/ini.h"
 
+#include "Defaults.h"
 #include "MainFrame.h"
 #include "Config.h"
 
@@ -68,7 +69,7 @@ static int handler(void* configObj, const char *section_raw,
 ConfigInfo::ConfigInfo()
 {
     num_columns = 1;
-    // ??? period = ?
+    period = default_period;
 }
 
 
