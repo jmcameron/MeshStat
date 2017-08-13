@@ -33,7 +33,7 @@ protected:
     virtual void OnTest1(wxCommandEvent& event);
 
     void refresh();
-    void probeAll();
+    void probeAllNodes();
 
 private:
     NodeMap nodes;

@@ -55,18 +55,8 @@ MainFrame::MainFrame(wxWindow* parent)
     SetMinSize(GetSize());
     SetMaxSize(GetSize());
 
-    // cell1->SetBackgroundColour(wxColour(* wxLIGHT_GREY)); 
-    // cell1->SetForegroundColour(wxColour(* wxBLUE)); 
-
-    // ??? m_MainText->SetDefaultStyle(wxTextAttr(*wxRED));
-    // ??? m_MainText->AppendText("Red text\n");
-    // ??? m_MainText->SetDefaultStyle(wxTextAttr(wxNullColour, *wxLIGHT_GREY));
-    // ??? m_MainText->AppendText("Red on grey text\n");
-    // ??? m_MainText->SetDefaultStyle(wxTextAttr(*wxBLUE));
-    // ??? m_MainText->AppendText("Blue on grey text\n");
-    // ??? 
-
-    probeAll();
+    // probe all the nodes
+    probeAllNodes();
 
     // Start the periodic timer for the specified period
     m_timer->Start(static_cast<int>(config.period * 1000.0));
@@ -113,7 +103,7 @@ void MainFrame::OnAbout(wxCommandEvent& event)
 
 void MainFrame::OnTest1(wxCommandEvent& event)
 {
-    probeAll();
+    probeAllNodes();
 
 //     wxString htmldata;
 // 
@@ -209,10 +199,10 @@ void MainFrame::refresh()
 
 void MainFrame::OnProbeAll(wxTimerEvent& event)
 {
-    probeAll();
+    probeAllNodes();
 }
 
-void MainFrame::probeAll()
+void MainFrame::probeAllNodes()
 {
     // Make each node display refresh itself
     for (NodeNameList::const_iterator nd = config.nodes.begin(); 
