@@ -34,6 +34,60 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
 };
 
 
+static std::string cleanNodeURL(const std::string &raw_url)
+{
+    // Return an empty string on failure
+
+    // Remove comment, if any
+    const std::string comment_delimiter = "#";
+    std::string url(raw_url);
+    if (url.find(comment_delimiter) != std::string::npos) 
+    {
+	url = url.substr(0, url.find(comment_delimiter));
+	boost::algorithm::trim(url);
+	std::cerr << "URL '" << url << "'" << std::endl;
+    }
+    
+    std::string url_lower_case(url);
+    std::transform(url_lower_case.begin(), url_lower_case.end(), url_lower_case.begin(), ::tolower);
+
+    // Complain about any protocol prefix
+    const std::string protocol_delimiter = "://";
+    if (url_lower_case.find(protocol_delimiter) != std::string::npos) 
+    {
+	std::string protocol = url_lower_case.substr(0, url_lower_case.find(protocol_delimiter));
+	if (protocol == "https") {
+	    std::cerr << "ERROR: Remove unsupported 'https://' protocol prefix from node name '" << raw_url << "'" << std::endl;
+	    return std::string();
+	    }
+	else {
+	    std::cerr << "ERROR: Remove '" << protocol << "' protocol prefix from node name '" << raw_url << "'" << std::endl;
+	    return std::string();
+	    }
+    }
+
+    // Accept numeric IP addresses
+    const wxRegEx re_numeric("^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$");
+    if (re_numeric.Matches(url)) {
+	return url;
+	}
+
+    const wxRegEx re_multipart_hostname("^[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)?$");
+    if (re_multipart_hostname.Matches(url)) {
+	return url;
+	}
+
+    const wxRegEx re_single_hostname("^[-a-zA-Z0-9]+$");
+    if (re_single_hostname.Matches(url)) {
+	url = url_lower_case + ".local.mesh";
+	return url;
+	}
+
+    std::cerr << "ERROR: Unrecognized node name syntax: " << url << std::endl;
+    return "";
+}
+
+
 static int handler(void* configObj, const char *section_raw, 
 		   const char *name_raw, const char *value_raw)
 {
@@ -61,7 +115,17 @@ static int handler(void* configObj, const char *section_raw,
 
     else if ((section == "Nodes")) {
 	if (name == "node") {
-	    config->nodes.push_back(value);
+	    const std::string new_name = cleanNodeURL(value);
+	    if (new_name.empty()) {
+		return 0;
+		}
+	    if (std::find(config->nodes.begin(), config->nodes.end(), new_name) == config->nodes.end()) {
+		config->nodes.push_back(new_name);
+		}
+	    else {
+		std::cerr << "ERROR: Duplicate node name '" << new_name << "'" << std::endl;
+		return 0;
+		}
 	    }
 	}
 
@@ -73,6 +137,7 @@ static int handler(void* configObj, const char *section_raw,
 
     return 1;
 }
+
 
 
 ConfigInfo::ConfigInfo()

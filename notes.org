@@ -1,9 +1,9 @@
 MeshStat
 ========
 
-* TO DO [0/8]
-  - [ ] Strip off comments on the end of node names
-  - [ ] Added regular expression checking for node URLs
+* TO DO [2/8]
+  - [X] Strip off comments on the end of node names
+  - [X] Added regular expression checking for node URLs
   - [ ] Option to disable periodic probing
   - [ ] Menu item to start/stop probing?
   - [ ] Fix window sizing
@@ -11,5 +11,7 @@ MeshStat
   - [ ] Function to write sample (documented) config file
   - [ ] Generalize formatting via config file?
 
+
+
 * ...
-#+STARTUP: content
+#+STARTUP: showall
