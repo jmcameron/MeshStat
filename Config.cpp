@@ -22,7 +22,7 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
     { wxCMD_LINE_SWITCH, "h", "help",    _("displays help on the command line parameters") },
     { wxCMD_LINE_SWITCH, "v", "version", _("print version") },
 
-    { wxCMD_LINE_OPTION, "n", "nodes", _("node(s) to monitor, comma separated; no spaces (overrides config file)"), 
+    { wxCMD_LINE_OPTION, "n", "nodes", _("node(s) to monitor, comma separated with no spaces (overrides config file)"), 
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 
     { wxCMD_LINE_SWITCH, "d", "dump", _("dump config (and quit)") },
