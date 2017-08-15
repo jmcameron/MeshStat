@@ -2,6 +2,6 @@
 Usage: MeshStat [-h] [-v] [-n <str>] [-d] [config file]
   -h, --help       	displays help on the command line parameters
   -v, --version    	print version
-  -n, --nodes=<str>	node(s) to monitor, comma separated; no spaces (overrides config file)
+  -n, --nodes=<str>	node(s) to monitor, comma separated with no spaces (overrides config file)
   -d, --dump       	dump config (and quit)
 
