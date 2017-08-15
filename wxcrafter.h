@@ -39,15 +39,20 @@ public:
 protected:
     // ??? wxTextCtrl* m_MainText;
     wxMenuBar* m_menuBar;
+
     wxMenu* m_menu_File;
     wxMenuItem* m_menuItem_Exit;
+
     wxMenu* m_menu_Test;
     wxMenuItem* m_menuItem_Test1;
     wxMenuItem* m_menuItem_Refresh;
+
     wxMenu* m_menu_Help;
     wxMenuItem* m_menuItem_Credits;
     wxMenuItem* m_menuItem_About;
-    wxToolBar* m_mainToolbar;
+
+    // ??? wxToolBar* m_mainToolbar;
+
     wxTimer *m_timer;
 
 protected:
@@ -61,12 +66,12 @@ protected:
 public:
     // ??? wxTextCtrl* GetMainText() { return m_MainText; }
     wxMenuBar* GetMenuBar() { return m_menuBar; }
-    wxToolBar* GetMainToolbar() { return m_mainToolbar; }
+    // ??? wxToolBar* GetMainToolbar() { return m_mainToolbar; }
     MainFrameBaseClass(wxWindow* parent, 
 		       wxWindowID id = wxID_ANY, 
 		       const wxString& title = _("MeshStat"), 
 		       const wxPoint& pos = wxDefaultPosition, 
-		       const wxSize& size = wxSize(500,300), 
+		       const wxSize& size = wxSize(10,10), 
 		       long style = wxCAPTION|wxRESIZE_BORDER|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxSYSTEM_MENU|wxCLOSE_BOX);
     virtual ~MainFrameBaseClass();
 };

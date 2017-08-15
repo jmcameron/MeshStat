@@ -59,13 +59,14 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     m_menuItem_About = new wxMenuItem(m_menu_Help, wxID_ABOUT, _("About..."), wxT(""), wxITEM_NORMAL);
     m_menu_Help->Append(m_menuItem_About);
     
-    m_mainToolbar = this->CreateToolBar(wxTB_FLAT, wxID_ANY);
-    m_mainToolbar->SetToolBitmapSize(wxSize(16,16));
+    // ??? m_mainToolbar = this->CreateToolBar(wxTB_FLAT, wxID_ANY);
+    // ??? m_mainToolbar->SetToolBitmapSize(wxSize(16,16));
 
     m_timer = new wxTimer(this, wxID_TIMER);
 
     SetName(wxT("MainFrameBaseClass"));
-    SetSize(500,300);
+    // SetSize(500,300);
+
     if (GetSizer()) {
          GetSizer()->Fit(this);
     }

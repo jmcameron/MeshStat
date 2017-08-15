@@ -21,10 +21,11 @@ MainFrame::MainFrame(wxWindow* parent)
     : MainFrameBaseClass(parent)
 {
     const unsigned int num_nodes = config.nodes.size();
+    const unsigned int num_cols = config.num_columns;
 
     // Create top-level grid sizer
-    wxGridSizer *grid_sizer = new wxGridSizer(num_nodes+1, config.num_columns, 2, 2);
-    SetSizer(grid_sizer);
+    const unsigned int gap_width = 2;
+    wxGridSizer *grid_sizer = new wxGridSizer(num_nodes, num_cols, gap_width, gap_width);
 
     // ??? Eventually figure out the cell_size from the format
     const wxSize font_size = GetFont().GetPixelSize();
@@ -49,8 +50,8 @@ MainFrame::MainFrame(wxWindow* parent)
 	nodes[node_name]->setNodeDisplay(pane);
     }
 
-    grid_sizer->Fit(this);
-
+    SetSizerAndFit(grid_sizer);
+			  
     // Freeze the size of the main window
     SetMinSize(GetSize());
     SetMaxSize(GetSize());
