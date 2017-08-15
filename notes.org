@@ -9,6 +9,7 @@ MeshStat
   - [ ] Menu item to start/stop probing?
   - [ ] Fix window sizing
   - [ ] Function to write sample (documented) config file
+  - [ ] Add help page
   - [ ] Generalize formatting via config file?
 
 
