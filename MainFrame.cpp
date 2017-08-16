@@ -65,7 +65,17 @@ MainFrame::MainFrame(wxWindow* parent)
 
 MainFrame::~MainFrame()
 {
-    // TODO ??? delete the node_displays
+    for (NodeNameList::const_iterator nd = config.nodes.begin(); 
+	 nd != config.nodes.end(); ++nd)
+    {
+	// Delete each node object
+	const std::string node_name = *nd;
+	nodes[node_name]->setNodeDisplay(0);
+	Node *node_to_delete = nodes[node_name];
+	nodes[node_name] = 0;
+	delete node_to_delete;
+    }    
+
 }
 
 void MainFrame::OnExit(wxCommandEvent& event)

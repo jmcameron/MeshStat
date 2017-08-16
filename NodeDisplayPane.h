@@ -38,6 +38,8 @@ class NodeDisplayPane : public wxTextCtrl, public NodeDisplay
 public:
     NodeDisplayPane(wxWindow *parent, const wxSize &cell_size);
 
+    virtual ~NodeDisplayPane();
+
     void virtual updateDisplay(const Node &node);
 
 protected:

@@ -5,6 +5,7 @@
 
 #include <map>
 #include <string>
+#include <wx/datetime.h>
 
 class NodeDisplay;
 
@@ -12,6 +13,8 @@ class NodeDisplay;
 class Node {
 public:
     Node(const std::string url_);
+
+    ~Node();
 
     void setNodeDisplay(NodeDisplay *new_display);
 
@@ -37,7 +40,8 @@ public:
     int num_fails;
     unsigned int last_response_time;  // milliseconds
 
-    
+    wxDateTime last_succesful_probe_time;
+    wxDateTime start_time;
 
 protected:
 

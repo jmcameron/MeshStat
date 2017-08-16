@@ -10,7 +10,6 @@
 
 #include "Node.h"
 #include "NodeDisplay.h"
-// ??? #include "NodeUtils.h"
 
 
 inline bool ends_with(std::string const & value, std::string const & ending)
@@ -29,12 +28,20 @@ Node::Node(const std::string url_)
       last_response_time(0),
       display(0)
 {
+    last_succesful_probe_time = wxDateTime::Now();
+    start_time = wxDateTime::Now();
+
     std::string url_lower_case(url);
     std::transform(url_lower_case.begin(), url_lower_case.end(), url_lower_case.begin(), ::tolower);
     if (ends_with(url_lower_case, ".local.mesh"))
 	name = url.substr(0, url.size() - 11);
     else
 	name = url;
+}
+
+Node::~Node()
+{
+    // ??? std::cerr << "Deleting node " << name << std::endl;
 }
 
 
@@ -96,6 +103,8 @@ void Node::probe()
  
     if (htmldata.size() > 0)
     {
+	last_succesful_probe_time = wxDateTime::Now();
+
  	const std::string lines = std::string(htmldata.mb_str());
  
 	readDataFromJSON(lines);

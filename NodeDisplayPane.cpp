@@ -1,7 +1,10 @@
 #include <stdio.h>
+
+#include <iostream>
+#include <sstream>
 #include <algorithm>  // max()
 
-#include <wx/tooltip.h>
+// #include <wx/tooltip.h>
 
 #include "Config.h"
 
@@ -85,12 +88,42 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 
 	// std::string tool_tip = std::string("Node stats for ") + node.name;
 	// SetToolTip(tool_tip.c_str());
+
+        // Right-click menu: https://stackoverflow.com/questions/14487102/wxwidgets-contextmenu-popup
     }
     else 
     {
-	char line[200];
-	sprintf(line, "Num failures: %d", node.num_fails);
-    	AppendText(line);
+	wxDateTime now = wxDateTime::Now();
+
+	const bool no_successful_probe = node.last_succesful_probe_time == node.start_time;
+	const wxTimeSpan delta_time = now.Subtract(node.last_succesful_probe_time);
+
+	const unsigned long int nsecs = static_cast<unsigned int>(delta_time.GetSeconds().ToDouble());
+	const unsigned int num_days =  nsecs / (24*60*60);
+	const unsigned int num_hours = (nsecs - ((24*60*60) * num_days)) / (60*60);
+	const unsigned int num_minutes = (nsecs - ((24*60*60) * num_days) - ((60*60) * num_hours)) / 60;
+	const unsigned int num_seconds = nsecs - ((24*60*60) * num_days) - ((60*60) * num_hours) - (60 * num_minutes);
+
+	std::stringstream ss;
+	if (no_successful_probe) 
+	    ss << "No succesful access in ";
+	else
+	    ss << "Last successful access ";
+	if (num_days > 0)
+	    ss << num_days << " days ";
+	if (num_hours > 0)
+	    ss << num_hours << " hours ";
+	if (num_minutes > 0)
+	    ss << num_minutes << " minutes ";
+	if (num_seconds > 0.0)
+	    ss << num_seconds << " seconds ";
+
+	if (!no_successful_probe) 
+	    ss << "ago ";
+
+	ss << "  (num failures: " << node.num_fails << ")";
+
+    	AppendText(ss.str());
     }
 
 }
