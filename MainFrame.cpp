@@ -29,7 +29,8 @@ MainFrame::MainFrame(wxWindow* parent)
 
     // ??? Eventually figure out the cell_size from the format
     const wxSize font_size = GetFont().GetPixelSize();
-    const wxSize cell_size(60*font_size.x, 4*font_size.y);
+    const wxSize cell_size(config.pane_width_chars*font_size.x, 
+			   config.pane_height_lines*font_size.y);
 
     // Create all the panes for the nodes
     for (NodeNameList::const_iterator nd = config.nodes.begin(); 

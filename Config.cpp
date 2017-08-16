@@ -97,8 +97,21 @@ static int handler(void* configObj, const char *section_raw,
     const std::string name(name_raw);
     const std::string value(value_raw);
     
-    if ((section == "Settings") && (name == "num_columns")) {
+
+    if ((section == "Settings") && (name == "period")) {
+	config->period = atof(value.c_str());
+	}
+
+    else if ((section == "Settings") && (name == "num_columns")) {
 	config->num_columns = atoi(value.c_str());
+	}
+
+    else if ((section == "Settings") && (name == "pane_width_chars")) {
+	config->pane_width_chars = atoi(value.c_str());
+	}
+
+    else if ((section == "Settings") && (name == "pane_height_lines")) {
+	config->pane_height_lines = atoi(value.c_str());
 	}
 
     else if ((section == "Settings") && (name == "max_num_fails")) {
@@ -107,10 +120,6 @@ static int handler(void* configObj, const char *section_raw,
 
     else if ((section == "Settings") && (name == "max_response_time")) {
 	config->max_response_time = atoi(value.c_str());
-	}
-
-    else if ((section == "Settings") && (name == "period")) {
-	config->period = atof(value.c_str());
 	}
 
     else if ((section == "Nodes")) {
@@ -141,11 +150,13 @@ static int handler(void* configObj, const char *section_raw,
 
 
 ConfigInfo::ConfigInfo()
+    : num_columns(1),
+      period(default_period),
+      max_response_time(default_max_response_time),
+      max_num_fails(default_max_num_fails),
+      pane_width_chars(default_pane_width_chars),
+      pane_height_lines(default_pane_height_lines)
 {
-    num_columns = 1;
-    max_num_fails = default_max_num_fails;
-    max_response_time = default_max_response_time;
-    period = default_period;
 }
 
 

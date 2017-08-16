@@ -12,6 +12,7 @@ class NodeDisplay {
 public:
     void virtual updateDisplay(const Node &node) = 0;
 
+    virtual ~NodeDisplay() {};
 };
 
 

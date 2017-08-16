@@ -106,25 +106,40 @@ void Node::probe()
 	last_succesful_probe_time = wxDateTime::Now();
 
  	const std::string lines = std::string(htmldata.mb_str());
- 
-	readDataFromJSON(lines);
 
- 	// ??? NodeDataMap data;
- 
- 	// ??? timer.Resume();
- 
- 	// ??? std::cerr << "START PARSING: " << timer.Time() << " ms" << std::endl;
- 	// ??? getNodeDataJSON(data, lines);
- 	// ??? std::cerr << "END PARSING: " << timer.Time() << " ms" << std::endl;
-// ???  
-// ???  	for (NodeDataMap::const_iterator dit = data.begin(); dit != data.end(); ++dit)
-// ???  	{
-// ???  	    const std::string name(dit->first);
-// ???  	    const std::string val(dit->second);
-// ???  	    const std::string prt = name + std::string(": ") + val + std::string("\n");
-// ???  	    // AppendText(prt);
-// ???  	}
- 	// ??? timer.Pause();
+	// Example JSON output
+	// {"lat":"34.200464",
+	//  "grid_square":"",
+	//  "chanbw":"20",
+	//  "api_version":"1.0",
+	//  "node":"W6JPL-M5R-180R6",
+	//  "tunnel_installed":"true",
+	//  "ssid":"AREDN-20-v3",
+	//  "board_id":"0xe1b5",
+	//  "firmware_mfg":"AREDN",
+	//  "model":"Ubiquiti Rocket M",
+	//  "channel":"174",
+	//  "firmware_version":"3.16.1.1",
+	//  "active_tunnel_count":"0",
+	//  "lon":"-118.174341",
+	//  "interfaces":[{"name":"eth0",
+	//                 "ip":"10.65.182.97",
+	//                 "mac":"24:A4:3C:A5:1B:66"},
+	//                {"name":"eth0.1",
+	// 		"ip":"44.16.15.50",
+	//                 "mac":"24:A4:3C:A5:1B:66"},
+	//                {"name":"eth0.2",
+	//                 "ip":"10.165.27.102",
+	//                 "mac":"24:A4:3C:A5:1B:66"},
+	//                {"name":"wlan0",
+	//                 "ip":"10.164.27.102",
+	//                 "mac":"24:A4:3C:A4:1B:66"},
+	//                {"name":"wlan0-1",
+	//                 "ip":"none",
+	//                 "mac":"24-A4-3C-A4-1B-66-00-44-00-00-00-00-00-00-00-00"}]
+	// }
+
+	readDataFromJSON(lines);
     }
     else
     {
@@ -180,9 +195,45 @@ void Node::readDataFromJSON(const std::string &json)
 		    ssid = it->second.get_value<std::string>();
 		    }
 	    }
+	    else if (key == "interfaces")
+	    {
+		// Process the interfaces
+		for (boost::property_tree::ptree::const_iterator arit = subtree.begin(); arit != subtree.end(); ++arit) 
+		{
+		    const std::string key(arit->first);
+		    const boost::property_tree::ptree & array = arit->second;
+
+		    std::string if_name;
+		    std::string if_ip;
+
+		    for (boost::property_tree::ptree::const_iterator ifit = array.begin(); ifit != array.end(); ++ifit) 
+		    {
+			const std::string key(ifit->first);
+			const std::string val(ifit->second.get_value<std::string>());
+			if (key == "name")
+			    if_name = val;
+			else if (key == "ip")
+			    if_ip = val;
+		    }
+
+		    // Figure out which interface this is
+		    if ((if_name == "eth0") and (if_ip != "none"))
+			lan_ip = if_ip;
+		    else if ((if_name == "eth0.0") and (if_ip != "none"))
+			lan_ip = if_ip;
+		    else if ((if_name == "eth0.1") and (if_ip != "none"))
+			wan_ip = if_ip;
+		    else if ((if_name == "eth0.2") and (if_ip != "none"))
+			wifi_ip = if_ip;
+		    else if ((if_name == "eth1") and (if_ip != "none"))
+			wan_ip = if_ip;
+		    else if ((if_name == "wlan0") and (if_ip != "none"))
+			wifi_ip = if_ip;
+		}
+	    }
 	    else 
 	    {
-		// Subtree
+		std::cerr << "Error parsing sysinfo.json output for " << name << std::endl;
 	    }
 
 	}

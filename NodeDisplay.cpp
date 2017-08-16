@@ -1,6 +1,1 @@
-#include "NodeDisplayPane.h"
-
-
-NodeDisplayPane::~NodeDisplayPane()
-{
-}
+#include "NodeDisplay.h"

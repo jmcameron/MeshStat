@@ -37,6 +37,10 @@ public:
     std::string firmware_version;
     std::string ssid;
 
+    std::string wifi_ip;
+    std::string lan_ip;
+    std::string wan_ip;
+
     int num_fails;
     unsigned int last_response_time;  // milliseconds
 

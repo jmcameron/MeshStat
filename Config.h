@@ -17,6 +17,9 @@ const unsigned int default_max_num_fails = 10;
 
 const unsigned int default_seconds_for_max_fails = 60; // seconds
 
+const unsigned int default_pane_width_chars = 66;
+const unsigned int default_pane_height_lines = 4;
+
 
 typedef std::vector<std::string> NodeNameList;
 
@@ -36,6 +39,9 @@ public:
     double period;
     unsigned int max_response_time;
     unsigned int max_num_fails;
+
+    unsigned int pane_width_chars;
+    unsigned int pane_height_lines;
 
     wxFileName config_filename;
     NodeNameList nodes;

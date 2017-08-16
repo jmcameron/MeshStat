@@ -52,7 +52,7 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 	if (node.last_response_time >= config.max_response_time)
 	    factor = 1.0;
 	else
-	    factor = static_cast<double>(node.last_response_time)/static_cast<double>(config.max_num_fails);
+	    factor = static_cast<double>(node.last_response_time) / static_cast<double>(config.max_response_time);
 	bg_color = response_color.color(factor);
 	}
 
@@ -67,10 +67,19 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     // Print the node name in bold
     ta.SetFontWeight(wxFONTWEIGHT_BOLD);
     SetDefaultStyle(ta); 
-    AppendText(node.name + "\n");
-
+    AppendText(node.name);
     ta.SetFontWeight(wxFONTWEIGHT_NORMAL);
     SetDefaultStyle(ta); 
+
+    std::stringstream ipinfo;
+    if (!node.wifi_ip.empty())
+	ipinfo << "     WIFI: " << node.wifi_ip;
+    if (!node.lan_ip.empty())
+	ipinfo << "  LAN: " << node.lan_ip;
+    if (!node.wan_ip.empty())
+	ipinfo << "  WAN: " << node.wan_ip;
+    ipinfo << std::endl;
+    AppendText(ipinfo.str());
 
     if (node.num_fails < 1)
     {
@@ -79,7 +88,9 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 		node.channel, node.chanbw, node.ssid.c_str());
     	AppendText(line);
 
-	sprintf(line, "Model: %s,  Firmware: %s\n", node.model.c_str(), node.firmware_version.c_str());
+	sprintf(line, "Model: %s,  Firmware: %s %s\n", node.model.c_str(), 
+		node.firmware_mfg.c_str(),
+		node.firmware_version.c_str());
 	AppendText(line);
 
 	sprintf(line, "Last Response Time: %6.2f sec", 
