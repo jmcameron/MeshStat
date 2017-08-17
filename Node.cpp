@@ -156,6 +156,7 @@ void Node::readDataFromJSON(const std::string &json)
     try 
     {
 	std::stringstream ss;
+	ss << json;
 	boost::property_tree::read_json(ss, pt);
 
 	const boost::property_tree::ptree::const_iterator end = pt.end();
@@ -235,13 +236,13 @@ void Node::readDataFromJSON(const std::string &json)
 	    {
 		std::cerr << "Error parsing sysinfo.json output for " << name << std::endl;
 	    }
-
 	}
     }
     catch (std::exception const& e) 
     {
 	const std::string errmsg = std::string("Error reading json!  ") + std::string(e.what());
-	wxLogMessage(errmsg.c_str());
+	std::cerr << errmsg << std::endl;
+	// ??? wxLogMessage(errmsg.c_str());
     }
 
 }
