@@ -1,7 +1,7 @@
 MeshStat
 ========
 
-* TO DO [7/14]
+* TO DO [8/14]
   - [X] Strip off comments on the end of node names
   - [X] Added regular expression checking for node URLs
   - [X] Make the time scaling for fails work on elapsed time, not num periods
@@ -11,9 +11,9 @@ MeshStat
   - [X] Fix window sizing
   - [X] Add pane height/width as config options
   - [X] Add IP addresses
+  - [X] Fix segfault issue
   - [ ] Function to write sample (documented) config file
   - [ ] Add help page
-  - [ ] Make num columns a command line option?
   - [ ] Generalize formatting via config file?
   - [ ] Refactor node name parsing so that config-file comments can be saved as node data
 

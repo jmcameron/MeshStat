@@ -18,7 +18,9 @@ ConfigInfo config;
 
 
 MainFrame::MainFrame(wxWindow* parent)
-    : MainFrameBaseClass(parent)
+    : MainFrameBaseClass(parent),
+      close_requested(false),
+      probing(false)
 {
     const unsigned int num_nodes = config.nodes.size();
     const unsigned int num_cols = config.num_columns;
@@ -64,6 +66,7 @@ MainFrame::MainFrame(wxWindow* parent)
     m_timer->Start(static_cast<int>(config.period * 1000.0));
 }
 
+
 MainFrame::~MainFrame()
 {
     for (NodeNameList::const_iterator nd = config.nodes.begin(); 
@@ -79,10 +82,27 @@ MainFrame::~MainFrame()
 
 }
 
+
+void MainFrame::OnClose(wxCloseEvent& event)
+{
+    if ( event.CanVeto() && probing )
+    {
+	close_requested = true;
+	event.Veto();
+	return;
+    }
+
+    Destroy(); 
+}
+
+
 void MainFrame::OnExit(wxCommandEvent& event)
 {
     wxUnusedVar(event);
-    Close();
+     if (probing)
+	close_requested = true;
+    else
+	Close();
 }
 
 void MainFrame::OnCredits(wxCommandEvent& event)
@@ -92,7 +112,7 @@ void MainFrame::OnCredits(wxCommandEvent& event)
 	wxT("CREDITS") wxT("\n\n")
 	wxT("   - INIH Library by Ben Hoyt") wxT("\n")
 	wxT("     https://github.com/benhoyt/inih.git") wxT("\n\n")
-	wxT("   - Boost libraries\n")
+	wxT("   - BOOST libraries\n")
 	wxT("     http://www.boost.org/users/license.html") wxT("\n\n");
 
     wxMessageDialog dialog(this, msg, _("Credits"), wxICON_NONE);
@@ -150,7 +170,14 @@ void MainFrame::probeAllNodes()
 	 nd != config.nodes.end(); ++nd)
     {
 	const std::string node_name = *nd;
+	probing = true;
 	nodes[node_name]->probe();
 	nodes[node_name]->updateDisplay();
+	probing = false;
+
+	// If the user wants to quit, do it between pane updates
+	if (close_requested) {
+	    Destroy();
+	    }
     }
 }

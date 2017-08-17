@@ -23,11 +23,12 @@ public:
     MainFrame(wxWindow* parent);
     virtual ~MainFrame();
 
-    void OnExit(wxCommandEvent& event);
-    void OnAbout(wxCommandEvent& event);
-    void OnCredits(wxCommandEvent& event);
-    void OnRefresh(wxCommandEvent& event);
-    void OnProbeAll(wxTimerEvent& event);
+    virtual void OnExit(wxCommandEvent& event);
+    virtual void OnClose(wxCloseEvent& event);
+    virtual void OnAbout(wxCommandEvent& event);
+    virtual void OnCredits(wxCommandEvent& event);
+    virtual void OnRefresh(wxCommandEvent& event);
+    virtual void OnProbeAll(wxTimerEvent& event);
 
 protected:
     virtual void OnTest1(wxCommandEvent& event);
@@ -38,6 +39,8 @@ protected:
 private:
     NodeMap nodes;
     NodeDisplayMap node_displays;
+    bool close_requested;
+    bool probing;
 };
 
 #endif // MAINFRAME_H

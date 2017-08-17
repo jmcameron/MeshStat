@@ -57,8 +57,9 @@ protected:
 
 protected:
     virtual void OnExit(wxCommandEvent& event) { event.Skip(); }
-    virtual void OnTest1(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnClose(wxCloseEvent& event) { event.Skip(); }
     virtual void OnAbout(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnTest1(wxCommandEvent& event) { event.Skip(); }
     virtual void OnCredits(wxCommandEvent& event) { event.Skip(); }
     virtual void OnRefresh(wxCommandEvent& event) { event.Skip(); }
     virtual void OnProbeAll(wxTimerEvent& event) { event.Skip(); }

@@ -5,6 +5,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <wx/wx.h>
+#include <wx/event.h>
 
 #include "wxcrafter.h"
 
@@ -91,6 +92,7 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     this->Connect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
     
     this->Connect(m_timer->GetId(), wxEVT_TIMER, wxTimerEventHandler( MainFrameBaseClass::OnProbeAll ), NULL, this );
+    this->Connect(wxID_ANY, wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBaseClass::OnClose), NULL, this);
 }
 
 MainFrameBaseClass::~MainFrameBaseClass()
@@ -102,4 +104,5 @@ MainFrameBaseClass::~MainFrameBaseClass()
     this->Disconnect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
 
     this->Disconnect(wxID_TIMER, wxEVT_TIMER, wxTimerEventHandler( MainFrameBaseClass::OnProbeAll ), NULL, this );
+    this->Disconnect(wxID_ANY, wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBaseClass::OnClose), NULL, this);
 }
