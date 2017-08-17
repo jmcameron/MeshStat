@@ -156,7 +156,6 @@ void Node::readDataFromJSON(const std::string &json)
     try 
     {
 	std::stringstream ss;
-	ss << json;
 	boost::property_tree::read_json(ss, pt);
 
 	const boost::property_tree::ptree::const_iterator end = pt.end();
@@ -167,6 +166,7 @@ void Node::readDataFromJSON(const std::string &json)
 
 	    if (subtree.empty())
 	    {
+		// Get the basic node properties
 		if (key == "node") {
 		    name = it->second.get_value<std::string>();
 		    }
