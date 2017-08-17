@@ -27,7 +27,7 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
     { wxCMD_LINE_OPTION, "n", "nodes", _("node(s) to monitor, comma separated with no spaces (overrides config file)"), 
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 
-    { wxCMD_LINE_SWITCH, "d", "dump", _("dump config (and quit)") },
+    { wxCMD_LINE_SWITCH, "d", "dump", _("dump current configuration (and quit)") },
 
     { wxCMD_LINE_PARAM,  NULL, NULL, _("config file"), 
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
@@ -185,7 +185,7 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 #endif
 	wxString msg;
 	wxString date(wxString::FromAscii(__DATE__));
-	msg.Printf(_("\nMeshStat, (c) Jonathan M. Cameron KF6RTA, 2017 Version %s, %s\n"), 
+	msg.Printf(_("\nMeshStat, (c) Jonathan M. Cameron KF6RTA\nVersion %s, %s\n"), 
 		   MESH_STAT_VERSION, (const wxChar*) date);
 	std::cout << msg << std::endl;
 	return false;
@@ -404,19 +404,53 @@ void ConfigInfo::writeSampleConfigFile() const
 void ConfigInfo::dump() const
 {
     std::string filename = config_filename.GetFullPath().ToStdString();
-    std::cout << "Config file: " << filename << std::endl;
-    std::cout << "  Num Columns = " << num_columns << std::endl;
-    std::cout << "  Period = " << period << std::endl;
-    std::cout << "  Max Num Fails = " << max_num_fails << std::endl;
-    std::cout << "  Max Response Time = " << max_response_time << std::endl;
+    std::cout << std::endl << "Config file: " << filename << std::endl;
+    
+    std::cout << std::endl << "Settings" << std::endl;
+    std::cout << "  Period (seconds) = " << period;
+    if (period == default_period) 
+	std::cout << "  (default)" << std::endl;
+    else
+	std::cout << "  (default: " << default_period << ")" << std::endl;
+
+    std::cout << "  Num Columns = " << num_columns;
+    if (num_columns == default_num_columns)
+	std::cout << "  (default)" << std::endl;
+    else
+	std::cout << "  (default: " << default_num_columns << ")" << std::cout;
+
+    std::cout << "  Max Response Time (milliseconds) = " << max_response_time;
+    if (max_response_time == default_max_response_time)
+	std::cout << "  (default)" << std::endl;
+    else
+	std::cout << "  (default: " << default_max_response_time << ")" << std::endl;
+
+    std::cout << "  Max Num Fails = " << max_num_fails;
+    if (max_num_fails == default_max_num_fails)
+	std::cout << "  (default)" << std::endl;
+    else
+	std::cout << "  (default: " << default_max_num_fails << ")" << std::endl;
+
+    std::cout << "  Node pane width (chars) = " << pane_width_chars;
+    if (pane_width_chars == default_pane_width_chars)
+	std::cout << "  (default)" << std::endl;
+    else
+	std::cout << "  (default: " << default_pane_width_chars << ")" << std::endl;
+
+    std::cout << "  Node pane height (lines of text) = " << pane_height_lines;
+    if (pane_height_lines == default_pane_height_lines)
+	std::cout << "  (default)" << std::endl;
+    else
+	std::cout << "  (default: " << default_pane_height_lines << ")" << std::endl;
 
     if (nodes.size() > 0) 
     {
-	std::cout << "  Nodes:" << std::endl;
+	std::cout << std::endl << "Nodes:" << std::endl;
 	for (NodeNameList::const_iterator nd=nodes.begin(); nd!=nodes.end(); ++nd)
 	{
-	    std::cout << "   " << *nd << std::endl;
+	    std::cout << "  " << *nd << std::endl;
 	}
     }
+    std::cout << std::endl;
 }
 
