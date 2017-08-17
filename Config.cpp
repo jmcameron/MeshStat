@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <iterator>
+#include <sstream>
 
 #include <boost/algorithm/string/split.hpp>                                      
 #include <boost/algorithm/string.hpp> 
@@ -21,6 +22,7 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
 {
     { wxCMD_LINE_SWITCH, "h", "help",    _("displays help on the command line parameters") },
     { wxCMD_LINE_SWITCH, "v", "version", _("print version") },
+    { wxCMD_LINE_SWITCH, "g", "genconfig", _("write sample MeshStat.ini config file (and quit)") },
 
     { wxCMD_LINE_OPTION, "n", "nodes", _("node(s) to monitor, comma separated with no spaces (overrides config file)"), 
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
@@ -150,8 +152,8 @@ static int handler(void* configObj, const char *section_raw,
 
 
 ConfigInfo::ConfigInfo()
-    : num_columns(1),
-      period(default_period),
+    : period(default_period),
+      num_columns(default_num_columns),
       max_response_time(default_max_response_time),
       max_num_fails(default_max_num_fails),
       pane_width_chars(default_pane_width_chars),
@@ -186,6 +188,13 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 	msg.Printf(_("\nMeshStat, (c) Jonathan M. Cameron KF6RTA, 2017 Version %s, %s\n"), 
 		   MESH_STAT_VERSION, (const wxChar*) date);
 	std::cout << msg << std::endl;
+	return false;
+    }
+
+    // Write the example config file
+    if (cmdParser.Found("g"))
+    {
+	writeSampleConfigFile();
 	return false;
     }
 
@@ -297,6 +306,98 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
     }
 
     return true;
+}
+
+void ConfigInfo::writeSampleConfigFile() const
+{
+    std::string filename("MeshStat.ini");
+    wxFileName fName(filename);
+    fName.Normalize(wxPATH_NORM_LONG|wxPATH_NORM_DOTS|
+		    wxPATH_NORM_TILDE|wxPATH_NORM_ABSOLUTE);
+    if (fName.FileExists())
+    {
+	std::cerr << "WARNING: the file 'MeshStat.ini' already exists" << std::endl
+		  << "         Overwrite? (yes/no): ";
+	std::string answer;
+	std::cin >> answer;
+	if ((answer.size() < 3) or (answer.substr(0,3) != "yes"))
+	{
+	    std::cerr << " --> Will not overwrite; exiting!" << std::endl;
+	    return;
+	}
+	std::cout << "Overwriting MeshStat.ini" << std::endl;
+    }
+    else 
+    {
+	std::cout << "Writing MeshStat.ini" << std::endl;
+    }
+
+    wxFile file;
+    if (!file.Open(fName.GetFullPath().c_str(), wxFile::write))
+    {
+	std::cerr << "Error opening 'MeshStat.ini' in this directory!" << std::endl;
+	return;
+    }
+
+    std::stringstream ss;
+
+    ss << "# Sample MeshStat.ini config file\n";
+    ss << "\n";
+    ss << "# NOTES: \n";
+    ss << "#   - Do NOT indent any lines!\n";
+    ss << "#   - Comment lines start with the # symbol\n";
+    ss << "#   - If you uncomment any settings, remove any leading spaces!\n";
+    ss << "#   - Commented out settings below show default values\n";
+    ss << "#   - At minimum, you must uncomment and specify at \n";
+    ss << "#     least one node in the [Nodes] section below!\n";
+    ss << "\n";
+    ss << "[Settings]\n";
+    ss << "\n";
+    ss << "# This is the general [Settings] section\n";
+    ss << "\n";
+    ss << "# Period between node status checks (seconds):\n";
+    ss << "# period = " << default_period << "\n";
+    ss << "\n";
+    ss << "# Number of columns in the node display: \n";
+    ss << "# num_columns = " << default_num_columns << "\n";
+    ss << "\n";
+    ss << "# Node display pane width (characters)\n";
+    ss << "# pane_width_chars = " << default_pane_width_chars << "\n";
+    ss << "\n";
+    ss << "# Node display pane height (lines of text)\n";
+    ss << "# pane_height_lines = " << default_pane_height_lines << "\n";
+    ss << "\n";
+    ss << "# Max time allowed for normal responses (milliseconds):\n";
+    ss << "# (Affects what shade of green the nodes are colored)\n";
+    ss << "# (Faster response times are brighter green)\n";
+    ss << "# max_response_time = " << default_max_response_time << "\n";
+    ss << "\n";
+    ss << "# Max number of access failures\n";
+    ss << "# (Affects what shade of red the failing nodes are colored)\n";
+    ss << "# (More failures than this colors the node display bright red)\n";
+    ss << "# max_num_fails = " << default_max_num_fails << "\n";
+    ss << "\n\n";
+    ss << "[Nodes]\n";
+    ss << "\n";
+    ss << "# This is the [Nodes] section where you can specify which nodes to monitor\n";
+    ss << "\n";
+    ss << "# NOTES About the Mesh Nodes to Monitor: \n";
+    ss << "#   - List the nodes to monitor below (do not indent any lines!)\n";
+    ss << "#   - Repeat 'node = xx.yy.zz' on separate lines for each node to monitor\n";
+    ss << "#   - Node names can be given as hostname or an IP address\n";
+    ss << "#   - Node names with no dots are assumed to be in the '.local.mesh' domain\n";
+    ss << "#   - Do not use http:// or https:// prefixes\n";
+    ss << "\n";
+    ss << "# ADD YOUR OWN NODES BELOW\n";
+    ss << "# (remove the leading comment symbol (#) and \n";
+    ss << "#  any leading spaces from each active line)\n";
+    ss << "\n";
+    ss << "# node = mynode.local.mesh\n";
+    ss << "# node = 10.123.45.67\n";
+    ss << "# node = CALLSIGN-MR5\n";
+
+    file.Write(ss.str());
+    file.Close();
 }
 
 

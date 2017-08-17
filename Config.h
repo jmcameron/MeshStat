@@ -11,6 +11,8 @@
 
 const unsigned int default_period = 10; // Seconds
 
+const unsigned int default_num_columns = 1;
+
 const unsigned int default_max_response_time = 2000;  // milliseconds
 
 const unsigned int default_max_num_fails = 10;
@@ -31,12 +33,14 @@ public:
 public:
     bool parseCommandLine(int& argc, wxChar **argv);
 
+    void writeSampleConfigFile() const;
+
     void dump() const;
 
 public:
     // Config fields
-    unsigned int num_columns;
     double period;
+    unsigned int num_columns;
     unsigned int max_response_time;
     unsigned int max_num_fails;
 
