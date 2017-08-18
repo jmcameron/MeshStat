@@ -18,26 +18,34 @@
 #include "MainFrame.h"
 #include "Config.h"
 
+static std::string config_filename_local;
+
 
 static const wxCmdLineEntryDesc g_cmdLineDesc[] =
 {
-    { wxCMD_LINE_SWITCH, "h", "help",    _("displays help on the command line parameters") },
-    { wxCMD_LINE_SWITCH, "v", "version", _("print version") },
-    { wxCMD_LINE_SWITCH, "g", "genconfig", _("write sample MeshStat.ini config file (and quit)") },
+    { wxCMD_LINE_SWITCH, "h", "help",    _("displays help on the command line parameters"), 
+      wxCMD_LINE_VAL_NONE, 0 },
+
+    { wxCMD_LINE_SWITCH, "v", "version", _("print version"), 
+      wxCMD_LINE_VAL_NONE, 0 },
+
+    { wxCMD_LINE_SWITCH, "g", "genconfig", _("write sample MeshStat.ini config file (and quit)"), 
+      wxCMD_LINE_VAL_NONE, 0 },
 
     { wxCMD_LINE_OPTION, "n", "nodes", _("node(s) to monitor, comma separated with no spaces (overrides config file)"), 
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 
-    { wxCMD_LINE_SWITCH, "d", "dump", _("dump current configuration (and quit)") },
+    { wxCMD_LINE_SWITCH, "d", "dump", _("dump current configuration (and quit)"), 
+      wxCMD_LINE_VAL_NONE, 0 },
 
     { wxCMD_LINE_PARAM,  NULL, NULL, _("config file"), 
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
     
-    { wxCMD_LINE_NONE }
+    { wxCMD_LINE_NONE, NULL, NULL, NULL, wxCMD_LINE_VAL_NONE, 0 }
 };
 
 
-static std::string cleanNodeURL(const std::string &raw_url)
+static std::string cleanNodeURL(const std::string &raw_url, std::string &errmsg)
 {
     // Return an empty string on failure
 
@@ -48,7 +56,6 @@ static std::string cleanNodeURL(const std::string &raw_url)
     {
 	url = url.substr(0, url.find(comment_delimiter));
 	boost::algorithm::trim(url);
-	std::cerr << "URL '" << url << "'" << std::endl;
     }
     
     std::string url_lower_case(url);
@@ -60,12 +67,18 @@ static std::string cleanNodeURL(const std::string &raw_url)
     {
 	std::string protocol = url_lower_case.substr(0, url_lower_case.find(protocol_delimiter));
 	if (protocol == "https") {
-	    std::cerr << "ERROR: Remove unsupported 'https://' protocol prefix from node name '" << raw_url << "'" << std::endl;
-	    return std::string();
+	    std::stringstream msg;
+	    msg << "ERROR!\n\nRemove the unsupported 'https://' protocol prefix \nfrom node name:\n\n"
+		<< "  '" << raw_url << "'";
+	    errmsg = msg.str();
+	    return "";
 	    }
 	else {
-	    std::cerr << "ERROR: Remove '" << protocol << "' protocol prefix from node name '" << raw_url << "'" << std::endl;
-	    return std::string();
+	    std::stringstream msg;
+	    msg << "ERROR!\n\nRemove the '" << protocol << "' protocol prefix \nfrom node name:\n\n"
+		<< "  '" << raw_url << "'";
+	    errmsg = msg.str();
+	    return "";
 	    }
     }
 
@@ -86,21 +99,37 @@ static std::string cleanNodeURL(const std::string &raw_url)
 	return url;
 	}
 
-    std::cerr << "ERROR: Unrecognized node name syntax: " << url << std::endl;
+    // Complain if we cannot parse the node name!
+    std::stringstream msg;
+    msg << "ERROR!\n\nUnrecognized node name syntax: \n\n"
+	<< "  '" << url << "'";
+    errmsg = msg.str();
     return "";
 }
 
 
 static int handler(void* configObj, const char *section_raw, 
-		   const char *name_raw, const char *value_raw)
+		   const char *name_raw, const char *value_raw,
+		   int lineno)
 {
     ConfigInfo *config = reinterpret_cast<ConfigInfo *>(configObj);
 
     const std::string section(section_raw);
     const std::string name(name_raw);
     const std::string value(value_raw);
-    
 
+    if ((section != "Settings") and (section != "Nodes")) {
+	std::stringstream msg;
+	msg << "ERROR\n\nin config file: Unknown section name: \n\n" 
+	    << "[" << name << "]"
+	    << "\n\non line " << lineno << " of config file '" 
+	    << config_filename_local << "'"
+	    << "\n\nMust be either [Settings] or [Nodes] (case sensitve).\n";
+	wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+	dialog.ShowModal();
+        return 0;
+	}
+    
     if ((section == "Settings") && (name == "period")) {
 	config->period = atof(value.c_str());
 	}
@@ -127,23 +156,39 @@ static int handler(void* configObj, const char *section_raw,
 
     else if ((section == "Nodes")) {
 	if (name == "node") {
-	    const std::string new_name = cleanNodeURL(value);
+	    std::string errmsg;
+	    const std::string new_name = cleanNodeURL(value, errmsg);
 	    if (new_name.empty()) {
+		std::stringstream msg;
+		msg << errmsg << "\n\non line " << lineno << " of config file '" 
+		    << config_filename_local << "'" << std::endl;
+		wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+		dialog.ShowModal();
 		return 0;
 		}
 	    if (std::find(config->nodes.begin(), config->nodes.end(), new_name) == config->nodes.end()) {
 		config->nodes.push_back(new_name);
 		}
 	    else {
-		std::cerr << "ERROR: Duplicate node name '" << new_name << "'" << std::endl;
+		std::stringstream msg;
+		msg << "ERROR\n\nDuplicate node name \n\n'" << new_name << "'"
+		    << "\n\non line " << lineno << " of config file '" 
+		    << config_filename_local << "'" << std::endl;
+		wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+		dialog.ShowModal();
 		return 0;
 		}
 	    }
 	}
 
     else {
-	std::cerr << "ERROR in config file: Unknown section/name: " 
-		  << section << "/" << name << std::endl;
+	std::stringstream msg;
+	msg << "ERROR\n\nin config file: Unknown option name: \n\n" 
+	    << "'" << name << "'\n\n in [" << section << "] section"
+	    << "\n\n on line " << lineno << " of config file '" 
+	    << config_filename_local << "'" << std::endl;
+	wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+	dialog.ShowModal();
         return 0;
 	}
 
@@ -213,6 +258,7 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 			wxPATH_NORM_TILDE|wxPATH_NORM_ABSOLUTE);
 	if (fName.FileExists()) {
 	    config_filename = fName;
+	    config_filename_local = configFilename;  // For the ini parser hander
 	    }
 	else {
 	    wxString errmsg;
