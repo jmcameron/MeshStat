@@ -66,7 +66,6 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     m_timer = new wxTimer(this, wxID_TIMER);
 
     SetName(wxT("MainFrameBaseClass"));
-    // SetSize(500,300);
 
     if (GetSizer()) {
          GetSizer()->Fit(this);
