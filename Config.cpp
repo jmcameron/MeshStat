@@ -398,6 +398,7 @@ void ConfigInfo::writeSampleConfigFile() const
     ss << "# NOTES: \n";
     ss << "#   - Do NOT indent any lines!\n";
     ss << "#   - Comment lines start with the # symbol\n";
+    ss << "#   - Inline comments (on the end of a line) start with a semi-colon (;)";
     ss << "#   - If you uncomment any settings, remove any leading spaces!\n";
     ss << "#   - Commented out settings below show default values\n";
     ss << "#   - At minimum, you must uncomment and specify at \n";
@@ -408,7 +409,7 @@ void ConfigInfo::writeSampleConfigFile() const
     ss << "# This is the general [Settings] section\n";
     ss << "\n";
     ss << "# Period between node status checks (seconds):\n";
-    ss << "# period = " << default_period << "\n";
+    ss << "# period = " << default_period << "  ; seconds\n";
     ss << "\n";
     ss << "# Number of columns in the node display: \n";
     ss << "# num_columns = " << default_num_columns << "\n";
