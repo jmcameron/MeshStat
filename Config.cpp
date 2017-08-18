@@ -226,14 +226,12 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
     // Check if the user asked for the version
     if (cmdParser.Found("v"))
     {
-#ifndef __WXMSW__
-	wxLog::SetActiveTarget(new wxLogStderr);
-#endif
-	wxString msg;
 	wxString date(wxString::FromAscii(__DATE__));
-	msg.Printf(_("\nMeshStat, (c) Jonathan M. Cameron KF6RTA\nVersion %s, %s\n"), 
-		   MESH_STAT_VERSION, (const wxChar*) date);
-	std::cout << msg << std::endl;
+	std::stringstream msg;
+	msg << "\nMeshStat\n\n(c) Jonathan M. Cameron KF6RTA  \n\n"
+	    << "Version " << MESH_STAT_VERSION << ", " << date;
+	wxMessageDialog dialog(NULL, msg.str(), _("Version"), wxICON_INFORMATION);
+	dialog.ShowModal();
 	return false;
     }
 
@@ -261,10 +259,12 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 	    config_filename_local = configFilename;  // For the ini parser hander
 	    }
 	else {
-	    wxString errmsg;
-	    errmsg.Printf(_("\nERROR: Unable to find config file '%s' specified on the command line!\n"),
-			  fName.GetFullPath().c_str());
-	    std::cerr << errmsg << std::endl;
+	    std::stringstream msg;
+	    msg << "ERROR\n\nUnable to find config file \n\n'" 
+		<< fName.GetFullPath();
+	    msg << "'\n\nspecified on the command line!  ";
+	    wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+	    dialog.ShowModal();
 	    return false;
 	    }
     }
@@ -296,19 +296,24 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 		}
 		else
 		{
-		    wxString errmsg;
-		    errmsg.Printf(_("\nERROR: Unable to find config file '%s' from environment variable MESHSTAT_CONFIG_FILE!\n"),
-				  fName.GetFullPath().c_str());
-		    std::cerr << errmsg << std::endl;
+		    std::stringstream msg;
+		    msg << "ERROR\n\nUnable to find config file \n\n'" 
+			<< fName.GetFullPath();
+		    msg << "'\n\nfrom environment variable MESHSTAT_CONFIG_FILE!  ";
+		    wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+		    dialog.ShowModal();
 		    return false;
 		}
 	    }
 	    else
 	    {
 		// Otherwise whine and stop
-		wxString errmsg;
-		errmsg.Printf(_("\nERROR: Unable to find config file! (default: MeshStat.ini)\n"));
-		std::cerr << errmsg << std::endl;
+		std::stringstream msg;
+		msg << "ERROR\n\nUnable to find config file! \n\n" 
+		    << "Default: MeshStat.ini  \n\n"
+		    << "Use 'MeshStat -h' for help!";
+		wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+		dialog.ShowModal();
 		return false;
 	    }
 	}
@@ -450,54 +455,58 @@ void ConfigInfo::writeSampleConfigFile() const
 
 void ConfigInfo::dump() const
 {
+    std::stringstream msg;
     std::string filename = config_filename.GetFullPath().ToStdString();
-    std::cout << std::endl << "Config file: " << filename << std::endl;
+    msg << std::endl << "Config file: \n  " << filename << std::endl;
     
-    std::cout << std::endl << "Settings" << std::endl;
-    std::cout << "  Period (seconds) = " << period;
+    msg << std::endl << "Settings" << std::endl;
+    msg << "  Period (seconds) = " << period;
     if (period == default_period) 
-	std::cout << "  (default)" << std::endl;
+	msg << "  (default)" << std::endl;
     else
-	std::cout << "  (default: " << default_period << ")" << std::endl;
+	msg << "  (default: " << default_period << ")" << std::endl;
 
-    std::cout << "  Num Columns = " << num_columns;
+    msg << "  Num Columns = " << num_columns;
     if (num_columns == default_num_columns)
-	std::cout << "  (default)" << std::endl;
+	msg << "  (default)" << std::endl;
     else
-	std::cout << "  (default: " << default_num_columns << ")" << std::endl;
+	msg << "  (default: " << default_num_columns << ")" << std::endl;
 
-    std::cout << "  Max Response Time (milliseconds) = " << max_response_time;
+    msg << "  Max Response Time (milliseconds) = " << max_response_time;
     if (max_response_time == default_max_response_time)
-	std::cout << "  (default)" << std::endl;
+	msg << "  (default)" << std::endl;
     else
-	std::cout << "  (default: " << default_max_response_time << ")" << std::endl;
+	msg << "  (default: " << default_max_response_time << ")" << std::endl;
 
-    std::cout << "  Max Num Fails = " << max_num_fails;
+    msg << "  Max Num Fails = " << max_num_fails;
     if (max_num_fails == default_max_num_fails)
-	std::cout << "  (default)" << std::endl;
+	msg << "  (default)" << std::endl;
     else
-	std::cout << "  (default: " << default_max_num_fails << ")" << std::endl;
+	msg << "  (default: " << default_max_num_fails << ")" << std::endl;
 
-    std::cout << "  Node pane width (chars) = " << pane_width_chars;
+    msg << "  Node pane width (chars) = " << pane_width_chars;
     if (pane_width_chars == default_pane_width_chars)
-	std::cout << "  (default)" << std::endl;
+	msg << "  (default)" << std::endl;
     else
-	std::cout << "  (default: " << default_pane_width_chars << ")" << std::endl;
+	msg << "  (default: " << default_pane_width_chars << ")" << std::endl;
 
-    std::cout << "  Node pane height (lines of text) = " << pane_height_lines;
+    msg << "  Node pane height (lines of text) = " << pane_height_lines;
     if (pane_height_lines == default_pane_height_lines)
-	std::cout << "  (default)" << std::endl;
+	msg << "  (default)" << std::endl;
     else
-	std::cout << "  (default: " << default_pane_height_lines << ")" << std::endl;
+	msg << "  (default: " << default_pane_height_lines << ")" << std::endl;
 
     if (nodes.size() > 0) 
     {
-	std::cout << std::endl << "Nodes:" << std::endl;
+	msg << std::endl << "Nodes:" << std::endl;
 	for (NodeNameList::const_iterator nd=nodes.begin(); nd!=nodes.end(); ++nd)
 	{
-	    std::cout << "  " << *nd << std::endl;
+	    msg << "  " << *nd << std::endl;
 	}
     }
-    std::cout << std::endl;
+    msg << std::endl;
+
+    wxMessageDialog dialog(NULL, msg.str(), _("Dump"), wxICON_INFORMATION);
+    dialog.ShowModal();
 }
 
