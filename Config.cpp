@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <iterator>
+#include <iostream>
 #include <sstream>
 
 #include <boost/algorithm/string/split.hpp>                                      
@@ -417,7 +418,7 @@ void ConfigInfo::dump() const
     if (num_columns == default_num_columns)
 	std::cout << "  (default)" << std::endl;
     else
-	std::cout << "  (default: " << default_num_columns << ")" << std::cout;
+	std::cout << "  (default: " << default_num_columns << ")" << std::endl;
 
     std::cout << "  Max Response Time (milliseconds) = " << max_response_time;
     if (max_response_time == default_max_response_time)

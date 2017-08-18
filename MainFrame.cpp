@@ -159,6 +159,7 @@ void MainFrame::refresh()
 
 void MainFrame::OnProbeAll(wxTimerEvent& event)
 {
+    wxUnusedVar(event);
     probeAllNodes();
 }
 
