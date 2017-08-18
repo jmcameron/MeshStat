@@ -50,7 +50,7 @@ LibPath                := $(LibraryPathSwitch).
 AR       := ar rcus
 CXX      := g++
 CC       := gcc
-CXXFLAGS :=  -g -O0 -std=c++11 -Wall $(shell wx-config --cflags --debug) $(Preprocessors)
+CXXFLAGS :=  -g -O0 -DINI_HANDLER_LINENO=1 -std=c++11 -Wall $(shell wx-config --cflags --debug) $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
 AS       := as
