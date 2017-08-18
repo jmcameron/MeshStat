@@ -1,4 +1,7 @@
+gcc_mswu
 Debug
 MeshStat.txt
 report
 regtest.data
+make.log
+
