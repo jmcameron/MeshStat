@@ -127,8 +127,8 @@ void MainFrame::OnAbout(wxCommandEvent& event)
     wxAboutDialogInfo info;
     info.SetVersion(MESH_STAT_VERSION);
     info.SetCopyright(_("Copyright (c) 2017\nJonathan M. Cameron, KF6RTA"));
-    info.SetLicence(_("GPL v2 or later"));
     info.SetDescription(_("MeshStat is a tool to periodically display the status of a set of mesh nodes simultaneously on a single screen."));
+    info.SetLicence(_("GPL v2 or later"));
     ::wxAboutBox(info);
 }
 
