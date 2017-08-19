@@ -1,7 +1,7 @@
 MeshStat
 ========
 
-* TO DO [9/16]
+* TO DO [9/18]
   - [X] Strip off comments on the end of node names
   - [X] Added regular expression checking for node URLs
   - [X] Make the time scaling for fails work on elapsed time, not num periods
@@ -9,6 +9,9 @@ MeshStat
   - [ ] Menu item to start/stop probing?
   - [ ] Fix issue with font size on windows
   - [ ] Make font size, width, height config options
+  - [ ] Add warning if period is less than num nodes!
+        Or fix it so the period is between responses
+  - [ ] Better windows management handling!
   - [X] Fix issue with response time color scaling
   - [X] Fix window sizing
   - [X] Add pane height/width as config options
