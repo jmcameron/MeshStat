@@ -62,12 +62,13 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     delete bg_color;
     ClearBackground();
 
-    wxTextAttr ta;
-
     // Print the node name in bold
+    wxTextAttr ta;
     ta.SetFontWeight(wxFONTWEIGHT_BOLD);
     SetDefaultStyle(ta); 
     AppendText(node.name);
+
+    // Print the rest normally
     ta.SetFontWeight(wxFONTWEIGHT_NORMAL);
     SetDefaultStyle(ta); 
 
