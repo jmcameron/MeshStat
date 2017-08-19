@@ -202,11 +202,11 @@ tests: $(OutputFile)
 include version.make
 
 dist: all
-	cp Debug/MeshStat.exe .
-	strip MeshStat.exe
+	cp Debug/MeshStat .
+	strip MeshStat
 	@rm -f MeshStat-linux-$(MESHSTAT_VERSION).zip
-	7z a MeshStat-linux-$(MESHSTAT_VERSION).zip MeshStat.exe README.txt Sample-MeshStat.ini
-	@rm MeshStat.exe
+	7z a MeshStat-linux-$(MESHSTAT_VERSION).zip MeshStat README.txt Sample-MeshStat.ini
+	@rm MeshStat
 	@echo DONE: Created MeshStat-linux-$(MESHSTAT_VERSION).zip
 
 
