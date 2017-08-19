@@ -29,34 +29,14 @@ MainFrame::MainFrame(wxWindow* parent)
     const unsigned int num_cols = config.num_columns;
 
     // Create top-level grid sizer
-    const unsigned int gap_width = 2;
+    const unsigned int gap_width = config.pane_border_width;
     const unsigned int num_rows = ceil(static_cast<double>(num_nodes) / static_cast<double>(num_cols));;
     wxGridSizer *grid_sizer = new wxGridSizer(num_rows, num_cols, gap_width, gap_width);
 
-    // Figure out the cell size
-    wxFont pane_font(wxFontInfo(12).Family(wxFONTFAMILY_SWISS));
+    // Create the font for the panes
+    wxFont pane_font(wxFontInfo(config.font_size).Family(wxFONTFAMILY_SWISS));
 
-    // ??? Eventually figure out the cell_size from the format
-#ifdef __WINDOWS__
-    // GetPixelSize() does not seem to work correctly on Windows
-    const unsigned int char_width = 15;
-    const unsigned int line_height = 26;
-#else
-    const wxSize font_size = pane_font.GetPixelSize();
-    const unsigned int char_width = font_size.x;
-    const unsigned int line_height = font_size.y;
-#endif // __WINDOWS__
-    const wxSize cell_size(config.pane_width_chars*char_width, 
-			   config.pane_height_lines*line_height);
-    /* DEBUG
-    std::stringstream smsg;
-    smsg << "\ncell size w,h= " << cell_size.x << "," << cell_size.y 
-	 << std::endl;
-    wxMessageDialog sdialog(NULL, smsg.str(), _("sizes"), wxICON_INFORMATION);
-    sdialog.ShowModal();
-    */
-
-    // Create all the panes for the nodes
+    // Create all the node objects
     for (NodeNameList::const_iterator nd = config.nodes.begin(); 
 	 nd != config.nodes.end(); ++nd)
     {
@@ -69,9 +49,31 @@ MainFrame::MainFrame(wxWindow* parent)
 	 nd != config.nodes.end(); ++nd)
     {
 	const std::string node_name = *nd;
-	NodeDisplayPane *pane = new NodeDisplayPane(this, cell_size);
+
+	// Create the pane
+	NodeDisplayPane *pane = new NodeDisplayPane(this, wxSize(-1,-1));
+
+	// Set up the font and compute the actual required size
 	pane->SetFont(pane_font);
-	grid_sizer->Add(pane, 1, wxALL|wxFIXED_MINSIZE, 3);
+	wxClientDC dc(pane);
+	dc.SetFont(pane_font);
+	const unsigned char_width = pane->GetCharWidth();   // This seems to be an average width
+	const unsigned char_height = pane->GetCharHeight();
+	const wxSize cell_size(config.pane_width_chars*char_width, 
+			       config.pane_height_lines*char_height);
+
+	/* DEBUG
+	{
+	    std::stringstream smsg;
+	    smsg << "\nfont size w,h= " << char_width << "," << char_height  << std::endl;
+	    wxMessageDialog sdialog(NULL, smsg.str(), _("Sizes"), wxICON_INFORMATION);
+	    sdialog.ShowModal();
+	} */
+
+	pane->SetSize(cell_size);
+
+	// Install the pane
+	grid_sizer->Add(pane, 1, wxALL|wxFIXED_MINSIZE, config.pane_border_width);
 	node_displays[node_name] = pane;
 	nodes[node_name]->setNodeDisplay(pane);
     }
