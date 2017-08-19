@@ -12,6 +12,7 @@
 #include <wx/filefn.h>
 #include <wx/cmdline.h>
 #include <wx/regex.h>
+#include <wx/stdpaths.h>
 
 #include "inih/ini.h"
 
@@ -29,14 +30,14 @@ static const wxCmdLineEntryDesc g_cmdLineDesc[] =
     { wxCMD_LINE_SWITCH, "v", "version", _("print version"), 
       wxCMD_LINE_VAL_NONE, 0 },
 
-    { wxCMD_LINE_SWITCH, "g", "genconfig", _("write sample MeshStat.ini config file (and quit)"), 
+    { wxCMD_LINE_SWITCH, "g", "gencfg", _("write sample MeshStat.ini config file (and quit)"), 
       wxCMD_LINE_VAL_NONE, 0 },
-
-    { wxCMD_LINE_OPTION, "n", "nodes", _("node(s) to monitor, comma separated with no spaces (overrides config file)"), 
-      wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 
     { wxCMD_LINE_SWITCH, "d", "dump", _("dump current configuration (and quit)"), 
       wxCMD_LINE_VAL_NONE, 0 },
+
+    { wxCMD_LINE_OPTION, "n", "nodes", _("comma separated list of node(s) to monitor, with no spaces (overrides config file)"), 
+      wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 
     { wxCMD_LINE_PARAM,  NULL, NULL, _("config file"), 
       wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
@@ -217,9 +218,21 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
     // Check if the user asked for command-line help 
     if (res == -1 || res > 0 || cmdParser.Found("h"))
     {
-	std::cout << std::endl;
-	cmdParser.Usage();
-	std::cout << std::endl;
+	cmdParser.AddUsageText("________________________________________________________________________\n\n");
+	std::stringstream msg;
+	msg << "You can specify a configuraton file in several ways:\n\n"
+	    << " 1. Put a config file named 'MeshStat.ini' in either the directory\n"
+	    << "     of this executable program or in the current directory.\n"
+	    << " 2. Specifiy the name/path of the config file at the end of the command line.\n"
+	    << " 3. Define an environment variable MESTSTAT_CONFIG_FILE with the full\n"
+	    << "     path to the desired config file\n\n"
+	    << "You can generate an example config file using the -g option.";
+	cmdParser.AddUsageText(msg.str());
+	
+	// cmdParser.Usage();
+	wxString help_msg = cmdParser.GetUsageString();
+	wxMessageDialog dialog(NULL, help_msg, _("Help"), wxICON_NONE);
+	dialog.ShowModal();
 	return false;
     }
 
@@ -272,18 +285,30 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
     {
 	// If there is no config file on the command line, look for
 	// MeshStat.ini in the current directory
-	wxFileName cfg_file("MeshStat.ini");
-	if (cfg_file.FileExists())
+	wxStandardPaths paths = wxStandardPathsBase::Get();
+        wxFileName cfg_file_local("MeshStat.ini");
+	wxFileName cfg_file_exe_path(paths.GetExecutablePath());
+	wxFileName cfg_file_exe_dir(cfg_file_exe_path.GetPathWithSep());
+	wxFileName cfg_file_exe(cfg_file_exe_dir.GetFullPath() + "MeshStat.ini");
+	if (cfg_file_local.FileExists())
 	{
-	    wxFileName fName(cfg_file);
-	    fName.Normalize(wxPATH_NORM_LONG|wxPATH_NORM_DOTS|
-			    wxPATH_NORM_TILDE|wxPATH_NORM_ABSOLUTE);
-	    config_filename = fName.GetFullPath();
+	    // The MeshStat.ini file is in the directory MeshStat was run from
+	    cfg_file_local.Normalize(wxPATH_NORM_LONG|wxPATH_NORM_DOTS|
+				     wxPATH_NORM_TILDE|wxPATH_NORM_ABSOLUTE);
+	    config_filename = cfg_file_local.GetFullPath();
+	}
+	else if (cfg_file_exe.FileExists())
+	{
+	    // The MeshStat.ini file is in the directory containing the MeshStat executable
+	    cfg_file_exe.Normalize(wxPATH_NORM_LONG|wxPATH_NORM_DOTS|
+				   wxPATH_NORM_TILDE|wxPATH_NORM_ABSOLUTE);
+	    config_filename = cfg_file_exe.GetFullPath();
 	}
 	else 
 	{
-	    // If there is no MeshStat.ini file in the current directory, see if
-	    // there is an environment variable pointing to it
+	    // If there is no MeshStat.ini file in the current directory or
+	    // the directory of the executable, see if there is an environment
+	    // variable pointing to it
 	    wxString env_filename;
 	    if (wxGetEnv("MESHSTAT_CONFIG_FILE", &env_filename))
 	    {
@@ -310,7 +335,8 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 		// Otherwise whine and stop
 		std::stringstream msg;
 		msg << "ERROR\n\nUnable to find config file! \n\n" 
-		    << "Default: MeshStat.ini  \n\n"
+		    << "Default: MeshStat.ini \n\n"
+		    << "(in directory with MeshStat executable)   \n\n"
 		    << "Use 'MeshStat -h' for help!";
 		wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
 		dialog.ShowModal();
@@ -475,9 +501,9 @@ void ConfigInfo::dump() const
 
     msg << "  Max Response Time (milliseconds) = " << max_response_time;
     if (max_response_time == default_max_response_time)
-	msg << "  (default)" << std::endl;
+	msg << "  (default)   " << std::endl;
     else
-	msg << "  (default: " << default_max_response_time << ")" << std::endl;
+	msg << "  (default: " << default_max_response_time << ")   " << std::endl;
 
     msg << "  Max Num Fails = " << max_num_fails;
     if (max_num_fails == default_max_num_fails)
