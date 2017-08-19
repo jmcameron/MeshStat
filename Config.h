@@ -19,7 +19,9 @@ const unsigned int default_max_num_fails = 10;
 
 const unsigned int default_pane_width_chars = 68;
 const unsigned int default_pane_height_lines = 4;
-const unsigned int default_pane_border_width = 2;
+const unsigned int default_pane_border_width = 1;
+const unsigned int default_pane_interline_space = 2;
+
 const unsigned int default_font_size = 12;
 
 
@@ -47,6 +49,7 @@ public:
     unsigned int pane_width_chars;
     unsigned int pane_height_lines;
     unsigned int pane_border_width;
+    unsigned int pane_interline_space;
     unsigned int font_size;
 
     wxFileName config_filename;

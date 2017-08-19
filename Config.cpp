@@ -151,6 +151,10 @@ static int handler(void* configObj, const char *section_raw,
 	config->pane_border_width = atoi(value.c_str());
 	}
 
+    else if ((section == "Settings") && (name == "pane_interline_space")) {
+	config->pane_interline_space = atoi(value.c_str());
+	}
+
     else if ((section == "Settings") && (name == "font_size")) {
 	config->font_size = atoi(value.c_str());
 	}
@@ -214,6 +218,7 @@ ConfigInfo::ConfigInfo()
       pane_width_chars(default_pane_width_chars),
       pane_height_lines(default_pane_height_lines),
       pane_border_width(default_pane_border_width),
+      pane_interline_space(default_pane_interline_space),
       font_size(default_font_size)
 {
 }
@@ -404,26 +409,20 @@ void ConfigInfo::writeSampleConfigFile() const
 		    wxPATH_NORM_TILDE|wxPATH_NORM_ABSOLUTE);
     if (fName.FileExists())
     {
-	std::cerr << "WARNING: the file 'MeshStat.ini' already exists" << std::endl
-		  << "         Overwrite? (yes/no): ";
-	std::string answer;
-	std::cin >> answer;
-	if ((answer.size() < 3) or (answer.substr(0,3) != "yes"))
-	{
-	    std::cerr << " --> Will not overwrite; exiting!" << std::endl;
+	std::stringstream msg;
+	msg << "WARNING\n\n"
+	    << "The file '" << filename << "' already exists!";
+	wxMessageDialog dialog(NULL, msg.str(), _("WARNING"), wxICON_WARNING|wxOK|wxCANCEL);
+	dialog.SetOKLabel("Overwrite");
+	const int result = dialog.ShowModal();
+	if (result != wxID_OK) 
 	    return;
-	}
-	std::cout << "Overwriting MeshStat.ini" << std::endl;
-    }
-    else 
-    {
-	std::cout << "Writing MeshStat.ini" << std::endl;
     }
 
     wxFile file;
     if (!file.Open(fName.GetFullPath().c_str(), wxFile::write))
     {
-	std::cerr << "Error opening 'MeshStat.ini' in this directory!" << std::endl;
+	// wxWidgets puts up its own error dialog
 	return;
     }
 
@@ -445,6 +444,7 @@ void ConfigInfo::writeSampleConfigFile() const
     ss << "# This is the general [Settings] section\n";
     ss << "\n";
     ss << "# Period between node status checks (seconds):\n";
+    ss << "# (Should be larger than the number of nodes!)\n";
     ss << "# period = " << default_period << "  ; seconds\n";
     ss << "\n";
     ss << "# Number of columns in the node display: \n";
@@ -458,6 +458,9 @@ void ConfigInfo::writeSampleConfigFile() const
     ss << "\n";
     ss << "# Node display pane border width (pixels)\n";
     ss << "# pane_border_width = " << default_pane_border_width << "\n";
+    ss << "\n";
+    ss << "# Spacing on display pane between text lines (pixels)\n";
+    ss << "# pane_interline_space = " << default_pane_interline_space << "\n";
     ss << "\n";
     ss << "# Font size to use in the node display: \n";
     ss << "# font_size = " << default_font_size << "\n";
@@ -539,6 +542,12 @@ void ConfigInfo::dump() const
 	msg << "  (default)" << std::endl;
     else
 	msg << "  (default: " << default_pane_border_width << ")" << std::endl;
+
+    msg << "  Pane spacing between lines (pixels) = " << pane_interline_space;
+    if (pane_interline_space == default_pane_interline_space)
+	msg << "  (default)" << std::endl;
+    else
+	msg << "  (default: " << default_pane_interline_space << ")" << std::endl;
 
     msg << "  Font size = " << font_size;
     if (font_size == default_font_size)
