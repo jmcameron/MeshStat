@@ -16,7 +16,8 @@ extern ConfigInfo config;
 
 
 NodeDisplayPane::NodeDisplayPane(wxWindow *parent, const wxSize &cell_size)
-    : wxTextCtrl(parent, wxID_ANY, wxT(""), wxDefaultPosition, cell_size, wxTE_MULTILINE|wxTE_READONLY)
+    : wxTextCtrl(parent, wxID_ANY, wxT(""), wxDefaultPosition, cell_size,
+		 wxTE_MULTILINE|wxTE_READONLY|wxTE_NO_VSCROLL)
 {
     start_color.Set(start_r, start_g, start_b);
 

@@ -2,6 +2,7 @@
 #include <string>
 #include <sstream>
 
+#include <math.h>
 #include <unistd.h>
 
 #include <wx/wx.h>
@@ -29,7 +30,8 @@ MainFrame::MainFrame(wxWindow* parent)
 
     // Create top-level grid sizer
     const unsigned int gap_width = 2;
-    wxGridSizer *grid_sizer = new wxGridSizer(num_nodes, num_cols, gap_width, gap_width);
+    const unsigned int num_rows = ceil(static_cast<double>(num_nodes) / static_cast<double>(num_cols));;
+    wxGridSizer *grid_sizer = new wxGridSizer(num_rows, num_cols, gap_width, gap_width);
 
     // Figure out the cell size
     wxFont pane_font(wxFontInfo(12).Family(wxFONTFAMILY_SWISS));
@@ -38,7 +40,7 @@ MainFrame::MainFrame(wxWindow* parent)
 #ifdef __WINDOWS__
     // GetPixelSize() does not seem to work correctly on Windows
     const unsigned int char_width = 15;
-    const unsigned int line_height = 24;
+    const unsigned int line_height = 26;
 #else
     const wxSize font_size = pane_font.GetPixelSize();
     const unsigned int char_width = font_size.x;
