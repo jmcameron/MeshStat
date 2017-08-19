@@ -464,6 +464,7 @@ void ConfigInfo::writeSampleConfigFile() const
     ss << "#   - List the nodes to monitor below (do not indent any lines!)\n";
     ss << "#   - Repeat 'node = xx.yy.zz' on separate lines for each node to monitor\n";
     ss << "#   - Node names can be given as hostname or an IP address\n";
+    ss << "#   - Giving node IP addresses will be faster since no DNS lookups are required\n";
     ss << "#   - Node names with no dots are assumed to be in the '.local.mesh' domain\n";
     ss << "#   - Do not use http:// or https:// prefixes\n";
     ss << "\n";
