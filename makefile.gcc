@@ -233,6 +233,17 @@ all: $(OBJS)
 $(OBJS):
 	-if not exist $(OBJS) mkdir $(OBJS)
 
+
+include version.make
+
+dist: all
+	cp gcc_mswu/MeshStat.exe .
+	strip MeshStat.exe
+	@rm -f MeshStat-windows-$(MESHSTAT_VERSION).zip
+	7z a MeshStat-windows-$(MESHSTAT_VERSION).zip MeshStat.exe README.txt Sample-MeshStat.ini
+	@rm MeshStat.exe
+	@echo DONE: Created MeshStat-windows-$(MESHSTAT_VERSION).zip
+
 ### Targets: ###
 
 all: $(OBJS)\MeshStat.exe

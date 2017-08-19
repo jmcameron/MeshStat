@@ -199,10 +199,20 @@ tests: $(OutputFile)
 	(cd test; dtest)
 
 
+include version.make
+
+dist: all
+	cp Debug/MeshStat.exe .
+	strip MeshStat.exe
+	@rm -f MeshStat-linux-$(MESHSTAT_VERSION).zip
+	7z a MeshStat-linux-$(MESHSTAT_VERSION).zip MeshStat.exe README.txt Sample-MeshStat.ini
+	@rm MeshStat.exe
+	@echo DONE: Created MeshStat-linux-$(MESHSTAT_VERSION).zip
+
+
+
 ##
 ## Clean
 ##
 clean:
 	$(RM) -r ./Debug/
-
-
