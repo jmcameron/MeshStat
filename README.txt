@@ -34,7 +34,7 @@ Installation
       need to adjust the other 'pane_*' settings to get the display
       to work out nicely.
 
-    * Make sure to list a few nodes in the [Nodes] section
+    * Make sure to list at least one node in the [Nodes] section
 
 - Run the MeshStat executable
 
@@ -44,7 +44,8 @@ Installation
 - Each operational node should display its status in 4 lines.  If
   you do not see the node name on the first line, it is likely you
   may need to adjust 'pane_width_chars' and 'pane_interline_space'
-  to get all on 4 lines to show properly.  There is a brief
+  to get all on 4 lines to show properly. On Windows this may cause
+  periodic beeping when this problem occurs.  There is a brief
   explanation of these parameters in the file 'Sample-MeshStat.ini'.
   You may want to work this out with a smaller set of nodes before
   using a larger list of nodes.
