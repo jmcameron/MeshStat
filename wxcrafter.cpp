@@ -42,14 +42,14 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     m_menuItem_Exit = new wxMenuItem(m_menu_File, wxID_EXIT, _("Exit\tAlt-X"), _("Quit"), wxITEM_NORMAL);
     m_menu_File->Append(m_menuItem_Exit);
     
-    m_menu_Test = new wxMenu();
-    m_menuBar->Append(m_menu_Test, _("Test"));
-    
-    m_menuItem_Test1 = new wxMenuItem(m_menu_Test, wxID_TEST1, _("Test1"), wxT(""), wxITEM_NORMAL);
-    m_menu_Test->Append(m_menuItem_Test1);
-    
-    m_menuItem_Refresh = new wxMenuItem(m_menu_Test, wxID_REFRESH, _("Refresh"), wxT(""), wxITEM_NORMAL);
-    m_menu_Test->Append(m_menuItem_Refresh);
+//     m_menu_Test = new wxMenu();
+//     m_menuBar->Append(m_menu_Test, _("Test"));
+//     
+//     m_menuItem_Test1 = new wxMenuItem(m_menu_Test, wxID_TEST1, _("Test1"), wxT(""), wxITEM_NORMAL);
+//     m_menu_Test->Append(m_menuItem_Test1);
+//     
+//     m_menuItem_Refresh = new wxMenuItem(m_menu_Test, wxID_REFRESH, _("Refresh"), wxT(""), wxITEM_NORMAL);
+//     m_menu_Test->Append(m_menuItem_Refresh);
     
     m_menu_Help = new wxMenu();
     m_menuBar->Append(m_menu_Help, _("Help"));
@@ -85,10 +85,10 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
 
     // Connect events
     this->Connect(m_menuItem_Exit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnExit), NULL, this);
-    this->Connect(m_menuItem_Test1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTest1), NULL, this);
+//    this->Connect(m_menuItem_Test1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTest1), NULL, this);
+//    this->Connect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
     this->Connect(m_menuItem_About->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     this->Connect(m_menuItem_Credits->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnCredits), NULL, this);
-    this->Connect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
     
     this->Connect(m_timer->GetId(), wxEVT_TIMER, wxTimerEventHandler( MainFrameBaseClass::OnProbeAll ), NULL, this );
     this->Connect(wxID_ANY, wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBaseClass::OnClose), NULL, this);
@@ -97,10 +97,10 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
 MainFrameBaseClass::~MainFrameBaseClass()
 {
     this->Disconnect(m_menuItem_Exit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnExit), NULL, this);
-    this->Disconnect(m_menuItem_Test1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTest1), NULL, this);
+//    this->Disconnect(m_menuItem_Test1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTest1), NULL, this);
+//    this->Disconnect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
     this->Disconnect(m_menuItem_About->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     this->Disconnect(m_menuItem_Credits->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnCredits), NULL, this);
-    this->Disconnect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
 
     this->Disconnect(wxID_TIMER, wxEVT_TIMER, wxTimerEventHandler( MainFrameBaseClass::OnProbeAll ), NULL, this );
     this->Disconnect(wxID_ANY, wxEVT_CLOSE_WINDOW, wxCloseEventHandler( MainFrameBaseClass::OnClose), NULL, this);
