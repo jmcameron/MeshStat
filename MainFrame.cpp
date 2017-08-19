@@ -1,13 +1,14 @@
-#include "MainFrame.h"
+#include <vector>
+#include <string>
+#include <sstream>
+
+#include <unistd.h>
 
 #include <wx/wx.h>
 #include <wx/sizer.h>
 #include <wx/aboutdlg.h>
 
-#include <vector>
-#include <string>
-
-#include <unistd.h>
+#include "MainFrame.h"
 
 #include "Config.h"
 
