@@ -64,7 +64,7 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     ClearBackground();
 
     // Print the node name in bold
-    wxTextAttr ta;
+    wxTextAttr ta = GetDefaultStyle();
     ta.SetFontWeight(wxFONTWEIGHT_BOLD);
     SetDefaultStyle(ta); 
     AppendText(node.name);
@@ -75,11 +75,11 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 
     std::stringstream ipinfo;
     if (!node.wifi_ip.empty())
-	ipinfo << "     WIFI: " << node.wifi_ip;
+	ipinfo << "     WIFI:" << node.wifi_ip;
     if (!node.lan_ip.empty())
-	ipinfo << "  LAN: " << node.lan_ip;
+	ipinfo << "  LAN:" << node.lan_ip;
     if (!node.wan_ip.empty())
-	ipinfo << "  WAN: " << node.wan_ip;
+	ipinfo << "  WAN:" << node.wan_ip;
     ipinfo << std::endl;
     AppendText(ipinfo.str());
 
