@@ -147,6 +147,14 @@ static int handler(void* configObj, const char *section_raw,
 	config->pane_height_lines = atoi(value.c_str());
 	}
 
+    else if ((section == "Settings") && (name == "pane_border_width")) {
+	config->pane_border_width = atoi(value.c_str());
+	}
+
+    else if ((section == "Settings") && (name == "font_size")) {
+	config->font_size = atoi(value.c_str());
+	}
+
     else if ((section == "Settings") && (name == "max_num_fails")) {
 	config->max_num_fails = atoi(value.c_str());
 	}
@@ -204,7 +212,9 @@ ConfigInfo::ConfigInfo()
       max_response_time(default_max_response_time),
       max_num_fails(default_max_num_fails),
       pane_width_chars(default_pane_width_chars),
-      pane_height_lines(default_pane_height_lines)
+      pane_height_lines(default_pane_height_lines),
+      pane_border_width(default_pane_border_width),
+      font_size(default_font_size)
 {
 }
 
@@ -446,6 +456,12 @@ void ConfigInfo::writeSampleConfigFile() const
     ss << "# Node display pane height (lines of text)\n";
     ss << "# pane_height_lines = " << default_pane_height_lines << "\n";
     ss << "\n";
+    ss << "# Node display pane border width (pixels)\n";
+    ss << "# pane_border_width = " << default_pane_border_width << "\n";
+    ss << "\n";
+    ss << "# Font size to use in the node display: \n";
+    ss << "# font_size = " << default_font_size << "\n";
+    ss << "\n";
     ss << "# Max time allowed for normal responses (milliseconds):\n";
     ss << "# (Affects what shade of green the nodes are colored)\n";
     ss << "# (Faster response times are brighter green)\n";
@@ -517,6 +533,18 @@ void ConfigInfo::dump() const
 	msg << "  (default)" << std::endl;
     else
 	msg << "  (default: " << default_pane_width_chars << ")" << std::endl;
+
+    msg << "  Pane border width = " << pane_border_width;
+    if (pane_border_width == default_pane_border_width)
+	msg << "  (default)" << std::endl;
+    else
+	msg << "  (default: " << default_pane_border_width << ")" << std::endl;
+
+    msg << "  Font size = " << font_size;
+    if (font_size == default_font_size)
+	msg << "  (default)" << std::endl;
+    else
+	msg << "  (default: " << default_font_size << ")" << std::endl;
 
     msg << "  Node pane height (lines of text) = " << pane_height_lines;
     if (pane_height_lines == default_pane_height_lines)
