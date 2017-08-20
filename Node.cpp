@@ -90,6 +90,7 @@ void Node::probe()
   	delete in;
 
 	last_response_time = timer.Time();
+	num_fails = 0;
     }
     else 
     {
