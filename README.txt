@@ -59,3 +59,14 @@ Installation
   line like this:
 
      MeshStat -h
+
+- If you're having trouble getting all four lines to display, follow
+  this procedure:
+    - Chose the font_size you want (eg, 10, 11, 12)
+    - Run the program and check the display.  If the top line is
+      wrapping to the second line, increase 'pane_width_chars' until
+      it does not wrap and you have a little margin at the end of
+      the top line for all display panes.
+    - If all four lines are still not displaying, increase
+      'pane_interline_space' (pixel by pixel) until the fourth line
+      displays properly.
