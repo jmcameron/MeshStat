@@ -15,3 +15,4 @@ Releases
 0.9.1  August 20, 2017
       - Fixed bug in recovering from failures
       - Added time stamp in success displays
+      - Fixed display formatting issue on Windows

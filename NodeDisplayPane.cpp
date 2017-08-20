@@ -17,7 +17,7 @@ extern ConfigInfo config;
 
 NodeDisplayPane::NodeDisplayPane(wxWindow *parent, const wxSize &cell_size)
     : wxTextCtrl(parent, wxID_ANY, wxT(""), wxDefaultPosition, cell_size,
-		 wxTE_MULTILINE|wxTE_READONLY|wxTE_NO_VSCROLL)
+		 wxTE_MULTILINE|wxTE_READONLY|wxTE_NO_VSCROLL|wxTE_RICH2)
 {
     start_color.Set(start_r, start_g, start_b);
 
@@ -60,18 +60,21 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     // Clear the pane
     Clear();
     SetBackgroundColour(*bg_color);
-    delete bg_color;
     ClearBackground();
 
     // Print the node name in bold
     wxTextAttr ta = GetDefaultStyle();
     ta.SetFontWeight(wxFONTWEIGHT_BOLD);
-    SetDefaultStyle(ta); 
+    ta.SetBackgroundColour(*bg_color);
+    SetDefaultStyle(ta);
     AppendText(node.name);
 
     // Print the rest normally
     ta.SetFontWeight(wxFONTWEIGHT_NORMAL);
-    SetDefaultStyle(ta); 
+    ta.SetBackgroundColour(*bg_color);
+    SetDefaultStyle(ta);
+
+    delete bg_color;
 
     std::stringstream ipinfo;
     if (!node.wifi_ip.empty())
@@ -95,7 +98,7 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 		node.firmware_version.c_str());
 	AppendText(line);
 
-	std::string last_time = node.last_succesful_probe_time.Format("%r").ToStdString();
+	std::string last_time = node.last_succesful_probe_time.Format("%X %x").ToStdString();
 	sprintf(line, "Last Response Time: %6.2f seconds  at %s", 
 		static_cast<double>(node.last_response_time) / 1000.0,
 		last_time.c_str());
