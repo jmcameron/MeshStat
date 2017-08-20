@@ -2,6 +2,7 @@
 #include <wx/app.h>
 #include <wx/event.h>
 #include <wx/image.h>
+#include <wx/iconbndl.h>
 
 #include "MainFrame.h"
 #include "Config.h"
@@ -29,8 +30,13 @@ public:
         MainFrame *mainFrame = new MainFrame(NULL);
         SetTopWindow(mainFrame);
 
-	wxIcon mesh_stat_icon("mesh_stat_icon2.ico");
-	mainFrame->SetIcon(mesh_stat_icon);
+	// Set up the icons
+	wxIconBundle icons;
+	icons.AddIcon(wxIcon("mesh_stat_icon_16.png"));
+	icons.AddIcon(wxIcon("mesh_stat_icon_32.png"));
+	icons.AddIcon(wxIcon("mesh_stat_icon_64.png"));
+	icons.AddIcon(wxIcon("mesh_stat_icon_128.png"));
+	mainFrame->SetIcons(icons);
 
         return GetTopWindow()->Show();
     }
