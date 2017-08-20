@@ -95,8 +95,11 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 		node.firmware_version.c_str());
 	AppendText(line);
 
-	sprintf(line, "Last Response Time: %6.2f sec", 
-		static_cast<double>(node.last_response_time) / 1000.0);
+	std::string last_time = node.last_succesful_probe_time.Format("%r").ToStdString();
+	sprintf(line, "Last Response Time: %6.2f seconds  at %s", 
+		static_cast<double>(node.last_response_time) / 1000.0,
+		last_time.c_str());
+	// ??? Display full date if last_succesful_probe_time more than 24 hours in past
 	AppendText(line);
 
 	// std::string tool_tip = std::string("Node stats for ") + node.name;
