@@ -1,25 +1,26 @@
 MeshStat
 ========
 
-* TO DO [10/19]
+* TO DO [10/20]
   - [X] Strip off comments on the end of node names
   - [X] Added regular expression checking for node URLs
   - [X] Make the time scaling for fails work on elapsed time, not num periods
-  - [ ] Option to disable periodic probing
-  - [ ] Menu item to start/stop probing?
-  - [ ] Fix issue with font size on windows
   - [X] Make font size, width, height config options
-  - [ ] Add warning if period is less than num nodes!
-        Or fix it so the period is between responses
-  - [ ] Better windows management handling! (multi-threading?)
   - [X] Fix issue with response time color scaling
   - [X] Fix window sizing
   - [X] Add pane height/width as config options
   - [X] Add IP addresses
   - [X] Fix segfault issue
   - [X] Function to write sample (documented) config file
+  - [ ] Add timestamp for last check
+  - [ ] Fix issue with font size on windows
+  - [ ] Add warning if period is less than num nodes!
+        Or fix it so the period is between responses
+  - [ ] Better windows management handling! (multi-threading?)
   - [ ] Add ability to send email if a node fails
   - [ ] Add help page
+  - [ ] Option to disable periodic probing
+  - [ ] Menu item to start/stop probing?
   - [ ] Generalize formatting via config file?
   - [ ] Refactor node name parsing so that config-file comments can be saved as node data
 
