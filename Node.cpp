@@ -90,7 +90,6 @@ void Node::probe()
   	delete in;
 
 	last_response_time = timer.Time();
-	num_fails = 0;
     }
     else 
     {
@@ -105,6 +104,7 @@ void Node::probe()
     if (htmldata.size() > 0)
     {
 	last_succesful_probe_time = wxDateTime::Now();
+	num_fails = 0;
 
  	const std::string lines = std::string(htmldata.mb_str());
 
