@@ -1,0 +1,17 @@
+MeshStat
+========
+
+Copyright (c) 2017
+License: GPL 2 or higher
+Author: Jonathan M. Cameron, KF6RTA
+        jmcameron@gmail.com
+
+Releases
+--------
+
+0.9.0  August 19, 2017
+      - Initial, alpha release
+
+0.9.1  August 20, 2017
+      - Fixed bug in recovering from failures
+      - Added time stamp in success displays
