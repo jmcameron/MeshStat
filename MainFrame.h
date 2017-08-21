@@ -8,7 +8,8 @@
 #include "Node.h"
 #include "NodeDisplay.h"
 
-const std::string MESH_STAT_VERSION = "0.9.1";
+const std::string MESH_STAT_VERSION = "0.9.2";
+
 
 typedef enum {
     UNDEFINED = 0,
