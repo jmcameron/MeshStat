@@ -17,7 +17,7 @@ include C:\wx\wxWidgets-3.1.0\build\msw\config.gcc
 
 BUILD=release
 WX_DIR = C:/wx/wxWidgets-3.1.0
-WX_INCLUDES_DIR = $(WX_DIR)/include
+WX_INCLUDE_DIR = $(WX_DIR)/include
 WX_SAMPLES_DIR = $(WX_DIR)/samples
 WX_SETUP_DIR = $(WX_DIR)/lib/gcc_lib/mswu
 WX_LIB_DIR = $(WX_DIR)/lib/gcc_lib
@@ -40,12 +40,13 @@ MESHSTAT_CXXFLAGS = $(__DEBUGINFO) $(__OPTIMIZEFLAG_2) $(__THREADSFLAG) $(GCCFLA
 	-DHAVE_W32API_H -D__WXMSW__ -DINI_HANDLER_LINENO=1 $(__WXUNIV_DEFINE_p) $(__DEBUG_DEFINE_p) \
 	$(__NDEBUG_DEFINE_p) $(__EXCEPTIONS_DEFINE_p) $(__RTTI_DEFINE_p) \
 	$(__THREAD_DEFINE_p) $(__UNICODE_DEFINE_p) -I$(SETUPHDIR) \
-	-I$(WX_INCLUDES_DIR) -I$(WX_SETUP_DIR) -I$(MINGW_INCLUDE_DIR) \
+	-I$(WX_INCLUDE_DIR) -I$(WX_SETUP_DIR) -I$(MINGW_INCLUDE_DIR) \
 	$(____CAIRO_INCLUDEDIR_FILENAMES_p) -W -Wall -std=gnu++11 -I. $(__DLLFLAG_p) \
 	-I$(WX_SAMPLES_DIR) -DNOPCH $(__RTTIFLAG_5) $(__EXCEPTIONSFLAG_6) \
 	-Wno-ctor-dtor-privacy $(CPPFLAGS) $(CXXFLAGS)
 
 MESHSTAT_OBJECTS =  \
+	$(OBJS)\mesh_stat_msw_rc.o \
 	$(OBJS)\ini.o \
 	$(OBJS)\wxcrafter.o \
 	$(OBJS)\wxcrafter_bitmaps.o \
@@ -285,6 +286,10 @@ $(OBJS)\NodeDisplayPane.o: NodeDisplayPane.cpp NodeDisplayPane.h
 
 $(OBJS)\main.o: main.cpp
 	$(CXX) -c -o $@ $(MESHSTAT_CXXFLAGS) $(CPPDEPS) $<
+
+$(OBJS)\mesh_stat_msw_rc.o: ./mesh_stat_msw.rc
+	$(WINDRES) -i$< -o$@    --define __WXMSW__ $(__WXUNIV_DEFINE_p_1) $(__DEBUG_DEFINE_p_1) $(__NDEBUG_DEFINE_p_1) $(__EXCEPTIONS_DEFINE_p_1) $(__RTTI_DEFINE_p_1) $(__THREAD_DEFINE_p_1) $(__UNICODE_DEFINE_p_1) --include-dir $(SETUPHDIR) --include-dir $(WX_INCLUDE_DIR) $(__CAIRO_INCLUDEDIR_p) --include-dir . $(__DLLFLAG_p_1) --include-dir $(WX_SAMPLES_DIR) --define NOPCH
+
 
 .PHONY: all clean
 

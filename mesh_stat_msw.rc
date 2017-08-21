@@ -1,0 +1,2 @@
+aaaaaaa ICON mesh_stat_msw.ico
+#include "wx/msw/wx.rc"
