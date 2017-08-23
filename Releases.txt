@@ -13,6 +13,11 @@ Releases
       - Initial, alpha release
 
 0.9.1  August 20, 2017
-      - Fixed bug in recovering from failures
-      - Added time stamp in success displays
-      - Fixed display formatting issue on Windows
+      - 2017-08-20 Fixed bug in recovering from failures
+      - 2017-08-20 Added time stamp in success displays
+      - 2017-08-20 Fixed display formatting issue on Windows
+
+0.9.2  August 22, 2017
+      - 2017-08-22 Improved display behaviour
+      - 2017-08-22 Fixes for Windows
+
