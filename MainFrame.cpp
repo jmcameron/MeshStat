@@ -8,6 +8,7 @@
 #include <wx/wx.h>
 #include <wx/font.h>
 #include <wx/sizer.h>
+#include <wx/time.h>
 #include <wx/aboutdlg.h>
 
 #include "MainFrame.h"
@@ -84,9 +85,6 @@ MainFrame::MainFrame(wxWindow* parent)
     // Freeze the size of the main window
     SetMinSize(GetSize());
     SetMaxSize(GetSize());
-
-    // probe all the nodes
-    probeAllNodes();
 
     // Start the periodic timer for the specified period
     m_timer->Start(static_cast<int>(config.period * 1000.0));
@@ -168,7 +166,16 @@ void MainFrame::OnTest1(wxCommandEvent& event)
 void MainFrame::OnRefresh(wxCommandEvent& event)
 {
     wxUnusedVar(event);
-    refresh();
+    if (probing)
+    {
+	wxBell();
+    }
+    else
+    {
+	// If we are in the process of probing, NOP
+	probeAllNodes();
+    }
+
 }
 
 void MainFrame::refresh()
@@ -180,13 +187,18 @@ void MainFrame::refresh()
 	const std::string node_name = *nd;
 	nodes[node_name]->updateDisplay();
     }
+
+    // Tell the frame to update its display immediately
+    Update();
 }
 
 
 void MainFrame::OnProbeAll(wxTimerEvent& event)
 {
     wxUnusedVar(event);
-    probeAllNodes();
+    if (!probing)
+	// If we are in the process of probing, NOP
+	probeAllNodes();
 }
 
 

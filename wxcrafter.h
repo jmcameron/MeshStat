@@ -29,29 +29,20 @@ class MainFrameBaseClass : public wxFrame
 {
 public:
     enum {
-        wxID_MainText = 10001,
-        wxID_TEST1   = 10002,
-	wxID_CREDITS = 10003,
-	wxID_REFRESH = 10004,
-	wxID_TIMER   = 10005,
+	wxID_CREDITS = 10001,
+	wxID_TIMER
     };
 
 protected:
-    // ??? wxTextCtrl* m_MainText;
     wxMenuBar* m_menuBar;
 
     wxMenu* m_menu_File;
-    wxMenuItem* m_menuItem_Exit;
-
-    wxMenu* m_menu_Test;
-    wxMenuItem* m_menuItem_Test1;
     wxMenuItem* m_menuItem_Refresh;
+    wxMenuItem* m_menuItem_Exit;
 
     wxMenu* m_menu_Help;
     wxMenuItem* m_menuItem_Credits;
     wxMenuItem* m_menuItem_About;
-
-    // ??? wxToolBar* m_mainToolbar;
 
     wxTimer *m_timer;
 
@@ -59,15 +50,12 @@ protected:
     virtual void OnExit(wxCommandEvent& event) { event.Skip(); }
     virtual void OnClose(wxCloseEvent& event) { event.Skip(); }
     virtual void OnAbout(wxCommandEvent& event) { event.Skip(); }
-    virtual void OnTest1(wxCommandEvent& event) { event.Skip(); }
     virtual void OnCredits(wxCommandEvent& event) { event.Skip(); }
     virtual void OnRefresh(wxCommandEvent& event) { event.Skip(); }
     virtual void OnProbeAll(wxTimerEvent& event) { event.Skip(); }
 
 public:
-    // ??? wxTextCtrl* GetMainText() { return m_MainText; }
     wxMenuBar* GetMenuBar() { return m_menuBar; }
-    // ??? wxToolBar* GetMainToolbar() { return m_mainToolbar; }
     MainFrameBaseClass(wxWindow* parent, 
 		       wxWindowID id = wxID_ANY, 
 		       const wxString& title = _("MeshStat"), 

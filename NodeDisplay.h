@@ -10,9 +10,12 @@ class Node;
 
 class NodeDisplay {
 public:
-    void virtual updateDisplay(const Node &node) = 0;
 
     virtual ~NodeDisplay() {};
+
+    virtual void updateDisplay(const Node &node) = 0;
+
+    virtual void update() {};
 };
 
 

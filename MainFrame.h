@@ -31,11 +31,11 @@ public:
     virtual void OnRefresh(wxCommandEvent& event);
     virtual void OnProbeAll(wxTimerEvent& event);
 
-protected:
-    virtual void OnTest1(wxCommandEvent& event);
-
     void refresh();
     void probeAllNodes();
+
+protected:
+    virtual void OnTest1(wxCommandEvent& event);
 
 private:
     NodeMap nodes;

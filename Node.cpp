@@ -41,7 +41,6 @@ Node::Node(const std::string url_)
 
 Node::~Node()
 {
-    // ??? std::cerr << "Deleting node " << name << std::endl;
 }
 
 
@@ -59,54 +58,73 @@ void Node::updateDisplay()
 
 void Node::probe()
 {
-    if (num_fails < 0)
-	num_fails = 0;
-
     last_response_time = 0;
 
     wxString htmldata;
  
     wxStopWatch timer;  // Start the timer
  
-    const std::string test_url = std::string("http://") + url + ":8080/cgi-bin/sysinfo.json";
-    // ??? std::cerr << "-------------------- NODE: " << name << std::endl;
-    // ??? std::cerr << "OPEN URL: " << test_url << " at " << timer.Time() << " ms" << std::endl;
-    wxURL url(test_url.c_str());
-    // ??? std::cerr << "URL OK: " << url.IsOk() << std::endl;
- 
+    const std::string full_url = std::string("http://") + url + ":8080/cgi-bin/sysinfo.json";
+
+    // ??? std::stringstream msg;
+    // ??? msg << "-------------------- NODE: " << name << std::endl;
+    // ??? msg << "OPEN URL: " << full_url << " at " << timer.Time() << " ms" << std::endl;
+
+    wxURL url(full_url.c_str());
+    // ??? msg << "URL OK: " << url.IsOk() << std::endl;
+
     if(url.GetError()==wxURL_NOERR)
     {
- 	// ??? std::cerr << "GET INPUT STREAM: " << timer.Time() << " ms" << std::endl;
+	url.GetProtocol().SetDefaultTimeout(2);
+ 	// ??? msg << "GET INPUT STREAM BEFORE: " << timer.Time() << " ms" << std::endl;
   	wxInputStream *in = url.GetInputStream();
-  	if(in && in->IsOk())
-  	{
- 	    // ??? std::cerr << "CAN READ: " << in->CanRead() << std::endl;
- 
-  	    wxStringOutputStream html_stream(&htmldata);
- 	    // ??? std::cerr << "READ INPUT STREAM: " << timer.Time() << " ms" << std::endl;
-  	    in->Read(html_stream);
- 	    // ??? std::cerr << "READ INPUT STREAM DONE: " << timer.Time() << " ms" << std::endl;
-  	}
-  	delete in;
 
-	last_response_time = timer.Time();
+	// Give the display a chance to catch up
+	display->update();
+
+ 	// ??? msg << "GET INPUT STREAM AFTER: " << in << " " << timer.Time() << " ms" << std::endl;
+
+  	if (in and in->IsOk())
+  	{
+ 	    // ??? msg << "CAN READ: " << in->CanRead() << std::endl;
+  	    wxStringOutputStream html_stream(&htmldata);
+ 	    // ??? msg << "READ INPUT STREAM: " << timer.Time() << " ms" << std::endl;
+
+	    // Give the display a chance to catch up
+	    display->update();
+
+  	    in->Read(html_stream);
+ 	    // ??? msg << "READ INPUT STREAM DONE: " << timer.Time() << " ms" << std::endl;
+
+	    last_response_time = timer.Time();
+
+	    delete in;
+  	}
     }
     else 
     {
- 	// ??? std::cerr << "ERROR OPENING URL: " << test_url << " at "<< timer.Time() << " ms" << std::endl;
+ 	// ??? msg << "ERROR OPENING URL: " << full_url << " at "<< timer.Time() << " ms" << std::endl;
   	htmldata = "";
     }
     timer.Pause();
  
-    // ??? std::cerr << "FINISHED: " << timer.Time() << " ms" << std::endl;
-    // ??? std::cerr << "DATA READ: " << htmldata.size() << std::endl;
- 
+    // ??? msg << "FINISHED: " << timer.Time() << " ms" << std::endl;
+    // ??? msg << "DATA READ: " << htmldata.size() << std::endl;
+
+    // ??? if (timer.Time() > 3000) {
+    // ???     wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+    // ???     dialog.ShowModal();
+    // ???     }
+
     if (htmldata.size() > 0)
     {
 	last_succesful_probe_time = wxDateTime::Now();
 	num_fails = 0;
 
  	const std::string lines = std::string(htmldata.mb_str());
+
+	// Give the display a chance to catch up
+	display->update();
 
 	// Example JSON output
 	// {"lat":"34.200464",
@@ -142,10 +160,13 @@ void Node::probe()
 
 	readDataFromJSON(lines);
     }
+    else if (num_fails == -1)
+    {
+	num_fails = 1;
+    }
     else
     {
 	num_fails += 1;
-	// ??? std::cerr << std::string("ERROR: Unable to read data from ") + test_url + "\n";
     }
 
 }
@@ -243,7 +264,6 @@ void Node::readDataFromJSON(const std::string &json)
     {
 	const std::string errmsg = std::string("Error reading json!  ") + std::string(e.what());
 	std::cerr << errmsg << std::endl;
-	// ??? wxLogMessage(errmsg.c_str());
     }
 
 }

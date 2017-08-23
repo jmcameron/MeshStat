@@ -6,6 +6,7 @@
 
 #include <wx/wx.h>
 #include <wx/event.h>
+#include <wx/accel.h>
 
 #include "wxcrafter.h"
 
@@ -39,17 +40,11 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     m_menu_File = new wxMenu();
     m_menuBar->Append(m_menu_File, _("File"));
     
+    m_menuItem_Refresh = new wxMenuItem(m_menu_File, wxID_REFRESH, _("Refresh"), wxT(""), wxITEM_NORMAL);
+    m_menu_File->Append(m_menuItem_Refresh);
+
     m_menuItem_Exit = new wxMenuItem(m_menu_File, wxID_EXIT, _("Exit\tAlt-X"), _("Quit"), wxITEM_NORMAL);
     m_menu_File->Append(m_menuItem_Exit);
-    
-//     m_menu_Test = new wxMenu();
-//     m_menuBar->Append(m_menu_Test, _("Test"));
-//     
-//     m_menuItem_Test1 = new wxMenuItem(m_menu_Test, wxID_TEST1, _("Test1"), wxT(""), wxITEM_NORMAL);
-//     m_menu_Test->Append(m_menuItem_Test1);
-//     
-//     m_menuItem_Refresh = new wxMenuItem(m_menu_Test, wxID_REFRESH, _("Refresh"), wxT(""), wxITEM_NORMAL);
-//     m_menu_Test->Append(m_menuItem_Refresh);
     
     m_menu_Help = new wxMenu();
     m_menuBar->Append(m_menu_Help, _("Help"));
@@ -59,9 +54,6 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     
     m_menuItem_About = new wxMenuItem(m_menu_Help, wxID_ABOUT, _("About..."), wxT(""), wxITEM_NORMAL);
     m_menu_Help->Append(m_menuItem_About);
-    
-    // ??? m_mainToolbar = this->CreateToolBar(wxTB_FLAT, wxID_ANY);
-    // ??? m_mainToolbar->SetToolBitmapSize(wxSize(16,16));
 
     m_timer = new wxTimer(this, wxID_TIMER);
 
@@ -75,6 +67,7 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     } else {
         CentreOnScreen(wxBOTH);
     }
+
 #if wxVERSION_NUMBER >= 2900
     if(!wxPersistenceManager::Get().Find(this)) {
         wxPersistenceManager::Get().RegisterAndRestore(this);
@@ -83,10 +76,16 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     }
 #endif
 
+    // Set up an accelerator for the Enter key
+    // (Works on Linux but not windows!)
+    wxAcceleratorEntry entries[1];
+    entries[0].Set(wxACCEL_NORMAL, WXK_RETURN, wxID_REFRESH);
+    wxAcceleratorTable accel(WXSIZEOF(entries), entries);
+    SetAcceleratorTable(accel);
+
     // Connect events
+    this->Connect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
     this->Connect(m_menuItem_Exit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnExit), NULL, this);
-//    this->Connect(m_menuItem_Test1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTest1), NULL, this);
-//    this->Connect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
     this->Connect(m_menuItem_About->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     this->Connect(m_menuItem_Credits->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnCredits), NULL, this);
     
@@ -96,9 +95,8 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
 
 MainFrameBaseClass::~MainFrameBaseClass()
 {
+    this->Disconnect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
     this->Disconnect(m_menuItem_Exit->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnExit), NULL, this);
-//    this->Disconnect(m_menuItem_Test1->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTest1), NULL, this);
-//    this->Disconnect(m_menuItem_Refresh->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRefresh), NULL, this);
     this->Disconnect(m_menuItem_About->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     this->Disconnect(m_menuItem_Credits->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnCredits), NULL, this);
 

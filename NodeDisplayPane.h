@@ -40,7 +40,9 @@ public:
 
     virtual ~NodeDisplayPane() {};
 
-    void virtual updateDisplay(const Node &node);
+    virtual void updateDisplay(const Node &node);
+
+    virtual void update();
 
 protected:
     ColorInterpolate response_color;

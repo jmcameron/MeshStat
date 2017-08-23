@@ -31,6 +31,11 @@ NodeDisplayPane::NodeDisplayPane(wxWindow *parent, const wxSize &cell_size)
 }
 
 
+void NodeDisplayPane::update()
+{
+    Update();
+}
+
 
 void NodeDisplayPane::updateDisplay(const Node &node)
 {
@@ -67,7 +72,10 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     ta.SetFontWeight(wxFONTWEIGHT_BOLD);
     ta.SetBackgroundColour(*bg_color);
     SetDefaultStyle(ta);
-    AppendText(node.name);
+    if (node.name.empty())
+	AppendText(node.url);
+    else
+	AppendText(node.name);
 
     // Print the rest normally
     ta.SetFontWeight(wxFONTWEIGHT_NORMAL);
@@ -76,18 +84,22 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 
     delete bg_color;
 
-    std::stringstream ipinfo;
-    if (!node.wifi_ip.empty())
-	ipinfo << "     WIFI:" << node.wifi_ip;
-    if (!node.lan_ip.empty())
-	ipinfo << "  LAN:" << node.lan_ip;
-    if (!node.wan_ip.empty())
-	ipinfo << "  WAN:" << node.wan_ip;
-    ipinfo << std::endl;
-    AppendText(ipinfo.str());
-
-    if (node.num_fails < 1)
+    if (node.num_fails < 0)
     {
+	// Show nothing else initially
+    }
+    else if (node.num_fails == 0)
+    {
+	std::stringstream ipinfo;
+	if (!node.wifi_ip.empty())
+	    ipinfo << "     WIFI:" << node.wifi_ip;
+	if (!node.lan_ip.empty())
+	    ipinfo << "  LAN:" << node.lan_ip;
+	if (!node.wan_ip.empty())
+	    ipinfo << "  WAN:" << node.wan_ip;
+	ipinfo << std::endl;
+	AppendText(ipinfo.str());
+
 	char line[200];
 	sprintf(line, "Channel: %3d  BW: %2.0f, SSID: %s\n", 
 		node.channel, node.chanbw, node.ssid.c_str());
@@ -102,8 +114,8 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 	sprintf(line, "Last Response Time: %6.2f seconds  at %s", 
 		static_cast<double>(node.last_response_time) / 1000.0,
 		last_time.c_str());
-	// ??? Display full date if last_succesful_probe_time more than 24 hours in past
 	AppendText(line);
+	Update();
 
 	// std::string tool_tip = std::string("Node stats for ") + node.name;
 	// SetToolTip(tool_tip.c_str());
@@ -124,6 +136,7 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 	const unsigned int num_seconds = nsecs - ((24*60*60) * num_days) - ((60*60) * num_hours) - (60 * num_minutes);
 
 	std::stringstream ss;
+	ss << std::endl;
 	if (no_successful_probe) 
 	    ss << "No succesful access in ";
 	else

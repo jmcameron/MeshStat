@@ -89,7 +89,7 @@ static std::string cleanNodeURL(const std::string &raw_url, std::string &errmsg)
 	return url;
 	}
 
-    const wxRegEx re_multipart_hostname("^[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)?$");
+    const wxRegEx re_multipart_hostname("^[-a-zA-Z0-9]+\\.[-a-zA-Z0-9]+(\\.[-a-zA-Z0-9]+)*$");
     if (re_multipart_hostname.Matches(url)) {
 	return url;
 	}
