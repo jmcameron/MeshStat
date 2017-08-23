@@ -19,5 +19,6 @@ Releases
 
 0.9.2  August 22, 2017
       - 2017-08-22 Improved display behaviour
+      - 2017-08-22 Added config item for node access timeout
       - 2017-08-22 Fixes for Windows
 
