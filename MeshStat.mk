@@ -215,6 +215,7 @@ dist: all
 upload: all
 	scp MeshStat-*.zip jmcameron:"webapps/jmcameron/mesh/"
 	ssh jmcameron "chmod 644 webapps/jmcameron/mesh/MeshStat*.zip"
+	ssh jmcameron ls -l "webapps/jmcameron/mesh/MeshStat*.zip"
 
 ##
 ## Clean
