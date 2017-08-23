@@ -8,6 +8,10 @@
 #include <wx/url.h>
 #include <wx/sstream.h>
 
+#include "Config.h"
+
+extern ConfigInfo config;
+
 #include "Node.h"
 #include "NodeDisplay.h"
 
@@ -75,7 +79,7 @@ void Node::probe()
 
     if(url.GetError()==wxURL_NOERR)
     {
-	url.GetProtocol().SetDefaultTimeout(2);
+	url.GetProtocol().SetDefaultTimeout(config.node_access_timeout);
  	// ??? msg << "GET INPUT STREAM BEFORE: " << timer.Time() << " ms" << std::endl;
   	wxInputStream *in = url.GetInputStream();
 

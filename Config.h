@@ -13,8 +13,9 @@ const unsigned int default_period = 10; // Seconds
 
 const unsigned int default_num_columns = 1;
 
-const unsigned int default_max_response_time = 2000;  // milliseconds
+const unsigned int default_node_access_timeout = 2;  // seconds
 
+const unsigned int default_max_response_time = 2000;  // milliseconds
 const unsigned int default_max_num_fails = 10;
 
 const unsigned int default_pane_width_chars = 68;
@@ -42,7 +43,11 @@ public:
 public:
     // Config fields
     double period;
+
     unsigned int num_columns;
+
+    unsigned int node_access_timeout;
+
     unsigned int max_response_time;
     unsigned int max_num_fails;
 
@@ -50,6 +55,7 @@ public:
     unsigned int pane_height_lines;
     unsigned int pane_border_width;
     unsigned int pane_interline_space;
+
     unsigned int font_size;
 
     wxFileName config_filename;

@@ -167,6 +167,10 @@ static int handler(void* configObj, const char *section_raw,
 	config->max_response_time = atoi(value.c_str());
 	}
 
+    else if ((section == "Settings") && (name == "node_access_timeout")) {
+	config->node_access_timeout = atoi(value.c_str());
+	}
+
     else if ((section == "Nodes")) {
 	if (name == "node") {
 	    std::string errmsg;
@@ -213,6 +217,7 @@ static int handler(void* configObj, const char *section_raw,
 ConfigInfo::ConfigInfo()
     : period(default_period),
       num_columns(default_num_columns),
+      node_access_timeout(default_node_access_timeout),
       max_response_time(default_max_response_time),
       max_num_fails(default_max_num_fails),
       pane_width_chars(default_pane_width_chars),
@@ -465,6 +470,10 @@ void ConfigInfo::writeSampleConfigFile() const
     ss << "# Font size to use in the node display: \n";
     ss << "# font_size = " << default_font_size << "\n";
     ss << "\n";
+    ss << "# Max time allowed for node access timeout (seconds):\n";
+    ss << "# (Node access longer than this is assumed to be a failed access)\n";
+    ss << "# node_access_timeout = " << default_node_access_timeout << "\n";
+    ss << "\n";
     ss << "# Max time allowed for normal responses (milliseconds):\n";
     ss << "# (Affects what shade of green the nodes are colored)\n";
     ss << "# (Faster response times are brighter green)\n";
@@ -518,6 +527,12 @@ void ConfigInfo::dump() const
 	msg << "  (default)" << std::endl;
     else
 	msg << "  (default: " << default_num_columns << ")" << std::endl;
+
+    msg << "  Node Access Timeout (milliseconds) = " << node_access_timeout;
+    if (node_access_timeout == default_node_access_timeout)
+	msg << "  (default)   " << std::endl;
+    else
+	msg << "  (default: " << default_node_access_timeout << ")   " << std::endl;
 
     msg << "  Max Response Time (milliseconds) = " << max_response_time;
     if (max_response_time == default_max_response_time)
