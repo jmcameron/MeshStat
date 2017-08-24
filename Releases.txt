@@ -22,3 +22,6 @@ Releases
       - 2017-08-22 Added config item for node access timeout
       - 2017-08-22 Fixes for Windows
 
+0.9.?  August ??, 2017
+      - 2017-08-23 Menu icons working on MS Windows
+      - 2017-08-23 Refresh Alt-SPC accel works on MS Windows
