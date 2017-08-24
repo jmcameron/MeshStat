@@ -7,6 +7,7 @@
 #include <wx/wx.h>
 #include <wx/event.h>
 #include <wx/accel.h>
+#include "wx/artprov.h"
 
 #include "wxcrafter.h"
 
@@ -40,19 +41,23 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent,
     m_menu_File = new wxMenu();
     m_menuBar->Append(m_menu_File, _("File"));
     
-    m_menuItem_Refresh = new wxMenuItem(m_menu_File, wxID_REFRESH, _("Refresh"), wxT(""), wxITEM_NORMAL);
+    m_menuItem_Refresh = new wxMenuItem(m_menu_File, wxID_REFRESH, _("Refresh\tAlt-SPACE"), wxT(""), wxITEM_NORMAL);
+    m_menuItem_Refresh->SetBitmap(wxArtProvider::GetIcon(wxART_REDO, wxART_MENU));
     m_menu_File->Append(m_menuItem_Refresh);
 
     m_menuItem_Exit = new wxMenuItem(m_menu_File, wxID_EXIT, _("Exit\tAlt-X"), _("Quit"), wxITEM_NORMAL);
+    m_menuItem_Exit->SetBitmap(wxArtProvider::GetIcon(wxART_QUIT, wxART_MENU));
     m_menu_File->Append(m_menuItem_Exit);
     
     m_menu_Help = new wxMenu();
     m_menuBar->Append(m_menu_Help, _("Help"));
     
     m_menuItem_Credits = new wxMenuItem(m_menu_Help, wxID_CREDITS, _("Credits"), wxT(""), wxITEM_NORMAL);
+    m_menuItem_Credits->SetBitmap(wxArtProvider::GetIcon(wxART_INFORMATION, wxART_MENU));
     m_menu_Help->Append(m_menuItem_Credits);
     
     m_menuItem_About = new wxMenuItem(m_menu_Help, wxID_ABOUT, _("About..."), wxT(""), wxITEM_NORMAL);
+    m_menuItem_About->SetBitmap(wxArtProvider::GetIcon(wxART_QUESTION, wxART_MENU));
     m_menu_Help->Append(m_menuItem_About);
 
     m_timer = new wxTimer(this, wxID_TIMER);
