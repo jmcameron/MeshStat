@@ -1,7 +1,7 @@
 MeshStat
 ========
 
-* TO DO [12/22]
+* TO DO [12/23]
   - [X] Strip off comments on the end of node names
   - [X] Added regular expression checking for node URLs
   - [X] Make the time scaling for fails work on elapsed time, not num periods
@@ -14,6 +14,7 @@ MeshStat
   - [X] Function to write sample (documented) config file
   - [X] Add timestamp for last check
   - [X] Fix issue with font size on windows
+  - [ ] Complain if a config file does not have at least one node!
   - [ ] Trim whitespace from all node data from json
   - [ ] Add warning if period is less than num nodes!
         Or fix it so the period is between responses

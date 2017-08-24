@@ -16,8 +16,8 @@ Please send me email if you have difficulties with this program!
 MeshStat version number).
 
 
-Installation
-------------
+Installation and Set Up
+-----------------------
 
 * Copy the executable anywhere you want
     * Linux executable:  MeshStat
@@ -36,10 +36,7 @@ Installation
 
     * Make sure to list at least one node in the [Nodes] section
 
-- Run the MeshStat executable
-
-  NOTE: For more than a few nodes, it may take a moment start up the
-        first time
+- Run the MeshStat executable!
 
 - Each operational node should display its status in 4 lines.  If
   you do not see the node name on the first line, it is likely you
@@ -49,16 +46,6 @@ Installation
   explanation of these parameters in the file 'Sample-MeshStat.ini'.
   You may want to work this out with a smaller set of nodes before
   using a larger list of nodes.
-
-- WARNING: With more than a few nodes, avoid trying to move the
-  windows while the nodes are being updated.  It may not be
-  responsive and lead to problems that may require restarting the
-  programx.
-
-- You can get help from the program by running it on the command
-  line like this:
-
-     MeshStat -h
 
 - If you're having trouble getting all four lines to display, follow
   this procedure:
@@ -70,3 +57,26 @@ Installation
     - If all four lines are still not displaying, increase
       'pane_interline_space' (pixel by pixel) until the fourth line
       displays properly.
+
+- WARNING: With more than a few nodes, avoid trying to move the
+  windows while the nodes are being updated.  It may not be
+  responsive and lead to problems that may require restarting the
+  programx.
+
+- You can get help from the program by running it on the command
+  line like this:
+
+     MeshStat -h
+
+- If you have several differnt sets of nodes to monitor (eg, for the different
+  frequency bands), don't forget that you can specify an arbitrarily named
+  MeshStat config file on the command line:
+
+    MeshStat myconfig.ini
+
+  So you can set up several shortcuts, each specifying a different config
+  file.  On MS Windows modify the "Target" item for each to insert the config
+  file name after the MeshStat.exe executable.  If the config file is in the
+  same directory as the MeshStat.exe executable program, you do not need to
+  specify the full path, only the filename.
+
