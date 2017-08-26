@@ -68,6 +68,17 @@ Installation and Set Up
 
      MeshStat -h
 
+- If you have a lot of nodes, there is a 'one-line' mode that displays only
+  one status line per node:
+
+     - add this setting to the [Settings] section your config file:
+
+          display_mode = one-line
+
+     - Note that in this mode, the pane_height_lines setting is ignored
+
+     - You can move our mouse over any node line to see details for that node.
+
 - If you have several differnt sets of nodes to monitor (eg, for the different
   frequency bands), don't forget that you can specify an arbitrarily named
   MeshStat config file on the command line:
