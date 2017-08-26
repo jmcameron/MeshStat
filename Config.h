@@ -9,6 +9,14 @@
 #include <wx/filename.h>
 
 
+typedef enum {
+    UNDEFINED = 0,
+    STREAM,
+    NODE_DISPLAY_PANE,
+    NODE_DISPLAY_PANE_ONE_LINE_STATUS
+} DISPLAY_MODE;
+
+
 const unsigned int default_period = 10; // Seconds
 
 const unsigned int default_num_columns = 1;
@@ -17,6 +25,8 @@ const unsigned int default_node_access_timeout = 2;  // seconds
 
 const unsigned int default_max_response_time = 2000;  // milliseconds
 const unsigned int default_max_num_fails = 10;
+
+const unsigned int default_display_mode = NODE_DISPLAY_PANE;
 
 const unsigned int default_pane_width_chars = 68;
 const unsigned int default_pane_height_lines = 4;
@@ -51,6 +61,8 @@ public:
     unsigned int max_response_time;
     unsigned int max_num_fails;
 
+    unsigned int display_mode;
+    
     unsigned int pane_width_chars;
     unsigned int pane_height_lines;
     unsigned int pane_border_width;

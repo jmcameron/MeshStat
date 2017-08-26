@@ -58,11 +58,14 @@ MainFrame::MainFrame(wxWindow* parent)
 	pane->SetFont(pane_font);
 	wxClientDC dc(pane);
 	dc.SetFont(pane_font);
-	const unsigned char_width = pane->GetCharWidth();   // This seems to be an average width
-	const unsigned char_height = pane->GetCharHeight();
-	const unsigned interline_space = num_rows * config.pane_interline_space;
+	unsigned int num_lines = config.pane_height_lines;
+	if (config.display_mode == NODE_DISPLAY_PANE_ONE_LINE_STATUS)
+	    num_lines = 1;
+	const unsigned int char_width = pane->GetCharWidth();   // This seems to be an average width
+	const unsigned int char_height = pane->GetCharHeight();
+	const unsigned int interline_space = num_rows * config.pane_interline_space;
 	const wxSize pane_size(config.pane_width_chars*char_width, 
-			       config.pane_height_lines*char_height + interline_space);
+			       num_lines*char_height + interline_space);
 
 	/* DEBUG
 	{

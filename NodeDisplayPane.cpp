@@ -4,7 +4,7 @@
 #include <sstream>
 #include <algorithm>  // max()
 
-// #include <wx/tooltip.h>
+#include <wx/tooltip.h>
 
 #include "Config.h"
 
@@ -90,35 +90,49 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     }
     else if (node.num_fails == 0)
     {
-	std::stringstream ipinfo;
+	std::stringstream node_info;
+	
 	if (!node.wifi_ip.empty())
-	    ipinfo << "     WIFI:" << node.wifi_ip;
+	    node_info << "     WIFI:" << node.wifi_ip;
 	if (!node.lan_ip.empty())
-	    ipinfo << "  LAN:" << node.lan_ip;
+	    node_info << "  LAN:" << node.lan_ip;
 	if (!node.wan_ip.empty())
-	    ipinfo << "  WAN:" << node.wan_ip;
-	ipinfo << std::endl;
-	AppendText(ipinfo.str());
+	    node_info << "  WAN:" << node.wan_ip;
+	node_info << std::endl;
 
-	char line[200];
-	sprintf(line, "Channel: %3d  BW: %2.0f, SSID: %s\n", 
+	char info[200];
+	sprintf(info, "Channel: %3d  BW: %2.0f, SSID: %s\n", 
 		node.channel, node.chanbw, node.ssid.c_str());
-    	AppendText(line);
+	node_info << info;
 
-	sprintf(line, "Model: %s,  Firmware: %s %s\n", node.model.c_str(), 
+	sprintf(info, "Model: %s,  Firmware: %s %s\n", node.model.c_str(), 
 		node.firmware_mfg.c_str(),
 		node.firmware_version.c_str());
-	AppendText(line);
+	node_info << info;
 
 	std::string last_time = node.last_succesful_probe_time.Format("%X %x").ToStdString();
-	sprintf(line, "Last Response Time: %6.2f seconds  at %s", 
+	sprintf(info, "Last Response Time: %6.2f seconds  at %s", 
 		static_cast<double>(node.last_response_time) / 1000.0,
 		last_time.c_str());
-	AppendText(line);
-	Update();
+	node_info << info;
 
-	// std::string tool_tip = std::string("Node stats for ") + node.name;
-	// SetToolTip(tool_tip.c_str());
+	if (config.display_mode == NODE_DISPLAY_PANE)
+	{
+	    AppendText(node_info.str());
+	}
+	else if (config.display_mode == NODE_DISPLAY_PANE_ONE_LINE_STATUS)
+	{
+	    std::string last_time = node.last_succesful_probe_time.Format("%X %x").ToStdString();
+	    std::stringstream line;
+	    line << "   Last seen at " << last_time.c_str();
+	    AppendText(line.str());
+
+	    std::string tool_tip = std::string("Node stats for ") + node.name;
+	    tool_tip += node_info.str();
+	    SetToolTip(tool_tip);
+	}
+
+	Update();
 
         // Right-click menu: https://stackoverflow.com/questions/14487102/wxwidgets-contextmenu-popup
     }
@@ -127,6 +141,7 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 	wxDateTime now = wxDateTime::Now();
 
 	const bool no_successful_probe = node.last_succesful_probe_time == node.start_time;
+
 	const wxTimeSpan delta_time = now.Subtract(node.last_succesful_probe_time);
 
 	const unsigned long int nsecs = static_cast<unsigned int>(delta_time.GetSeconds().ToDouble());
@@ -135,27 +150,68 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 	const unsigned int num_minutes = (nsecs - ((24*60*60) * num_days) - ((60*60) * num_hours)) / 60;
 	const unsigned int num_seconds = nsecs - ((24*60*60) * num_days) - ((60*60) * num_hours) - (60 * num_minutes);
 
-	std::stringstream ss;
-	ss << std::endl;
-	if (no_successful_probe) 
-	    ss << "No succesful access in ";
+	std::stringstream fail_info;
+	fail_info << std::endl;
+
+	if (no_successful_probe)
+	{
+	    fail_info << "No successful access ";
+	}
 	else
-	    ss << "Last successful access ";
+	{
+	    std::string last_time = node.last_succesful_probe_time.Format("%X %x").ToStdString();
+	    fail_info << "Last successful access at " << last_time << ", " << std::endl;
+	}
+
+	if ((num_days > 0) or (num_hours > 0) or (num_minutes > 0) or (num_seconds > 0.0))
+	    fail_info << "since ";
+
 	if (num_days > 0)
-	    ss << num_days << " days ";
+	    fail_info << num_days << " days ";
 	if (num_hours > 0)
-	    ss << num_hours << " hours ";
+	    fail_info << num_hours << " hours ";
 	if (num_minutes > 0)
-	    ss << num_minutes << " minutes ";
+	    fail_info << num_minutes << " minutes ";
 	if (num_seconds > 0.0)
-	    ss << num_seconds << " seconds ";
+	    fail_info << num_seconds << " seconds";
 
-	if (!no_successful_probe) 
-	    ss << "ago ";
+	if ((num_days > 0) or (num_hours > 0) or (num_minutes > 0) or (num_seconds > 0.0))
+	    fail_info << " ago ";
 
-	ss << "  (num failures: " << node.num_fails << ")";
+	if (no_successful_probe) 
+	{
+	    std::string start_time = node.start_time.Format("%X %x").ToStdString();
+	    fail_info << std::endl << "at " << start_time << ", ";
+	}
 
-    	AppendText(ss.str());
+	fail_info << "(num failures: " << node.num_fails << ")";
+
+	if (config.display_mode == NODE_DISPLAY_PANE)
+	{
+	    AppendText(fail_info.str());
+	}
+	else if (config.display_mode == NODE_DISPLAY_PANE_ONE_LINE_STATUS)
+	{
+	    std::stringstream ss;
+	    if (no_successful_probe) 
+	    {
+		std::string start_time = node.start_time.Format("%X %x").ToStdString();
+		ss << "   " << "No access since " << start_time << ", " << node.num_fails << " fails";
+	    }
+	    else
+	    {
+		std::string last_time = node.last_succesful_probe_time.Format("%X %x").ToStdString();
+		ss << "   " << "Last access at " << last_time  << ", " << node.num_fails << " fails";
+	    }
+
+	    AppendText(ss.str());
+
+	    std::string tool_tip = std::string("Node failure stats for ") + node.name;
+	    tool_tip += fail_info.str();
+	    SetToolTip(tool_tip);
+	}
+
+	Update();
     }
 
 }

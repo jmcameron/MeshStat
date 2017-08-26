@@ -1,8 +1,10 @@
 #include <string>
 #include <vector>
+#include <map>
 #include <iterator>
 #include <iostream>
 #include <sstream>
+#include <iomanip>
 
 #include <boost/algorithm/string/split.hpp>                                      
 #include <boost/algorithm/string.hpp> 
@@ -20,6 +22,33 @@
 #include "Config.h"
 
 static std::string config_filename_local;
+
+typedef std::map<std::string, unsigned int> DisplayModeNames;
+
+static DisplayModeNames display_mode_names = {
+    {"normal", NODE_DISPLAY_PANE},
+    {"one-line", NODE_DISPLAY_PANE_ONE_LINE_STATUS}
+};
+
+static unsigned int max_display_mode_name_length = 0;
+
+static std::map<unsigned int, std::string> display_mode_description = {
+    { NODE_DISPLAY_PANE, "Normal 4-line display mode" },
+    { NODE_DISPLAY_PANE_ONE_LINE_STATUS, "One-line status-only display mode"}
+};
+
+
+std::string findDisplayModeName(unsigned int index)
+{
+    for (DisplayModeNames::const_iterator iter = display_mode_names.begin(); 
+	 iter != display_mode_names.end(); ++iter) 
+    {
+	if (index == (*iter).second)
+	    return (*iter).first;
+    }
+    return std::string("");  // Should not happen
+}
+
 
 
 static const wxCmdLineEntryDesc g_cmdLineDesc[] =
@@ -59,8 +88,10 @@ static std::string cleanNodeURL(const std::string &raw_url, std::string &errmsg)
 	boost::algorithm::trim(url);
     }
     
+    // Convert to lower case
     std::string url_lower_case(url);
     std::transform(url_lower_case.begin(), url_lower_case.end(), url_lower_case.begin(), ::tolower);
+    boost::algorithm::trim(url_lower_case);
 
     // Complain about any protocol prefix
     const std::string protocol_delimiter = "://";
@@ -163,6 +194,28 @@ static int handler(void* configObj, const char *section_raw,
 	config->max_num_fails = atoi(value.c_str());
 	}
 
+    else if ((section == "Settings") && (name == "display_mode")) {
+	std::string mode = value.c_str();
+        boost::algorithm::trim(mode);
+	std::transform(mode.begin(), mode.end(), mode.begin(), ::tolower);
+	if (display_mode_names.find(mode) == display_mode_names.end()) {
+	    std::stringstream msg;
+	    msg << "Display mode '" << mode << "' is not known!" << std::endl << std::endl;
+	    msg << "Known modes: " << std::endl;
+	    for (DisplayModeNames::const_iterator iter = display_mode_names.begin(); 
+		 iter != display_mode_names.end(); ++iter) 
+		msg << "   " << std::left << std::setw(max_display_mode_name_length) 
+		    << (*iter).first << "  :  " << display_mode_description[(*iter).second] 
+		    << "   " << std::endl;
+	    wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+	    dialog.ShowModal();
+	    return 0;
+	    }
+	else {
+	    config->display_mode = display_mode_names[mode];
+	    }
+	}
+
     else if ((section == "Settings") && (name == "max_response_time")) {
 	config->max_response_time = atoi(value.c_str());
 	}
@@ -220,6 +273,7 @@ ConfigInfo::ConfigInfo()
       node_access_timeout(default_node_access_timeout),
       max_response_time(default_max_response_time),
       max_num_fails(default_max_num_fails),
+      display_mode(default_display_mode),
       pane_width_chars(default_pane_width_chars),
       pane_height_lines(default_pane_height_lines),
       pane_border_width(default_pane_border_width),
@@ -365,6 +419,15 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 	}
     }
 
+    // Figure out the maximum length of the display mode names
+    for (DisplayModeNames::const_iterator iter = display_mode_names.begin(); 
+	 iter != display_mode_names.end(); ++iter) 
+    {
+	const std::string mode = (*iter).first;
+	if (mode.size() > max_display_mode_name_length)
+	    max_display_mode_name_length = mode.size();
+    }
+
     // Load the parameter information from the config file
     std::string filename = config_filename.GetFullPath().ToStdString();
     int result = ini_parse(filename.c_str(), handler, this);
@@ -394,6 +457,17 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 	}
 
 	return false;
+    }
+    
+    // Make sure at least one node was given!
+    if (nodes.size() == 0)
+    {
+	std::stringstream msg;
+	msg << "ERROR in config file: \n\n" 
+	    << "You must specify at least one node to monitor!";
+	wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+	dialog.ShowModal();
+        return 0;
     }
 
     // Dump (if requested)
@@ -455,10 +529,15 @@ void ConfigInfo::writeSampleConfigFile() const
     ss << "# Number of columns in the node display: \n";
     ss << "# num_columns = " << default_num_columns << "\n";
     ss << "\n";
+    ss << "# The desired display mode:\n";
+    ss << "#   normal : Use normal 4-line display mode\n";
+    ss << "#   one-line : Use one-line status only display mode\n";
+    ss << "# display_mode = " << findDisplayModeName(default_display_mode) << "\n";
+    ss << "\n";
     ss << "# Node display pane width (characters)\n";
     ss << "# pane_width_chars = " << default_pane_width_chars << "\n";
     ss << "\n";
-    ss << "# Node display pane height (lines of text)\n";
+    ss << "# Node display pane height (lines of text) - NOTE: Ignored in 1-line display mode\n";
     ss << "# pane_height_lines = " << default_pane_height_lines << "\n";
     ss << "\n";
     ss << "# Node display pane border width (pixels)\n";
@@ -527,6 +606,12 @@ void ConfigInfo::dump() const
 	msg << "  (default)" << std::endl;
     else
 	msg << "  (default: " << default_num_columns << ")" << std::endl;
+
+    msg << "  Display mode = " << findDisplayModeName(display_mode);
+    if (display_mode == default_display_mode)
+	msg << "  (default)" << std::endl;
+    else
+	msg << "  (default: " << findDisplayModeName(default_display_mode) << ")" << std::endl;
 
     msg << "  Node Access Timeout (milliseconds) = " << node_access_timeout;
     if (node_access_timeout == default_node_access_timeout)
