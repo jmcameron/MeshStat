@@ -150,21 +150,22 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 	const unsigned int num_minutes = (nsecs - ((24*60*60) * num_days) - ((60*60) * num_hours)) / 60;
 	const unsigned int num_seconds = nsecs - ((24*60*60) * num_days) - ((60*60) * num_hours) - (60 * num_minutes);
 
+	const bool non_zero_delta_time = ((num_days > 0) or (num_hours > 0) or (num_minutes > 0) or (num_seconds > 0.0));
+
 	std::stringstream fail_info;
 	fail_info << std::endl;
 
 	if (no_successful_probe)
 	{
 	    fail_info << "No successful access ";
+	    if (non_zero_delta_time)
+		fail_info << "since ";
 	}
 	else
 	{
 	    std::string last_time = node.last_succesful_probe_time.Format("%X %x").ToStdString();
 	    fail_info << "Last successful access at " << last_time << ", " << std::endl;
 	}
-
-	if ((num_days > 0) or (num_hours > 0) or (num_minutes > 0) or (num_seconds > 0.0))
-	    fail_info << "since ";
 
 	if (num_days > 0)
 	    fail_info << num_days << " days ";
@@ -175,13 +176,17 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 	if (num_seconds > 0.0)
 	    fail_info << num_seconds << " seconds";
 
-	if ((num_days > 0) or (num_hours > 0) or (num_minutes > 0) or (num_seconds > 0.0))
+	if (non_zero_delta_time)
 	    fail_info << " ago ";
 
 	if (no_successful_probe) 
 	{
 	    std::string start_time = node.start_time.Format("%X %x").ToStdString();
-	    fail_info << std::endl << "at " << start_time << ", ";
+	    if (non_zero_delta_time)
+		fail_info << std::endl << "at ";
+	    else
+		fail_info << std::endl << "since ";
+	    fail_info << start_time << ", ";
 	}
 
 	fail_info << "(num failures: " << node.num_fails << ")";
