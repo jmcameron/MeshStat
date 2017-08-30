@@ -22,6 +22,8 @@ MeshStat
         in one-line mode for Don's big display
   - [ ] Add warning if period is less than num nodes!
         Or fix it so the period is between responses
+  - [ ] Add ability to track load average
+        See [[https://mail.google.com/mail/u/0/?tab=wm#inbox/15df8ab422bf99ce][Joe's email of Aug 20 about snmp]]
   - [ ] Better windows management handling! (multi-threading?)
   - [ ] Add ability to send email if a node fails
   - [ ] Add right-click menu to get a complete dump from a node?
