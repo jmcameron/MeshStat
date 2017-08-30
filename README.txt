@@ -75,10 +75,26 @@ Installation and Set Up
 
           display_mode = one-line
 
-     - Note that in this mode, the pane_height_lines setting is ignored
+     - Note that in this mode, the 'pane_height_lines' setting is ignored
 
      - You can move our mouse over any node line to see details for that node.
 
+     - Here is a procedure to help optimize the display with a large number of
+       nodes:
+          - Set config settings:
+               display_mode = one-line
+               num_columns = 6          ; or as large as your monitor supports
+	       font_size = 9
+               pane_width_chars = 10
+          - You should see gap on the left/right edges of each node cell,
+            but the node display text will be truncated.
+          - Increase 'pane_width_chars' until the whole MeshStat program
+	    window reaches the width of the monitor OR until the gap on each
+            side of each node cell disappears.  The decrease
+            'pane_width_chars' by one.
+          - If you do not get the full name of most of your nodes displayed,
+            Reduce the 'font_size' and repeat the process
+  
 - If you have several differnt sets of nodes to monitor (eg, for the different
   frequency bands), don't forget that you can specify an arbitrarily named
   MeshStat config file on the command line:
@@ -90,4 +106,3 @@ Installation and Set Up
   file name after the MeshStat.exe executable.  If the config file is in the
   same directory as the MeshStat.exe executable program, you do not need to
   specify the full path, only the filename.
-
