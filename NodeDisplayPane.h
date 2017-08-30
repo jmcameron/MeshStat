@@ -45,12 +45,12 @@ public:
     virtual void update();
 
 protected:
+
     ColorInterpolate response_color;
 
     ColorInterpolate fail_color;
 
     wxColor start_color;
-
 };
 
 

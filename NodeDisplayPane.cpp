@@ -1,8 +1,9 @@
 #include <stdio.h>
 
+#include <algorithm>  // max()
 #include <iostream>
 #include <sstream>
-#include <algorithm>  // max()
+#include <iomanip>
 
 #include <wx/tooltip.h>
 
@@ -28,6 +29,7 @@ NodeDisplayPane::NodeDisplayPane(wxWindow *parent, const wxSize &cell_size)
 			 max_fails_color_r, max_fails_color_g, max_fails_color_b);
 
     SetMinSize(cell_size);
+    SetMargins(wxPoint(2,-1));
 }
 
 
@@ -122,10 +124,36 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 	}
 	else if (config.display_mode == NODE_DISPLAY_PANE_ONE_LINE_STATUS)
 	{
-	    std::string last_time = node.last_succesful_probe_time.Format("%X %x").ToStdString();
-	    std::stringstream line;
-	    line << "   Last seen at " << last_time.c_str();
-	    AppendText(line.str());
+	    const unsigned int pane_width = GetSize().x;
+
+	    const std::string curr_text = GetLineText(0).ToStdString();
+
+	    wxTextAttr ta = GetDefaultStyle();
+	    ta.SetFontWeight(wxFONTWEIGHT_BOLD);
+	    SetDefaultStyle(ta);
+	    Update();
+	    const unsigned int curr_text_width = GetTextExtent(curr_text).x;
+	    ta.SetFontWeight(wxFONTWEIGHT_NORMAL);
+	    SetDefaultStyle(ta);
+	    Update();
+	    const unsigned int space_width = GetTextExtent(" ").x;
+
+	    // See if we can add the channel in the space available
+	    std::stringstream text;
+	    text << "  ch." << node.channel;
+
+#ifdef __WINDOWS__
+   #define FUDGE_FACTOR 20
+#else
+   #define FUDGE_FACTOR 7
+#endif
+
+	    const unsigned int new_text_width = GetTextExtent(text.str()).x;
+	    const unsigned int full_text_width = curr_text_width + new_text_width + FUDGE_FACTOR*space_width;
+	    // The fudge factor tries to make it work cross-platform
+
+	    if (full_text_width < pane_width)
+		AppendText(text.str());
 
 	    std::string tool_tip = std::string("Node stats for ") + node.name;
 	    tool_tip += node_info.str();
@@ -197,19 +225,21 @@ void NodeDisplayPane::updateDisplay(const Node &node)
 	}
 	else if (config.display_mode == NODE_DISPLAY_PANE_ONE_LINE_STATUS)
 	{
-	    std::stringstream ss;
-	    if (no_successful_probe) 
-	    {
-		std::string start_time = node.start_time.Format("%X %x").ToStdString();
-		ss << "   " << "No access since " << start_time << ", " << node.num_fails << " fails";
-	    }
-	    else
-	    {
-		std::string last_time = node.last_succesful_probe_time.Format("%X %x").ToStdString();
-		ss << "   " << "Last access at " << last_time  << ", " << node.num_fails << " fails";
-	    }
+	    // Do not display anything extra for failing nodes in this mode
 
-	    AppendText(ss.str());
+	    // std::stringstream ss;
+	    // if (no_successful_probe) 
+	    // {
+	    // 	std::string start_time = node.start_time.Format("%X %x").ToStdString();
+	    // 	ss << "   " << "No access since " << start_time << ", " << node.num_fails << " fails";
+	    // }
+	    // else
+	    // {
+	    // 	std::string last_time = node.last_succesful_probe_time.Format("%X %x").ToStdString();
+	    // 	ss << "   " << "Last access at " << last_time  << ", " << node.num_fails << " fails";
+	    // }
+	    //
+	    // AppendText(ss.str());
 
 	    std::string tool_tip = std::string("Node failure stats for ") + node.name;
 	    tool_tip += fail_info.str();

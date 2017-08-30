@@ -61,7 +61,7 @@ MainFrame::MainFrame(wxWindow* parent)
 	unsigned int num_lines = config.pane_height_lines;
 	if (config.display_mode == NODE_DISPLAY_PANE_ONE_LINE_STATUS)
 	    num_lines = 1;
-	const unsigned int char_width = pane->GetCharWidth();   // This seems to be an average width
+	const unsigned int char_width = pane->GetCharWidth();   // This is the average width
 	const unsigned int char_height = pane->GetCharHeight();
 	const unsigned int interline_space = num_rows * config.pane_interline_space;
 	const wxSize pane_size(config.pane_width_chars*char_width, 
