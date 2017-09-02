@@ -25,7 +25,12 @@ Installation and Set Up
     * Linux executable:  MeshStat
     * Windows executable:  MeshStat.exe
 
-* Create a MeshStat.ini file in the same directory.  See the sample
+- You can get help from the program by running it on the command
+  line like this:
+
+     MeshStat -h
+
+- Create a MeshStat.ini file in the same directory.  See the sample
   version (with commented out settings) in the file 'Sample-MeshStat.ini'
   for examples and descriptions of what can be set.
 
@@ -37,6 +42,9 @@ Installation and Set Up
       to work out nicely.
 
     * Make sure to list at least one node in the [Nodes] section
+
+- You may also specify an alternate MeshStat config file on the command
+  line.
 
 - Run the MeshStat executable!
 
@@ -58,17 +66,12 @@ Installation and Set Up
       the top line for all display panes.
     - If all four lines are still not displaying, increase
       'pane_interline_space' (pixel by pixel) until the fourth line
-      displays properly.
+      displays properly.  Or set 'pane_hight_lines' to 5.
 
 - WARNING: With more than a few nodes, avoid trying to move the
   windows while the nodes are being updated.  It may not be
   responsive and lead to problems that may require restarting the
-  programx.
-
-- You can get help from the program by running it on the command
-  line like this:
-
-     MeshStat -h
+  program.
 
 - If you have a lot of nodes, there is a 'one-line' mode that displays only
   one status line per node:
@@ -97,8 +100,8 @@ Installation and Set Up
           - If you do not get the full name of most of your nodes displayed,
             Reduce the 'font_size' and repeat the process
   
-- If you have several differnt sets of nodes to monitor (eg, for the different
-  frequency bands), don't forget that you can specify an arbitrarily named
+- If you have several differnt sets of nodes to monitor (eg, for the
+  different frequency bands), you can specify an arbitrarily named
   MeshStat config file on the command line:
 
     MeshStat myconfig.ini
