@@ -3,7 +3,7 @@ MeshStat
 
 Amateur Radio Mesh Network Status Monitor
 
-Version 0.9.0
+Version 0.9.4
 Copyright (c) 2017
 License: GPL 2 or higher
 
