@@ -6,6 +6,7 @@ report
 regtest.data
 make.log
 MeshStat-*.zip
+test*.ini
 
 # Prerequisites
 *.d
