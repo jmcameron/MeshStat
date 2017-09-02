@@ -32,11 +32,11 @@ public:
 
         // Set up the icons
         wxIconBundle icons;
-        icons.AddIcon(wxIcon("mesh_stat_icon_16.png"));
-        icons.AddIcon(wxIcon("mesh_stat_icon_32.png"));
-        icons.AddIcon(wxIcon("mesh_stat_icon_48.png"));
-        icons.AddIcon(wxIcon("mesh_stat_icon_64.png"));
-        icons.AddIcon(wxIcon("mesh_stat_icon_128.png"));
+        icons.AddIcon(wxIcon("icons/mesh_stat_icon_16.png"));
+        icons.AddIcon(wxIcon("icons/mesh_stat_icon_32.png"));
+        icons.AddIcon(wxIcon("icons/mesh_stat_icon_48.png"));
+        icons.AddIcon(wxIcon("icons/mesh_stat_icon_64.png"));
+        icons.AddIcon(wxIcon("icons/mesh_stat_icon_128.png"));
         mainFrame->SetIcons(icons);
 
         GetTopWindow()->Show();
