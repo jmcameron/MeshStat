@@ -241,7 +241,7 @@ dist: all
 	cp gcc_mswu/MeshStat.exe .
 	strip MeshStat.exe
 	@rm -f MeshStat-windows-$(MESHSTAT_VERSION).zip
-	7z a MeshStat-windows-$(MESHSTAT_VERSION).zip MeshStat.exe README.txt Releases.txt Sample-MeshStat.ini
+	7z a MeshStat-windows-$(MESHSTAT_VERSION).zip MeshStat.exe README.md Releases.txt Sample-MeshStat.ini
 	@rm MeshStat.exe
 	@echo DONE: Created MeshStat-windows-$(MESHSTAT_VERSION).zip
 
