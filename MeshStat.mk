@@ -206,7 +206,7 @@ dist: all
 	cp Debug/MeshStat .
 	strip MeshStat
 	@rm -f MeshStat-linux-$(MESHSTAT_VERSION).zip
-	7z a MeshStat-linux-$(MESHSTAT_VERSION).zip MeshStat README.txt Releases.txt Sample-MeshStat.ini
+	7z a MeshStat-linux-$(MESHSTAT_VERSION).zip MeshStat README.md Releases.txt Sample-MeshStat.ini
 	@rm MeshStat
 	@echo 
 	@echo DONE: Created MeshStat-linux-$(MESHSTAT_VERSION).zip
