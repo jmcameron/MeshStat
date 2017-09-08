@@ -30,7 +30,8 @@ Releases
 0.9.4  August 29, 2017
       - 2017-08-29 Improve/mimimize display for one-line mode
 
-0.9.5  September ?, 2017 (NOT Released Yet)
+0.9.5  September 7, 2017
       - 2017-09-03 Put code on github, minor related updates
+      - 2017-09-07 Fixed bug parsing empty strings for lat/long
 
  
