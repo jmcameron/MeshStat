@@ -204,10 +204,18 @@ void Node::readDataFromJSON(const std::string &json)
 		    chanbw = it->second.get_value<double>();
 		    }
 		else if (key == "lat") {
-		    latitude = it->second.get_value<double>();
+		    const std::string lat_str = it->second.get_value<std::string>();
+		    if (lat_str.empty())
+			latitude = 0.0;
+		    else
+			latitude = it->second.get_value<double>();
 		    }
 		else if (key == "lon") {
-		    longitude = it->second.get_value<double>();
+		    const std::string lon_str = it->second.get_value<std::string>();
+		    if (lon_str.empty())
+			longitude = 0.0;
+		    else
+			longitude = it->second.get_value<double>();
 		    }
 		else if (key == "model") {
 		    model = it->second.get_value<std::string>();
@@ -266,8 +274,10 @@ void Node::readDataFromJSON(const std::string &json)
     }
     catch (std::exception const& e) 
     {
-	const std::string errmsg = std::string("Error reading json!  ") + std::string(e.what());
-	std::cerr << errmsg << std::endl;
+	const std::string errmsg =
+	    std::string("Error reading sysinfo.json data!  ") + std::string(e.what());
+	wxMessageDialog dialog(NULL, errmsg, _("ERROR"), wxICON_ERROR);
+	dialog.ShowModal();
     }
 
 }
