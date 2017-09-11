@@ -1,7 +1,7 @@
 MeshStat
 ========
 
-* TO DO [15/26]
+* TO DO [16/28]
   - [X] Strip off comments on the end of node names
   - [X] Added regular expression checking for node URLs
   - [X] Make the time scaling for fails work on elapsed time, not num periods
@@ -17,11 +17,13 @@ MeshStat
   - [X] Complain if a config file does not have at least one node!
   - [X] Trim whitespace from all node data from json
   - [X] Add support for one-line display mode
-  - [ ] Add help page
-  - [ ] Figure out why some nodes are not getting proper data 
+  - [X] Figure out why some nodes are not getting proper data 
         in one-line mode for Don's big display
+  - [ ] Rework window sizing resize main resizes child windows
+  - [ ] Add help page
   - [ ] Add warning if period is less than num nodes!
         Or fix it so the period is between responses
+  - [ ] Add warning if required window size is too big for the screen
   - [ ] Add ability to track load average
         See [[https://mail.google.com/mail/u/0/?tab=wm#inbox/15df8ab422bf99ce][Joe's email of Aug 20 about snmp]]
   - [ ] Better windows management handling! (multi-threading?)
