@@ -3,7 +3,7 @@ MeshStat
 
 Amateur Radio Mesh Network Status Monitor
 
-Version 0.9.5
+Version 0.10.0
 Copyright (c) 2017
 License: GPL 2 or higher
 
@@ -60,10 +60,13 @@ Installation and Set Up
 - If you're having trouble getting all four lines to display, follow
   this procedure:
     - Chose the font_size you want (eg, 10, 11, 12)
-    - Run the program and check the display.  If the top line is
-      wrapping to the second line, increase 'pane_width_chars' until
-      it does not wrap and you have a little margin at the end of
-      the top line for all display panes.
+    - Choose a small size for 'pane_width_chars', such as 20.
+    - Run the program and enlarge the display until all panes
+      display their content in 4 lines.
+    - Under the *Help* menu look at the *About* page and notice the
+      current width of the panes.  Change the 'pane_width_chars' to
+      this value.  In the future when you run the program, the
+      display should be wide enough. 
     - If all four lines are still not displaying, increase
       'pane_interline_space' (pixel by pixel) until the fourth line
       displays properly.  Or set 'pane_hight_lines' to 5.
@@ -91,14 +94,15 @@ Installation and Set Up
                num_columns = 6          ; or as large as your monitor supports
 	       font_size = 9
                pane_width_chars = 10
-          - You should see gap on the left/right edges of each node cell,
-            but the node display text will be truncated.
-          - Increase 'pane_width_chars' until the whole MeshStat program
-	    window reaches the width of the monitor OR until the gap on each
-            side of each node cell disappears.  The decrease
-            'pane_width_chars' by one.
-          - If you do not get the full name of most of your nodes displayed,
-            Reduce the 'font_size' and repeat the process
+          - You should see gap on the left and right edges of each
+            node cell, but the node display text will be truncated.
+          - Resize the window or increase 'pane_width_chars' until
+	    the whole MeshStat program window reaches the width of
+	    the monitor OR until the gap on each side of each node
+	    cell disappears.  The decrease 'pane_width_chars' by
+	    one.
+          - If you do not get the full name of most of your nodes
+            displayed, Reduce the 'font_size' and repeat the process
   
 - If you have several differnt sets of nodes to monitor (eg, for the
   different frequency bands), you can specify an arbitrarily named
