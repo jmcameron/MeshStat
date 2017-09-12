@@ -250,3 +250,19 @@ void NodeDisplayPane::updateDisplay(const Node &node)
     }
 
 }
+
+
+
+int NodeDisplayPane::numRows() const
+{
+    const int char_height = GetCharHeight();
+    const wxSize win_size = GetSize();
+    return win_size.y / char_height;
+}
+int NodeDisplayPane::numCols() const
+{
+    const int char_width = GetCharWidth();
+    const wxSize win_size = GetSize();
+    return win_size.x / char_width;
+}
+

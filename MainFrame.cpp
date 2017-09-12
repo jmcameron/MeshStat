@@ -154,7 +154,20 @@ void MainFrame::OnAbout(wxCommandEvent& event)
     wxAboutDialogInfo info;
     info.SetVersion(MESH_STAT_VERSION);
     info.SetCopyright(_("Copyright (c) 2017\nJonathan M. Cameron, KF6RTA"));
-    info.SetDescription(_("MeshStat is a tool to periodically display the status of a set of mesh nodes simultaneously on a single screen."));
+
+    // Construct the description message
+    std::stringstream msg;
+    msg << "MeshStat is a tool to periodically display the status "
+	<< "of a set of mesh nodes simultaneously on a single screen." << std::endl;
+
+    // Compute the size of the pane
+    NodeDisplayPane *pane0 = dynamic_cast<NodeDisplayPane *>(node_displays[config.nodes[0]]);
+    if (pane0) {
+	msg << "(pane size: rows=" << pane0->numRows() << ", columns=" << pane0->numCols() << ")";
+	}
+
+    info.SetDescription(msg.str());
+
     info.SetLicence(_("GPL v2 or later"));
     ::wxAboutBox(info);
 }

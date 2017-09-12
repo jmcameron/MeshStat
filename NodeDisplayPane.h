@@ -44,6 +44,9 @@ public:
 
     virtual void update();
 
+    int numRows() const;
+    int numCols() const;
+
 protected:
 
     ColorInterpolate response_color;
