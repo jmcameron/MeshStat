@@ -534,10 +534,10 @@ void ConfigInfo::writeSampleConfigFile() const
     ss << "#   one-line : Use one-line status only display mode\n";
     ss << "# display_mode = " << findDisplayModeName(default_display_mode) << "\n";
     ss << "\n";
-    ss << "# Node display pane width (characters)\n";
+    ss << "# Minimum node display pane width (characters)\n";
     ss << "# pane_width_chars = " << default_pane_width_chars << "\n";
     ss << "\n";
-    ss << "# Node display pane height (lines of text) - NOTE: Ignored in 1-line display mode\n";
+    ss << "# Minimum node display pane height (lines of text) - NOTE: Ignored in 1-line display mode\n";
     ss << "# pane_height_lines = " << default_pane_height_lines << "\n";
     ss << "\n";
     ss << "# Node display pane border width (pixels)\n";
