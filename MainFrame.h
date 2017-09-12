@@ -8,7 +8,7 @@
 #include "Node.h"
 #include "NodeDisplay.h"
 
-const std::string MESH_STAT_VERSION = "0.9.5";
+const std::string MESH_STAT_VERSION = "0.10.0";
 
 
 class MainFrame : public MainFrameBaseClass
