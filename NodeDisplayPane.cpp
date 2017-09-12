@@ -28,7 +28,7 @@ NodeDisplayPane::NodeDisplayPane(wxWindow *parent, const wxSize &cell_size)
     fail_color.setColors(min_fails_color_r, min_fails_color_g, min_fails_color_b, 
 			 max_fails_color_r, max_fails_color_g, max_fails_color_b);
 
-    SetMinSize(cell_size);
+    // SetMinSize(cell_size);
     SetMargins(wxPoint(2,-1));
 }
 

@@ -78,7 +78,7 @@ MainFrame::MainFrame(wxWindow* parent)
 	pane->SetSize(pane_size);
 
 	// Install the pane
-	grid_sizer->Add(pane, 1, wxALL|wxFIXED_MINSIZE, config.pane_border_width);
+	grid_sizer->Add(pane, 1, wxALL|wxFIXED_MINSIZE|wxEXPAND, config.pane_border_width);
 	node_displays[node_name] = pane;
 	nodes[node_name]->setNodeDisplay(pane);
     }
@@ -87,7 +87,7 @@ MainFrame::MainFrame(wxWindow* parent)
 			  
     // Freeze the size of the main window
     SetMinSize(GetSize());
-    SetMaxSize(GetSize());
+    // SetMaxSize(GetSize());
 
     // Start the periodic timer for the specified period
     m_timer->Start(static_cast<int>(config.period * 1000.0));
