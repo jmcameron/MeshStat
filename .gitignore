@@ -1,6 +1,7 @@
 *~
 gcc_mswu
 Debug
+Release
 MeshStat.txt
 report
 regtest.data
