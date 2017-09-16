@@ -1,13 +1,22 @@
-##
-## Auto Generated makefile by CodeLite IDE
-## any manual changes will be erased      
-##
-## Debug
+
+# Debug or Release
+ConfigurationName :=Release
+
+ifeq ($(ConfigurationName),Debug)
+  WXDIR=/opt/wx/wxWidgets-3.1.0/build_debug
+  WXCONFIGFLAGS=--debug
+  SharedObjectLinkerName:=g++ -shared -fPIC
+endif
+ifeq ($(ConfigurationName),Release)
+  WXDIR=/opt/wx/wxWidgets-3.1.0/build_static
+  WXCONFIGFLAGS=--static
+  SharedObjectLinkerName:=g++ -static -fPIC
+endif
+
 ProjectName            :=MeshStat
-ConfigurationName      :=Debug
 WorkspacePath          := ""
 ProjectPath            := "."
-IntermediateDirectory  :=./Debug
+IntermediateDirectory  :=./$(ConfigurationName)
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
@@ -16,7 +25,6 @@ User                   :=Jonathan Cameron
 Date                   :=22/07/17
 CodeLitePath           :="/home/jmcameron/.codelite"
 LinkerName             :=g++
-SharedObjectLinkerName :=g++ -shared -fPIC
 ObjectSuffix           :=.o
 DependSuffix           :=.o.d
 PreprocessSuffix       :=.o.i
@@ -35,13 +43,31 @@ PreprocessOnlySwitch   :=-E
 ObjectsFileList        :="MeshStat.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=mkdir -p
-LinkOptions            :=  $(shell wx-config --libs --debug)
-IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). 
+IncludePath            := $(IncludeSwitch). $(IncludeSwitch). 
 IncludePCH             := 
 RcIncludePath          := 
 Libs                   := 
 ArLibs                 :=  
 LibPath                := $(LibraryPathSwitch). 
+LinkOptions            := $(shell $(WXDIR)/wx-config --libs $(WXCONFIGFLAGS))
+
+# X86DIR=/usr/lib/x86_64-linux-gnu
+# 
+# ifeq ($(ConfigurationName),Release)
+#   LinkOptions += \
+# 	$(X86DIR)/libXxf86vm.a \
+# 	$(X86DIR)/libX11.a \
+# 	$(X86DIR)/libgdk-x11-2.0.a \
+# 	$(X86DIR)/libgtk-x11-2.0.a \
+# 	$(X86DIR)/libcairo.a \
+# 	$(X86DIR)/libpango-1.0.a \
+# 	$(X86DIR)/libpangocairo-1.0.a \
+# 	$(X86DIR)/libSM.a \
+# 	$(X86DIR)/libpcre.a \
+# 	$(X86DIR)/lib*.a
+# 
+# endif
+
 
 ##
 ## Common variables
@@ -50,7 +76,7 @@ LibPath                := $(LibraryPathSwitch).
 AR       := ar rcus
 CXX      := g++
 CC       := gcc
-CXXFLAGS :=  -g -O0 -DINI_HANDLER_LINENO=1 -std=c++11 -Wall $(shell wx-config --cflags --debug) $(Preprocessors)
+CXXFLAGS :=  -g -O0 -DINI_HANDLER_LINENO=1 -std=c++11 -Wall $(shell $(WXDIR)/wx-config --cflags $(WXCONFIGFLAGS)) $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
 AS       := as
@@ -59,9 +85,7 @@ AS       := as
 ##
 ## User defined environment variables
 ##
-CodeLiteDir:=/usr/share/codelite
 Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/Node.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplay.cpp$(ObjectSuffix) $(IntermediateDirectory)/NodeDisplayPane.cpp$(ObjectSuffix) $(IntermediateDirectory)/Config.cpp$(ObjectSuffix) $(IntermediateDirectory)/ColorInterpolate.cpp$(ObjectSuffix) $(IntermediateDirectory)/ini.c$(ObjectSuffix) 
-
 
 Objects=$(Objects0) 
 
@@ -79,14 +103,13 @@ $(OutputFile): $(IntermediateDirectory)/.d $(Objects)
 	$(LinkerName) $(OutputSwitch)$(OutputFile) @$(ObjectsFileList) $(LibPath) $(Libs) $(LinkOptions)
 
 MakeIntermediateDirs:
-	@test -d ./Debug || $(MakeDirCommand) ./Debug
+	@test -d  $(IntermediateDirectory) || $(MakeDirCommand)  $(IntermediateDirectory)
 
 
 $(IntermediateDirectory)/.d:
-	@test -d ./Debug || $(MakeDirCommand) ./Debug
+	@test -d  $(IntermediateDirectory) || $(MakeDirCommand)  $(IntermediateDirectory)
 
 PreBuild:
-
 
 ##
 ## Objects
@@ -203,7 +226,7 @@ include version.make
 
 dist: all
 	@echo
-	cp Debug/MeshStat .
+	cp $(IntermediateDirectory)/MeshStat .
 	strip MeshStat
 	@rm -f MeshStat-linux-$(MESHSTAT_VERSION).zip
 	7z a MeshStat-linux-$(MESHSTAT_VERSION).zip MeshStat README.md Releases.txt Sample-MeshStat.ini
@@ -221,4 +244,4 @@ upload: all
 ## Clean
 ##
 clean:
-	$(RM) -r ./Debug/
+	$(RM) -r  $(IntermediateDirectory)/
