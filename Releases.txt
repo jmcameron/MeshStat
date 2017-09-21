@@ -34,7 +34,8 @@ Releases
       - 2017-09-03 Put code on github, minor related updates
       - 2017-09-07 Fixed bug parsing empty strings for lat/long
 
-0.10.0 September 11, 2017
+0.10.0 September 20, 2017
       - 2017-09-10 Fixed to allow resizing panes
       - 2017-09-11 Updated About page to show current window size
       - 2017-09-11 Updated Sample-MeshStat.ini file comments
+      - 2017-09-17 Make sure all dialogs have parent window

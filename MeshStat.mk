@@ -2,13 +2,15 @@
 # Debug or Release
 ConfigurationName :=Release
 
+WXDIR=/opt/wx/wxWidgets-3.1.0
+
 ifeq ($(ConfigurationName),Debug)
-  WXDIR=/opt/wx/wxWidgets-3.1.0/build_debug
+  WxBuildDir=$(WXDIR)/build_debug
   WXCONFIGFLAGS=--debug
   SharedObjectLinkerName:=g++ -shared -fPIC
 endif
 ifeq ($(ConfigurationName),Release)
-  WXDIR=/opt/wx/wxWidgets-3.1.0/build_static
+  WxBuildDir=$(WXDIR)/build_static
   WXCONFIGFLAGS=--static
   SharedObjectLinkerName:=g++ -static -fPIC
 endif
@@ -49,7 +51,7 @@ RcIncludePath          :=
 Libs                   := 
 ArLibs                 :=  
 LibPath                := $(LibraryPathSwitch). 
-LinkOptions            := $(shell $(WXDIR)/wx-config --libs $(WXCONFIGFLAGS))
+LinkOptions            := $(shell $(WxBuildDir)/wx-config --libs $(WXCONFIGFLAGS))
 
 # X86DIR=/usr/lib/x86_64-linux-gnu
 # 
@@ -76,7 +78,7 @@ LinkOptions            := $(shell $(WXDIR)/wx-config --libs $(WXCONFIGFLAGS))
 AR       := ar rcus
 CXX      := g++
 CC       := gcc
-CXXFLAGS :=  -g -O0 -DINI_HANDLER_LINENO=1 -std=c++11 -Wall $(shell $(WXDIR)/wx-config --cflags $(WXCONFIGFLAGS)) $(Preprocessors)
+CXXFLAGS :=  -g -O0 -DINI_HANDLER_LINENO=1 -std=c++11 -Wall $(shell $(WxBuildDir)/wx-config --cflags $(WXCONFIGFLAGS)) $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
 AS       := as
