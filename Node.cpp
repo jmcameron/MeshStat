@@ -8,8 +8,10 @@
 #include <wx/url.h>
 #include <wx/sstream.h>
 
-#include "Config.h"
+#include "MainFrame.h"
+extern MainFrame *main_frame_global;
 
+#include "Config.h"
 extern ConfigInfo config;
 
 #include "Node.h"
@@ -116,7 +118,7 @@ void Node::probe()
     // ??? msg << "DATA READ: " << htmldata.size() << std::endl;
 
     // ??? if (timer.Time() > 3000) {
-    // ???     wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+    // ???     wxMessageDialog dialog(this, msg.str(), _("ERROR"), wxICON_ERROR);
     // ???     dialog.ShowModal();
     // ???     }
 
@@ -276,7 +278,7 @@ void Node::readDataFromJSON(const std::string &json)
     {
 	const std::string errmsg =
 	    std::string("Error reading sysinfo.json data!  ") + std::string(e.what());
-	wxMessageDialog dialog(NULL, errmsg, _("ERROR"), wxICON_ERROR);
+	wxMessageDialog dialog(main_frame_global, errmsg, _("ERROR"), wxICON_ERROR);
 	dialog.ShowModal();
     }
 

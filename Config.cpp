@@ -19,6 +19,8 @@
 #include "inih/ini.h"
 
 #include "MainFrame.h"
+extern MainFrame *main_frame_global;
+
 #include "Config.h"
 
 static std::string config_filename_local;
@@ -157,7 +159,7 @@ static int handler(void* configObj, const char *section_raw,
 	    << "\n\non line " << lineno << " of config file '" 
 	    << config_filename_local << "'"
 	    << "\n\nMust be either [Settings] or [Nodes] (case sensitve).\n";
-	wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+	wxMessageDialog dialog(main_frame_global, msg.str(), _("ERROR"), wxICON_ERROR);
 	dialog.ShowModal();
         return 0;
 	}
@@ -207,7 +209,7 @@ static int handler(void* configObj, const char *section_raw,
 		msg << "   " << std::left << std::setw(max_display_mode_name_length) 
 		    << (*iter).first << "  :  " << display_mode_description[(*iter).second] 
 		    << "   " << std::endl;
-	    wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+	    wxMessageDialog dialog(main_frame_global, msg.str(), _("ERROR"), wxICON_ERROR);
 	    dialog.ShowModal();
 	    return 0;
 	    }
@@ -232,7 +234,7 @@ static int handler(void* configObj, const char *section_raw,
 		std::stringstream msg;
 		msg << errmsg << "\n\non line " << lineno << " of config file '" 
 		    << config_filename_local << "'" << std::endl;
-		wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+		wxMessageDialog dialog(main_frame_global, msg.str(), _("ERROR"), wxICON_ERROR);
 		dialog.ShowModal();
 		return 0;
 		}
@@ -244,7 +246,7 @@ static int handler(void* configObj, const char *section_raw,
 		msg << "ERROR\n\nDuplicate node name \n\n'" << new_name << "'"
 		    << "\n\non line " << lineno << " of config file '" 
 		    << config_filename_local << "'" << std::endl;
-		wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+		wxMessageDialog dialog(main_frame_global, msg.str(), _("ERROR"), wxICON_ERROR);
 		dialog.ShowModal();
 		return 0;
 		}
@@ -257,7 +259,7 @@ static int handler(void* configObj, const char *section_raw,
 	    << "'" << name << "'\n\n in [" << section << "] section"
 	    << "\n\n on line " << lineno << " of config file '" 
 	    << config_filename_local << "'" << std::endl;
-	wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+	wxMessageDialog dialog(main_frame_global, msg.str(), _("ERROR"), wxICON_ERROR);
 	dialog.ShowModal();
         return 0;
 	}
@@ -305,7 +307,7 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 	
 	// cmdParser.Usage();
 	wxString help_msg = cmdParser.GetUsageString();
-	wxMessageDialog dialog(NULL, help_msg, _("Help"), wxICON_NONE);
+	wxMessageDialog dialog(main_frame_global, help_msg, _("Help"), wxICON_NONE);
 	dialog.ShowModal();
 	return false;
     }
@@ -317,7 +319,7 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 	std::stringstream msg;
 	msg << "\nMeshStat\n\n(c) Jonathan M. Cameron KF6RTA  \n\n"
 	    << "Version " << MESH_STAT_VERSION << ", " << date;
-	wxMessageDialog dialog(NULL, msg.str(), _("Version"), wxICON_INFORMATION);
+	wxMessageDialog dialog(main_frame_global, msg.str(), _("Version"), wxICON_INFORMATION);
 	dialog.ShowModal();
 	return false;
     }
@@ -350,7 +352,7 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 	    msg << "ERROR\n\nUnable to find config file \n\n'" 
 		<< fName.GetFullPath();
 	    msg << "'\n\nspecified on the command line!  ";
-	    wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+	    wxMessageDialog dialog(main_frame_global, msg.str(), _("ERROR"), wxICON_ERROR);
 	    dialog.ShowModal();
 	    return false;
 	    }
@@ -399,7 +401,7 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 		    msg << "ERROR\n\nUnable to find config file \n\n'" 
 			<< fName.GetFullPath();
 		    msg << "'\n\nfrom environment variable MESHSTAT_CONFIG_FILE!  ";
-		    wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+		    wxMessageDialog dialog(main_frame_global, msg.str(), _("ERROR"), wxICON_ERROR);
 		    dialog.ShowModal();
 		    return false;
 		}
@@ -412,7 +414,7 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 		    << "Default: MeshStat.ini \n\n"
 		    << "(in directory with MeshStat executable)   \n\n"
 		    << "Use 'MeshStat -h' for help!";
-		wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+		wxMessageDialog dialog(main_frame_global, msg.str(), _("ERROR"), wxICON_ERROR);
 		dialog.ShowModal();
 		return false;
 	    }
@@ -465,7 +467,7 @@ bool ConfigInfo::parseCommandLine(int& argc, wxChar **argv)
 	std::stringstream msg;
 	msg << "ERROR in config file: \n\n" 
 	    << "You must specify at least one node to monitor!";
-	wxMessageDialog dialog(NULL, msg.str(), _("ERROR"), wxICON_ERROR);
+	wxMessageDialog dialog(main_frame_global, msg.str(), _("ERROR"), wxICON_ERROR);
 	dialog.ShowModal();
         return 0;
     }
@@ -491,7 +493,7 @@ void ConfigInfo::writeSampleConfigFile() const
 	std::stringstream msg;
 	msg << "WARNING\n\n"
 	    << "The file '" << filename << "' already exists!";
-	wxMessageDialog dialog(NULL, msg.str(), _("WARNING"), wxICON_WARNING|wxOK|wxCANCEL);
+	wxMessageDialog dialog(main_frame_global, msg.str(), _("WARNING"), wxICON_WARNING|wxOK|wxCANCEL);
 	dialog.SetOKLabel("Overwrite");
 	const int result = dialog.ShowModal();
 	if (result != wxID_OK) 
@@ -671,7 +673,7 @@ void ConfigInfo::dump() const
     }
     msg << std::endl;
 
-    wxMessageDialog dialog(NULL, msg.str(), _("Dump"), wxICON_INFORMATION);
+    wxMessageDialog dialog(main_frame_global, msg.str(), _("Dump"), wxICON_INFORMATION);
     dialog.ShowModal();
 }
 

@@ -10,6 +10,8 @@
 
 extern ConfigInfo config;
 
+MainFrame *main_frame_global;
+
 
 // Define the MainApp
 class MainApp : public wxApp
@@ -28,6 +30,7 @@ public:
         wxImage::AddHandler( new wxJPEGHandler );
 
         MainFrame *mainFrame = new MainFrame(NULL);
+	main_frame_global = mainFrame;
         SetTopWindow(mainFrame);
 
         // Set up the icons

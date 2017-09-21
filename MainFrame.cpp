@@ -71,7 +71,7 @@ MainFrame::MainFrame(wxWindow* parent)
 	{
 	    std::stringstream smsg;
 	    smsg << "\nfont size w,h= " << char_width << "," << char_height  << std::endl;
-	    wxMessageDialog sdialog(NULL, smsg.str(), _("Sizes"), wxICON_INFORMATION);
+	    wxMessageDialog sdialog(this, smsg.str(), _("Sizes"), wxICON_INFORMATION);
 	    sdialog.ShowModal();
 	} */
 
