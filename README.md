@@ -23,6 +23,8 @@ Installation and Set Up
 
 * Copy the executable anywhere you want
     * Linux executable:  MeshStat
+        - You may need to install the gtk3 package
+        - You may get some GTK warnings which you can safely ignore
     * Windows executable:  MeshStat.exe
 
 - You can get help from the program by running it on the command
