@@ -232,6 +232,48 @@ void Node::readDataFromJSON(const std::string &json)
 		    ssid = it->second.get_value<std::string>();
 		    }
 	    }
+
+	    else if (key == "node_details")
+	    {
+ 		for (boost::property_tree::ptree::const_iterator ndit = subtree.begin(); ndit != subtree.end(); ++ndit) 
+ 		{
+ 		    const std::string key(ndit->first);
+
+		    if (key == "model") {
+			model = ndit->second.get_value<std::string>();
+			}
+		    else if (key == "firmware_mfg") {
+			firmware_mfg = ndit->second.get_value<std::string>();
+			}
+		    else if (key == "firmware_version") {
+			firmware_version = ndit->second.get_value<std::string>();
+			}
+		}
+	    }
+	    else if (key == "meshrf")
+	    {
+ 		for (boost::property_tree::ptree::const_iterator mdit = subtree.begin(); mdit != subtree.end(); ++mdit) 
+ 		{
+ 		    const std::string key(mdit->first);
+		    if (key == "channel") {
+			channel = mdit->second.get_value<int>();
+			}
+		    else if (key == "chanbw") {
+			chanbw = mdit->second.get_value<double>();
+			}
+		    else if (key == "ssid") {
+			ssid = mdit->second.get_value<std::string>();
+			}
+		}
+	    }
+	    else if (key == "sysinfo")
+	    {
+		// Skip
+	    }
+	    else if (key == "tunnels")
+	    {
+		// Skip
+	    }
 	    else if (key == "interfaces")
 	    {
 		// Process the interfaces
@@ -271,6 +313,7 @@ void Node::readDataFromJSON(const std::string &json)
 	    else 
 	    {
 		std::cerr << "Error parsing sysinfo.json output for " << name << std::endl;
+		std::cerr << " Key = " << key << std::endl;
 	    }
 	}
     }
