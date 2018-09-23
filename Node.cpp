@@ -232,7 +232,6 @@ void Node::readDataFromJSON(const std::string &json)
 		    ssid = it->second.get_value<std::string>();
 		    }
 	    }
-
 	    else if (key == "node_details")
 	    {
  		for (boost::property_tree::ptree::const_iterator ndit = subtree.begin(); ndit != subtree.end(); ++ndit) 
@@ -313,7 +312,6 @@ void Node::readDataFromJSON(const std::string &json)
 	    else 
 	    {
 		std::cerr << "Error parsing sysinfo.json output for " << name << std::endl;
-		std::cerr << " Key = " << key << std::endl;
 	    }
 	}
     }
